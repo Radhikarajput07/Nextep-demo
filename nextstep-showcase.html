@@ -1,0 +1,2749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NexStep</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#050510;
+  --surface:#0d0d1f;
+  --surface2:#131328;
+  --border:#1e1e3a;
+  --accent:#6C63FF;
+  --accent2:#3ECFAD;
+  --text:#f0f0ff;
+  --muted:#6b6b8a;
+  --card:#0f0f22;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;overflow-x:hidden}
+
+/* ANIMATED BG GRID */
+.bg-grid{position:fixed;inset:0;z-index:0;
+  background-image:linear-gradient(rgba(108,99,255,0.04) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(108,99,255,0.04) 1px,transparent 1px);
+  background-size:60px 60px;
+  animation:gridMove 20s linear infinite}
+@keyframes gridMove{from{background-position:0 0}to{background-position:60px 60px}}
+
+.bg-glow{position:fixed;top:-200px;left:50%;transform:translateX(-50%);
+  width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle,rgba(108,99,255,0.12) 0%,transparent 70%);
+  pointer-events:none;z-index:0;animation:glowPulse 4s ease-in-out infinite}
+@keyframes glowPulse{0%,100%{opacity:.6;transform:translateX(-50%) scale(1)}50%{opacity:1;transform:translateX(-50%) scale(1.1)}}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:1rem 2rem;
+  background:rgba(5,5,16,0.8);backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(108,99,255,0.1)}
+.nav-logo{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.logo-icon{width:36px;height:36px;border-radius:10px;position:relative;overflow:hidden;
+  background:linear-gradient(135deg,#6C63FF,#3ECFAD);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:16px;color:#fff;
+  animation:logoPulse 3s ease-in-out infinite}
+@keyframes logoPulse{0%,100%{box-shadow:0 0 0 0 rgba(108,99,255,0.4)}50%{box-shadow:0 0 0 8px rgba(108,99,255,0)}}
+.logo-text{font-size:18px;font-weight:600;
+  background:linear-gradient(90deg,#fff,#a0a0ff);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-links{display:flex;gap:2rem;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;white-space:nowrap;-webkit-overflow-scrolling:touch}
+.nav-links::-webkit-scrollbar{display:none}
+.nav-links a{color:var(--muted);font-size:14px;text-decoration:none;transition:color .2s;flex-shrink:0}
+.nav-links a:hover{color:var(--text)}
+.nav-cta{background:var(--accent);color:#fff;border:none;padding:8px 20px;border-radius:8px;font-size:13px;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s}
+.nav-cta:hover{background:#5a52e0;transform:translateY(-1px)}
+
+.streak-pill{display:flex;align-items:center;gap:6px;
+  background:linear-gradient(135deg,rgba(255,140,0,0.15),rgba(255,60,0,0.1));
+  border:1px solid rgba(255,140,0,0.3);
+  padding:6px 14px;border-radius:100px;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500}
+.fire-icon{font-size:16px;display:inline-block;animation:fireFlicker 1.2s ease-in-out infinite}
+@keyframes fireFlicker{
+  0%,100%{transform:scale(1) rotate(-2deg);filter:drop-shadow(0 0 4px rgba(255,140,0,0.6))}
+  25%{transform:scale(1.08) rotate(1deg);filter:drop-shadow(0 0 8px rgba(255,80,0,0.8))}
+  50%{transform:scale(0.96) rotate(-1deg);filter:drop-shadow(0 0 5px rgba(255,140,0,0.6))}
+  75%{transform:scale(1.05) rotate(2deg);filter:drop-shadow(0 0 7px rgba(255,60,0,0.7))}
+}
+.streak-count{color:#ffb347}
+
+/* HERO */
+.hero{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:6rem 2rem 4rem}
+
+.hero-badge{display:inline-flex;align-items:center;gap:8px;
+  background:rgba(108,99,255,0.1);border:1px solid rgba(108,99,255,0.3);
+  padding:6px 16px;border-radius:100px;font-size:12px;color:#a0a0ff;
+  margin-bottom:2rem;animation:fadeInDown .8s ease both}
+.badge-dot{width:6px;height:6px;background:#6C63FF;border-radius:50%;animation:blink 1.5s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+.hero-title{font-size:clamp(2.5rem,6vw,5rem);font-weight:700;line-height:1.1;margin-bottom:1.5rem;
+  animation:fadeInUp .8s ease .2s both}
+.hero-title .line1{display:block;color:var(--text)}
+.hero-title .line2{display:block;
+  background:linear-gradient(90deg,#6C63FF,#3ECFAD);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  animation:gradientShift 3s ease-in-out infinite alternate}
+@keyframes gradientShift{from{filter:hue-rotate(0deg)}to{filter:hue-rotate(20deg)}}
+
+.hero-sub{font-size:1.1rem;color:var(--muted);max-width:520px;line-height:1.7;margin-bottom:2.5rem;animation:fadeInUp .8s ease .4s both}
+
+.hero-ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;animation:fadeInUp .8s ease .6s both}
+.btn-glow{background:linear-gradient(135deg,#6C63FF,#5a52e0);color:#fff;border:none;padding:14px 32px;border-radius:10px;font-size:15px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;
+  position:relative;overflow:hidden;transition:all .3s}
+.btn-glow::before{content:'';position:absolute;inset:-2px;background:linear-gradient(135deg,#6C63FF,#3ECFAD);z-index:-1;border-radius:12px;opacity:0;transition:opacity .3s;filter:blur(8px)}
+.btn-glow:hover::before{opacity:1}
+.btn-glow:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(108,99,255,0.4)}
+.btn-ghost{background:transparent;color:var(--text);border:1px solid var(--border);padding:14px 32px;border-radius:10px;font-size:15px;cursor:pointer;font-family:'Inter',sans-serif;transition:all .3s}
+.btn-ghost:hover{border-color:rgba(108,99,255,0.5);background:rgba(108,99,255,0.05)}
+
+/* FLOATING CARDS */
+.hero-cards{display:flex;gap:12px;justify-content:center;margin-top:4rem;flex-wrap:wrap;animation:fadeInUp .8s ease .8s both}
+
+/* HOW IT WORKS MODAL */
+.hiw-overlay{position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,0.7);backdrop-filter:blur(4px);
+  display:none;align-items:center;justify-content:center;padding:1.5rem}
+.hiw-overlay.open{display:flex}
+.hiw-modal{background:var(--surface);border:1px solid var(--border);border-radius:20px;
+  max-width:560px;width:100%;max-height:85vh;overflow-y:auto;padding:2rem;
+  animation:hiwPop .3s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes hiwPop{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
+.hiw-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem}
+.hiw-title{font-size:20px;font-weight:700}
+.hiw-close{background:var(--card);border:1px solid var(--border);color:var(--muted);width:32px;height:32px;
+  border-radius:8px;cursor:pointer;font-size:16px}
+.hiw-step{display:flex;gap:14px;margin-bottom:1.5rem}
+.hiw-num{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#6C63FF,#3ECFAD);
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:#fff;flex-shrink:0}
+.hiw-step-title{font-size:14.5px;font-weight:600;margin-bottom:4px}
+.hiw-step-body{font-size:13px;color:#bbb;line-height:1.7}
+.hiw-cta{width:100%;margin-top:.5rem}
+
+/* NOTEBOOK MODAL (opens like a dedicated page, not a scroll target) */
+.notebook-overlay{position:fixed;inset:0;z-index:2500;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);
+  display:none;align-items:flex-start;justify-content:center;padding:3rem 1.5rem;overflow-y:auto}
+.notebook-overlay.open{display:flex}
+.notebook-modal{background:var(--surface);border:1px solid var(--border);border-radius:20px;
+  max-width:640px;width:100%;padding:2rem;animation:hiwPop .3s cubic-bezier(.34,1.56,.64,1) both}
+.notebook-modal-top{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem}
+
+/* FULL-PAGE OVERLAYS (Dev / AI-ML) — feel like separate pages, back button + phone back button both work */
+.page-overlay{position:fixed;inset:0;z-index:2200;background:var(--bg);
+  display:none;overflow-y:auto;padding-bottom:3rem}
+.page-overlay.open{display:block}
+.page-back-bar{position:sticky;top:0;z-index:10;background:rgba(5,5,16,0.9);backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(108,99,255,0.1);padding:1rem 2rem}
+.page-back-btn{background:var(--card);border:1px solid var(--border);color:var(--text);
+  padding:8px 18px;border-radius:8px;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;
+  font-family:'Inter',sans-serif}
+.page-back-btn:hover{border-color:rgba(108,99,255,0.4)}
+@media (max-width:640px){.page-back-bar{padding:0.85rem 1.25rem}}
+
+/* FEATURE HIGHLIGHT TOAST (Start for free) */
+.feat-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:linear-gradient(135deg,rgba(20,20,40,0.97),rgba(15,15,35,0.97));
+  border:1.5px solid rgba(108,99,255,0.4);border-radius:14px;padding:1rem 1.5rem;
+  max-width:420px;width:90%;z-index:1000;opacity:0;pointer-events:none;
+  box-shadow:0 20px 60px rgba(0,0,0,0.5);transition:all .4s cubic-bezier(.34,1.56,.64,1)}
+.feat-toast.show{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto}
+.feat-toast-title{font-size:13px;font-weight:700;color:var(--accent2);margin-bottom:4px}
+.feat-toast-body{font-size:12.5px;color:#ccc;line-height:1.6}
+.mini-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 20px;display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted);
+  animation:float 3s ease-in-out infinite}
+.mini-card:nth-child(2){animation-delay:.5s}
+.mini-card:nth-child(3){animation-delay:1s}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.mini-icon{font-size:18px}
+.mini-val{font-size:16px;font-weight:600;color:var(--text)}
+
+/* PATHS SECTION */
+.section{position:relative;z-index:1;padding:5rem 2rem}
+.section-eyebrow{font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--accent2);letter-spacing:.15em;margin-bottom:1rem}
+.section-title{font-size:2rem;font-weight:600;margin-bottom:.75rem}
+.section-sub{color:var(--muted);font-size:15px;max-width:440px;line-height:1.6;margin-bottom:3rem}
+
+.paths-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.path-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.75rem;position:relative;overflow:hidden;cursor:pointer;
+  transition:all .3s;animation:fadeInUp .6s ease both}
+.path-card::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .3s;border-radius:16px;pointer-events:none}
+.path-card.py::before{background:radial-gradient(circle at top left,rgba(108,99,255,0.08),transparent 60%)}
+.path-card.java::before{background:radial-gradient(circle at top left,rgba(62,207,173,0.08),transparent 60%)}
+.path-card.js::before{background:radial-gradient(circle at top left,rgba(255,200,80,0.08),transparent 60%)}
+.path-card.cpp::before{background:radial-gradient(circle at top left,rgba(126,184,255,0.08),transparent 60%)}
+.path-card.dev::before{background:radial-gradient(circle at top left,rgba(255,120,150,0.08),transparent 60%)}
+.path-card.aiml::before{background:radial-gradient(circle at top left,rgba(180,120,255,0.08),transparent 60%)}
+.path-card:hover::before{opacity:1}
+.path-card:hover{border-color:rgba(108,99,255,0.3);transform:translateY(-4px)}
+.path-card.featured{border-color:rgba(108,99,255,0.4)}
+.path-badge{position:absolute;top:1rem;right:1rem;font-size:10px;background:rgba(108,99,255,0.2);color:#a0a0ff;padding:3px 10px;border-radius:100px;border:1px solid rgba(108,99,255,0.3)}
+.path-emoji{font-size:2rem;margin-bottom:1rem;display:block}
+.path-name{font-size:18px;font-weight:600;margin-bottom:.5rem}
+.path-desc{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:1rem}
+.path-tags{display:flex;gap:6px;flex-wrap:wrap}
+.tag{font-size:11px;padding:3px 10px;border-radius:100px;border:1px solid}
+.tag.blue{color:#7eb8ff;border-color:rgba(126,184,255,0.2);background:rgba(126,184,255,0.05)}
+.tag.green{color:#3ECFAD;border-color:rgba(62,207,173,0.2);background:rgba(62,207,173,0.05)}
+.tag.yellow{color:#ffd166;border-color:rgba(255,209,102,0.2);background:rgba(255,209,102,0.05)}
+.tag.pink{color:#ff90a8;border-color:rgba(255,144,168,0.2);background:rgba(255,144,168,0.05)}
+.tag.purple{color:#c39cff;border-color:rgba(195,156,255,0.2);background:rgba(195,156,255,0.05)}
+.path-resource{margin-top:10px;font-size:11.5px;position:relative;z-index:2}
+.path-resource a{color:#6C63FF;text-decoration:none;display:inline-flex;align-items:center;gap:4px;position:relative;z-index:2}
+.path-resource a:hover{text-decoration:underline}
+
+/* CONFUSED / GUIDANCE SECTION */
+.confuse-box{background:linear-gradient(135deg,rgba(108,99,255,0.08),rgba(62,207,173,0.05));
+  border:1px solid rgba(108,99,255,0.25);border-radius:16px;padding:1.75rem;margin-bottom:2rem;
+  position:relative;overflow:hidden}
+.confuse-top{display:flex;align-items:center;gap:12px;margin-bottom:1rem}
+.confuse-icon{font-size:22px}
+.confuse-title{font-size:16px;font-weight:600}
+.confuse-toggle{background:rgba(108,99,255,0.15);border:1px solid rgba(108,99,255,0.3);color:#a0a0ff;
+  padding:6px 16px;border-radius:8px;font-size:13px;cursor:pointer;font-family:'Inter',sans-serif;margin-left:auto;transition:all .2s}
+.confuse-toggle:hover{background:rgba(108,99,255,0.25)}
+.confuse-body{display:none;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:1rem}
+.confuse-body.open{display:grid}
+.guide-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1rem}
+.guide-q{font-size:13px;color:var(--muted);margin-bottom:6px}
+.guide-a{font-size:14px;font-weight:500;color:var(--accent2)}
+
+/* DSA SECTION */
+.dsa-wrapper{max-width:700px}
+.topic-row{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1rem 1.25rem;margin-bottom:10px;
+  transition:border-color .2s;cursor:pointer}
+.topic-row:hover{border-color:rgba(108,99,255,0.3)}
+.topic-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.topic-name{font-size:14px;font-weight:500}
+.topic-meta{font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace}
+.pbar{height:3px;background:var(--surface2);border-radius:2px;margin-bottom:10px}
+.pfill{height:3px;border-radius:2px;background:linear-gradient(90deg,#6C63FF,#3ECFAD);transition:width .8s ease}
+.ques-list{display:flex;flex-direction:column;gap:6px}
+.ques{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-top:1px solid rgba(255,255,255,0.04)}
+.ql{display:flex;align-items:center;gap:10px;font-size:13px;color:#ccc}
+.chk{width:18px;height:18px;border-radius:5px;border:1.5px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px}
+.chk.done{background:linear-gradient(135deg,#6C63FF,#3ECFAD);border:none;font-size:10px}
+.qr{display:flex;align-items:center;gap:8px}
+.diff{font-size:10px;padding:2px 8px;border-radius:100px;font-family:'JetBrains Mono',monospace}
+.easy{color:#3ECFAD;background:rgba(62,207,173,0.1);border:1px solid rgba(62,207,173,0.2)}
+.med{color:#ffd166;background:rgba(255,209,102,0.1);border:1px solid rgba(255,209,102,0.2)}
+.hard{color:#ff6b6b;background:rgba(255,107,107,0.1);border:1px solid rgba(255,107,107,0.2)}
+.lc-btn{font-size:11px;color:#6C63FF;text-decoration:none;font-family:'JetBrains Mono',monospace;
+  background:rgba(108,99,255,0.1);padding:3px 8px;border-radius:5px;border:1px solid rgba(108,99,255,0.2);
+  transition:all .2s}
+.lc-btn:hover{background:rgba(108,99,255,0.2)}
+
+/* PRO LOCK */
+.ques.locked{opacity:.5;filter:blur(0.3px)}
+.pro-badge{font-size:9px;background:linear-gradient(135deg,#ffb347,#ff8c42);color:#1a0f00;padding:2px 8px;border-radius:100px;font-weight:700;letter-spacing:.03em}
+.upcoming-badge{font-size:9px;background:linear-gradient(135deg,#6C63FF,#3ECFAD);color:#fff;padding:2px 8px;border-radius:100px;font-weight:700;letter-spacing:.03em;margin-left:8px}
+.upcoming-note{font-size:12.5px;color:var(--muted);font-style:italic;margin-top:1rem;max-width:560px}
+.pro-unlock{margin-top:10px;background:linear-gradient(135deg,rgba(255,179,71,0.1),rgba(255,140,66,0.06));
+  border:1px solid rgba(255,179,71,0.3);border-radius:10px;padding:.75rem 1rem;
+  display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.pro-unlock-text{font-size:12.5px;color:#ffcb80}
+.pro-btn{background:linear-gradient(135deg,#ffb347,#ff8c42);color:#1a0f00;border:none;padding:6px 16px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;white-space:nowrap}
+
+/* AI DOUBT SOLVER */
+.ai-chat{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.5rem;max-width:560px}
+.ai-msg{display:flex;gap:10px;margin-bottom:14px;align-items:flex-start}
+.ai-avatar{width:30px;height:30px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px}
+.ai-avatar.bot{background:linear-gradient(135deg,#6C63FF,#3ECFAD)}
+.ai-avatar.user{background:var(--surface2);border:1px solid var(--border)}
+.ai-bubble{background:var(--surface2);border-radius:10px;padding:10px 14px;font-size:13px;line-height:1.6;color:#ddd;max-width:420px}
+.ai-msg.user .ai-bubble{background:rgba(108,99,255,0.1);border:1px solid rgba(108,99,255,0.2)}
+.ai-typing{display:flex;gap:4px;padding:10px 14px}
+.ai-typing span{width:6px;height:6px;background:#6C63FF;border-radius:50%;animation:typingDot 1.2s ease-in-out infinite}
+.ai-typing span:nth-child(2){animation-delay:.2s}
+.ai-typing span:nth-child(3){animation-delay:.4s}
+@keyframes typingDot{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
+
+/* ANALYTICS REPORT */
+.report-tabs{display:flex;gap:8px;margin-bottom:1.25rem}
+.report-tab{font-size:12px;padding:6px 16px;border-radius:100px;border:1px solid var(--border);color:var(--muted);cursor:pointer}
+.report-tab.active{background:rgba(108,99,255,0.15);border-color:rgba(108,99,255,0.4);color:#a0a0ff}
+.report-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.5rem;max-width:640px}
+.report-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05)}
+.report-row:last-child{border-bottom:none}
+.report-label{font-size:13px;color:var(--muted)}
+.report-value{font-size:13px;font-weight:600;color:var(--text)}
+.report-value.good{color:#3ECFAD}
+.report-value.bad{color:#ff8080}
+.insight-box{margin-top:1rem;background:rgba(108,99,255,0.06);border:1px solid rgba(108,99,255,0.2);border-radius:12px;padding:1rem 1.25rem}
+.insight-title{font-size:12px;color:#a0a0ff;font-weight:600;margin-bottom:6px;font-family:'JetBrains Mono',monospace}
+.insight-body{font-size:13px;color:#ccc;line-height:1.7}
+
+/* NOTEBOOK + VOICE AGENT */
+.nb-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.25rem 1.5rem;max-width:560px}
+.nb-tag{font-size:11px;background:rgba(195,156,255,0.12);color:#c39cff;border:1px solid rgba(195,156,255,0.25);padding:2px 10px;border-radius:100px;display:inline-block;margin-bottom:8px}
+.nb-title{font-size:14px;font-weight:600;margin-bottom:6px}
+.nb-body{font-size:13px;color:#bbb;line-height:1.7;font-family:'JetBrains Mono',monospace}
+.nb-remove{position:absolute;top:14px;right:14px;background:none;border:none;color:var(--muted);cursor:pointer;font-size:13px}
+.nb-card{position:relative}
+.nb-empty{font-size:13px;color:var(--muted);font-style:italic}
+
+/* Notebook icon button on each question row */
+.notebook-btn{background:rgba(195,156,255,0.1);border:1px solid rgba(195,156,255,0.25);color:#c39cff;
+  width:26px;height:26px;border-radius:7px;font-size:12px;cursor:pointer;flex-shrink:0;
+  display:inline-flex;align-items:center;justify-content:center;transition:all .2s}
+.notebook-btn:hover{background:rgba(195,156,255,0.2)}
+.notebook-btn.saved{background:linear-gradient(135deg,#c39cff,#6C63FF);border:none;color:#fff}
+.voice-btn{display:inline-flex;align-items:center;gap:8px;background:rgba(108,99,255,0.12);
+  border:1px solid rgba(108,99,255,0.3);color:#a0a0ff;padding:6px 16px;border-radius:100px;
+  font-size:12px;cursor:pointer;font-family:'Inter',sans-serif;margin-top:12px;transition:all .2s}
+.voice-btn:hover{background:rgba(108,99,255,0.22)}
+.voice-btn.speaking{background:rgba(62,207,173,0.15);border-color:rgba(62,207,173,0.4);color:var(--accent2)}
+.voice-wave{display:inline-flex;gap:2px;align-items:center;height:12px}
+.voice-wave span{width:2px;background:currentColor;border-radius:2px;animation:waveBar 1s ease-in-out infinite}
+.voice-wave span:nth-child(1){height:4px;animation-delay:0s}
+.voice-wave span:nth-child(2){height:10px;animation-delay:.15s}
+.voice-wave span:nth-child(3){height:6px;animation-delay:.3s}
+.voice-wave span:nth-child(4){height:9px;animation-delay:.45s}
+@keyframes waveBar{0%,100%{transform:scaleY(0.4)}50%{transform:scaleY(1)}}
+
+/* DEV TRACK */
+.dev-track{max-width:640px}
+.dev-group{margin-bottom:1.25rem}
+.dev-group-title{font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-bottom:.75rem;letter-spacing:.05em}
+.dev-chip-row{display:flex;flex-wrap:wrap;gap:8px}
+.dev-chip{display:flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--border);
+  border-radius:100px;padding:6px 14px;font-size:12.5px;color:#ccc}
+.dev-chip.done{border-color:rgba(62,207,173,0.35);background:rgba(62,207,173,0.08);color:var(--accent2)}
+.dev-check{width:14px;height:14px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:8px}
+.dev-chip.done .dev-check{background:var(--accent2);border:none;color:#04140f}
+
+/* DEV TOPIC LIST (structured, like DSA) */
+.dev-list-title{font-size:13px;color:var(--muted);margin-bottom:1rem;line-height:1.6}
+.dev-list-title strong{color:#a0a0ff}
+.dev-topic{display:flex;align-items:flex-start;gap:12px;background:var(--card);border:1px solid var(--border);
+  border-radius:12px;padding:1rem 1.25rem;margin-bottom:8px}
+.dev-num{width:24px;height:24px;border-radius:7px;background:var(--surface2);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:11px;font-family:'JetBrains Mono',monospace;
+  color:var(--muted);flex-shrink:0;margin-top:2px}
+.dev-topic.done .dev-num{background:var(--accent2);border:none;color:#04140f}
+.dev-topic-name{font-size:14px;font-weight:500;margin-bottom:4px}
+.dev-topic.done .dev-topic-name{color:var(--accent2)}
+.dev-resource{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.dev-resource a{color:#6C63FF;text-decoration:none}
+.dev-resource .pending{font-style:italic;opacity:.7}
+.dev-tick{width:20px;height:20px;border-radius:6px;border:1.5px solid rgba(255,255,255,0.15);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;font-size:11px;margin-top:2px}
+.dev-topic.done .dev-tick{background:var(--accent2);border:none;color:#04140f}
+
+/* PRACTICE PROJECTS */
+.proj-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.25rem 1.5rem;margin-bottom:10px}
+.proj-card.locked{opacity:.45}
+.proj-top{display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap}
+.proj-level{font-size:10px;padding:3px 10px;border-radius:100px;font-weight:600;font-family:'JetBrains Mono',monospace}
+.proj-level.inter{background:rgba(255,209,102,0.12);color:#ffd166;border:1px solid rgba(255,209,102,0.25)}
+.proj-level.adv{background:rgba(255,107,107,0.12);color:#ff8080;border:1px solid rgba(255,107,107,0.25)}
+.proj-stack{display:flex;gap:4px}
+.proj-stack span{font-size:10px;background:var(--surface2);color:var(--muted);padding:2px 8px;border-radius:100px;border:1px solid var(--border)}
+.proj-title{font-size:14.5px;font-weight:600;margin-bottom:5px}
+.proj-desc{font-size:12.5px;color:#bbb;line-height:1.6;margin-bottom:10px}
+.proj-submit{display:flex;gap:8px;flex-wrap:wrap}
+.proj-input{flex:1;min-width:180px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;
+  padding:8px 12px;font-size:12px;color:var(--text);font-family:'JetBrains Mono',monospace}
+.proj-input::placeholder{color:var(--muted)}
+.proj-submit-btn{background:var(--accent);color:#fff;border:none;padding:8px 18px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;white-space:nowrap}
+.proj-submit-btn:hover{background:#5a52e0}
+.proj-locked-note{font-size:12px;color:var(--muted);font-style:italic}
+
+/* HINT + EXAMPLE REFERENCE on each project card */
+.proj-extra-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;margin-bottom:4px}
+.proj-hint-toggle{background:rgba(255,209,102,0.1);border:1px solid rgba(255,209,102,0.25);color:#ffd166;
+  padding:10px 16px;border-radius:8px;font-size:13px;cursor:pointer;font-family:'Inter',sans-serif;
+  min-height:40px;position:relative;z-index:2}
+.proj-hint-toggle:hover{background:rgba(255,209,102,0.18)}
+.proj-example-link{background:rgba(108,99,255,0.15);border:1px solid rgba(108,99,255,0.35);color:#a0a0ff;
+  padding:10px 16px;border-radius:8px;font-size:13px;text-decoration:none;display:inline-flex;align-items:center;gap:5px;
+  min-height:40px;position:relative;z-index:2;font-weight:500}
+.proj-example-link:hover{background:rgba(108,99,255,0.25)}
+.proj-hint-box{display:none;background:rgba(255,209,102,0.06);border:1px solid rgba(255,209,102,0.2);
+  border-radius:8px;padding:.75rem 1rem;margin-top:8px;font-size:12.5px;color:#ddd;line-height:1.6}
+.proj-hint-box.open{display:block}
+
+/* SIMPLE LOGIN MODAL */
+.login-overlay{position:fixed;inset:0;z-index:3000;background:rgba(0,0,0,0.85);backdrop-filter:blur(6px);
+  display:none;align-items:center;justify-content:center;padding:1.5rem}
+.login-overlay.open{display:flex}
+.login-box{background:var(--surface);border:1px solid var(--border);border-radius:20px;
+  max-width:380px;width:100%;padding:2rem;text-align:center}
+.login-icon{width:52px;height:52px;border-radius:14px;margin:0 auto 1rem;
+  background:linear-gradient(135deg,#6C63FF,#3ECFAD);display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:22px;color:#fff}
+.login-title{font-size:19px;font-weight:700;margin-bottom:6px}
+.login-sub{font-size:13px;color:var(--muted);margin-bottom:1.5rem}
+.login-input{width:100%;background:var(--card);border:1px solid var(--border);border-radius:10px;
+  padding:11px 14px;font-size:14px;color:var(--text);margin-bottom:10px;font-family:'Inter',sans-serif}
+.login-input::placeholder{color:var(--muted)}
+.login-btn{width:100%;background:linear-gradient(135deg,#6C63FF,#5a52e0);color:#fff;border:none;
+  padding:12px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;margin-top:6px}
+.login-skip{width:100%;background:transparent;color:var(--muted);border:1px solid var(--border);
+  padding:11px;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;margin-top:10px}
+.login-skip:hover{color:var(--text);border-color:#6C63FF}
+.demo-banner{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);z-index:2500;
+  background:rgba(20,20,30,.92);border:1px solid #6C63FF;color:#fff;font-size:12px;
+  padding:8px 14px;border-radius:999px;display:none;gap:10px;align-items:center;
+  backdrop-filter:blur(6px);white-space:nowrap}
+.demo-banner.show{display:flex}
+.demo-banner button{background:none;border:none;color:#9d97ff;cursor:pointer;font-size:12px;
+  font-weight:600;text-decoration:underline}
+.login-error{color:#ff8080;font-size:12px;margin-top:8px;display:none}
+.user-badge{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
+.user-badge .dot{width:6px;height:6px;background:var(--accent2);border-radius:50%}
+.review-toast{position:fixed;top:90px;left:50%;transform:translateX(-50%) translateY(-20px);
+  background:linear-gradient(135deg,rgba(20,20,40,0.97),rgba(15,15,35,0.97));
+  border:1.5px solid rgba(108,99,255,0.4);border-radius:16px;padding:1.25rem 1.5rem;
+  max-width:380px;width:90%;z-index:1000;opacity:0;pointer-events:none;
+  box-shadow:0 20px 60px rgba(0,0,0,0.5);transition:all .4s cubic-bezier(.34,1.56,.64,1)}
+.review-toast.show{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto}
+.review-inner{display:flex;gap:12px;align-items:flex-start}
+.review-icon{font-size:24px;flex-shrink:0}
+.review-title{font-size:14px;font-weight:700;margin-bottom:4px;color:#a0a0ff}
+.review-body{font-size:12.5px;color:#ccc;line-height:1.6}
+.review-close{position:absolute;top:10px;right:12px;color:var(--muted);cursor:pointer;font-size:14px;background:none;border:none}
+
+/* MILESTONE POPUP TOAST */
+.milestone-toast{position:fixed;top:90px;left:50%;transform:translateX(-50%) translateY(-20px);
+  background:linear-gradient(135deg,rgba(20,20,40,0.97),rgba(15,15,35,0.97));
+  border:1.5px solid rgba(62,207,173,0.4);border-radius:16px;padding:1.25rem 1.5rem;
+  max-width:380px;width:90%;z-index:1000;opacity:0;pointer-events:none;
+  box-shadow:0 20px 60px rgba(0,0,0,0.5);transition:all .4s cubic-bezier(.34,1.56,.64,1)}
+.milestone-toast.show{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto}
+.toast-inner{display:flex;gap:12px;align-items:flex-start}
+.toast-icon{font-size:28px;animation:bigTrophyBounce 1.2s ease-in-out infinite}
+.toast-title{font-size:14.5px;font-weight:700;margin-bottom:4px;
+  background:linear-gradient(90deg,#3ECFAD,#6C63FF);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.toast-body{font-size:12.5px;color:#ccc;line-height:1.6}
+.toast-close{position:absolute;top:10px;right:12px;color:var(--muted);cursor:pointer;font-size:14px;background:none;border:none}
+.demo-trigger-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem;margin-bottom:1.5rem}
+.demo-btn{background:rgba(108,99,255,0.12);border:1px solid rgba(108,99,255,0.3);color:#a0a0ff;
+  padding:8px 16px;border-radius:8px;font-size:12px;cursor:pointer;font-family:'Inter',sans-serif}
+.demo-btn:hover{background:rgba(108,99,255,0.22)}
+
+/* INLINE MILESTONE (between questions) */
+.inline-milestone{margin:14px 0;background:rgba(62,207,173,0.08);border:1px solid rgba(62,207,173,0.3);
+  border-radius:12px;padding:1rem 1.25rem;display:flex;gap:12px;align-items:flex-start}
+.inline-milestone .im-icon{font-size:22px;flex-shrink:0}
+.inline-milestone .im-title{font-size:13px;font-weight:600;color:var(--accent2);margin-bottom:4px}
+.inline-milestone .im-body{font-size:12.5px;color:#ccc;line-height:1.6}
+.inline-milestone .im-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.inline-milestone.milestone-locked{display:none}
+
+/* MASTERY CARD (whole topic complete) */
+.mastery-card{margin:14px 0;background:linear-gradient(135deg,rgba(62,207,173,0.15),rgba(108,99,255,0.12));
+  border:1.5px solid rgba(62,207,173,0.5);border-radius:14px;padding:1.25rem 1.5rem;
+  display:flex;gap:12px;align-items:flex-start;position:relative;overflow:hidden;
+  animation:celebratePulse 1.8s ease-in-out infinite}
+@keyframes celebratePulse{0%,100%{box-shadow:0 0 0 0 rgba(62,207,173,0.25)}50%{box-shadow:0 0 0 10px rgba(62,207,173,0)}}
+.mastery-icon{font-size:28px;animation:bigTrophyBounce 1.4s ease-in-out infinite}
+@keyframes bigTrophyBounce{0%,100%{transform:translateY(0) rotate(0)}25%{transform:translateY(-6px) rotate(-6deg)}75%{transform:translateY(-3px) rotate(6deg)}}
+.mastery-title{font-size:15px;font-weight:700;margin-bottom:4px;
+  background:linear-gradient(90deg,#3ECFAD,#6C63FF,#3ECFAD);background-size:200% auto;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmerText 2.5s linear infinite}
+@keyframes shimmerText{to{background-position:200% center}}
+.mastery-body{font-size:12.5px;color:#ddd;line-height:1.7}
+.mastery-confetti{position:absolute;top:-4px;right:10px;font-size:16px;animation:confettiFloat 2s ease-in-out infinite}
+@keyframes confettiFloat{0%,100%{transform:translateY(0) rotate(0);opacity:1}50%{transform:translateY(-8px) rotate(15deg);opacity:.7}}
+.im-voice-btn{background:rgba(62,207,173,0.12);border:1px solid rgba(62,207,173,0.3);color:var(--accent2);
+  width:26px;height:26px;border-radius:50%;font-size:12px;cursor:pointer;flex-shrink:0;margin-left:auto}
+.im-voice-btn.speaking{background:rgba(62,207,173,0.3)}
+
+/* TOP TRACK TABS */
+.track-tabs{display:flex;gap:12px;justify-content:center;max-width:640px;margin:0 auto 1.5rem}
+.track-tab{flex:1;background:var(--card);border:1.5px solid var(--border);border-radius:14px;
+  padding:1rem;text-align:center;cursor:pointer;transition:all .25s}
+.track-tab.selected{border-color:rgba(108,99,255,0.5);background:rgba(108,99,255,0.08)}
+.track-tab-icon{font-size:22px;margin-bottom:6px;display:block}
+.track-tab-name{font-size:14px;font-weight:600}
+.track-tab-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.confuse-helper{max-width:560px;margin:0 auto;text-align:center;font-size:13px;color:var(--muted);line-height:1.7}
+.confuse-helper strong{color:#a0a0ff}
+
+/* MILESTONE NOTIFICATION */
+.milestone{background:linear-gradient(135deg,rgba(62,207,173,0.1),rgba(108,99,255,0.08));
+  border:1px solid rgba(62,207,173,0.3);border-radius:14px;padding:1.25rem 1.5rem;margin-top:1rem;
+  display:flex;gap:14px;align-items:flex-start;
+  animation:slideInFade .6s ease both}
+@keyframes slideInFade{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+.milestone-icon{font-size:26px;flex-shrink:0;animation:trophySpin 2.5s ease-in-out infinite}
+@keyframes trophySpin{0%,100%{transform:rotate(0) scale(1)}25%{transform:rotate(-8deg) scale(1.05)}75%{transform:rotate(8deg) scale(1.05)}}
+.milestone-title{font-size:14px;font-weight:600;color:var(--accent2);margin-bottom:4px}
+.milestone-body{font-size:13px;color:#ccc;line-height:1.6}
+.milestone-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.mtag{font-size:11px;padding:3px 10px;border-radius:100px;background:rgba(108,99,255,0.12);color:#a0a0ff;border:1px solid rgba(108,99,255,0.25)}
+
+/* STAGE TRACKER */
+.stage-tracker{margin-top:1rem;display:flex;flex-direction:column;gap:8px}
+.stage{display:flex;gap:12px;align-items:flex-start;border-radius:12px;padding:1rem 1.25rem;border:1px solid;transition:all .3s}
+.stage.done{background:rgba(62,207,173,0.08);border-color:rgba(62,207,173,0.3)}
+.stage.active{background:rgba(108,99,255,0.08);border-color:rgba(108,99,255,0.35);animation:activeGlow 2s ease-in-out infinite}
+@keyframes activeGlow{0%,100%{box-shadow:0 0 0 0 rgba(108,99,255,0.15)}50%{box-shadow:0 0 0 6px rgba(108,99,255,0)}}
+.stage.locked{background:var(--card);border-color:var(--border);opacity:.55}
+.stage-icon{font-size:20px;flex-shrink:0;width:28px;text-align:center}
+.stage.active .stage-icon{animation:trophySpin 2.5s ease-in-out infinite}
+.stage-title{font-size:13px;font-weight:600;margin-bottom:3px}
+.stage.done .stage-title{color:var(--accent2)}
+.stage.active .stage-title{color:#a0a0ff}
+.stage.locked .stage-title{color:var(--muted)}
+.stage-body{font-size:12.5px;color:#bbb;line-height:1.6}
+.stage.locked .stage-body{color:var(--muted)}
+.stage-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+
+/* CELEBRATION STAGE */
+.stage.celebrate{background:linear-gradient(135deg,rgba(62,207,173,0.15),rgba(108,99,255,0.12));
+  border:1.5px solid rgba(62,207,173,0.5);position:relative;padding:1.5rem;
+  animation:celebratePulse 1.8s ease-in-out infinite}
+@keyframes celebratePulse{0%,100%{box-shadow:0 0 0 0 rgba(62,207,173,0.25)}50%{box-shadow:0 0 0 10px rgba(62,207,173,0)}}
+.celebrate-icon{font-size:34px;animation:bigTrophyBounce 1.4s ease-in-out infinite}
+@keyframes bigTrophyBounce{0%,100%{transform:translateY(0) rotate(0)}25%{transform:translateY(-6px) rotate(-6deg)}75%{transform:translateY(-3px) rotate(6deg)}}
+.celebrate-title{font-size:17px;font-weight:700;margin-bottom:5px;
+  background:linear-gradient(90deg,#3ECFAD,#6C63FF,#3ECFAD);background-size:200% auto;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  animation:shimmerText 2.5s linear infinite}
+@keyframes shimmerText{to{background-position:200% center}}
+.celebrate-body{font-size:13.5px;color:#ddd;line-height:1.7}
+.celebrate-confetti{position:absolute;top:-6px;right:12px;font-size:16px;animation:confettiFloat 2s ease-in-out infinite}
+@keyframes confettiFloat{0%,100%{transform:translateY(0) rotate(0);opacity:1}50%{transform:translateY(-8px) rotate(15deg);opacity:.7}}
+
+/* STREAK */
+.streak-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:600px;margin-bottom:2rem}
+.scard{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.5rem;text-align:center}
+.snum{font-size:2.5rem;font-weight:700;background:linear-gradient(135deg,#6C63FF,#3ECFAD);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.slabel{font-size:12px;color:var(--muted);margin-top:4px;font-family:'JetBrains Mono',monospace}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;max-width:600px}
+.cal-day{height:20px;border-radius:4px;transition:transform .1s}
+.cal-day:hover{transform:scale(1.3)}
+.cal-day.done{background:linear-gradient(135deg,#6C63FF,#3ECFAD)}
+.cal-day.today{background:#6C63FF;box-shadow:0 0 8px rgba(108,99,255,0.6);animation:todayPulse 2s ease-in-out infinite}
+@keyframes todayPulse{0%,100%{box-shadow:0 0 8px rgba(108,99,255,0.6)}50%{box-shadow:0 0 16px rgba(108,99,255,0.9)}}
+.cal-day.miss{background:var(--surface2);border:1px solid var(--border)}
+
+/* ANIMATE ON SCROLL */
+.reveal{opacity:0;transform:translateY(30px);transition:all .7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+@keyframes fadeInDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* FOOTER */
+footer{position:relative;z-index:1;text-align:center;padding:2rem;border-top:1px solid var(--border);color:var(--muted);font-size:13px}
+.footer-logo{font-size:20px;font-weight:600;background:linear-gradient(90deg,#6C63FF,#3ECFAD);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.5rem}
+
+/* MOBILE RESPONSIVE */
+@media (max-width:640px){
+  nav{padding:0.85rem 1rem;gap:8px}
+  .logo-text{font-size:15px}
+  .nav-links{gap:1.2rem}
+  .streak-pill{padding:5px 10px;font-size:11px}
+  .streak-pill span:last-child{display:none}
+  .nav-cta{padding:7px 14px;font-size:12px}
+  .confuse-top{flex-wrap:wrap}
+  .confuse-toggle{margin-left:0}
+  .confuse-body{grid-template-columns:1fr}
+  .hero{padding:5.5rem 1.25rem 2.5rem}
+  .hero-sub{font-size:14px}
+  .hero-ctas{width:100%}
+  .btn-glow,.btn-ghost{flex:1;padding:12px 18px;font-size:14px}
+  .hero-cards{gap:8px}
+  .mini-card{padding:10px 14px;font-size:12px}
+  .track-tabs{flex-direction:row;max-width:100%}
+  .track-tab{padding:.75rem .5rem}
+  .track-tab-name{font-size:13px}
+  .track-tab-sub{font-size:10px}
+  .section{padding:3rem 1.25rem}
+  .section-title{font-size:1.5rem}
+  .paths-grid{grid-template-columns:1fr}
+  .streak-grid{grid-template-columns:1fr}
+  .cal-grid{grid-template-columns:repeat(7,1fr)}
+  .report-row{flex-wrap:wrap;gap:4px}
+  .ai-bubble{max-width:75%}
+  .pro-unlock{flex-direction:column;align-items:flex-start}
+}
+@media (max-width:400px){
+  .hero-title{font-size:2rem}
+  .dev-chip-row{gap:6px}
+  .dev-chip{padding:5px 10px;font-size:11px}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+
+<div class="login-overlay" id="loginOverlay">
+  <div class="login-box">
+    <div class="login-icon">N</div>
+    <div class="login-title">Welcome to NexStep</div>
+    <div class="login-sub">Sign in with your Google account to start tracking your progress.</div>
+    <button class="login-btn" onclick="startGoogleLogin()">Continue with Google →</button>
+    <button class="login-skip" onclick="enterDemoMode()">Skip login — view demo</button>
+    <div class="login-error" id="loginError">Couldn't reach the server. Is the backend running?</div>
+  </div>
+</div>
+
+<div class="demo-banner" id="demoBanner">
+  <span>Demo mode · sample numbers, not a real account</span>
+  <button onclick="location.reload()">Sign in</button>
+</div>
+
+<div class="login-overlay" id="usernameOverlay">
+  <div class="login-box">
+    <div class="login-icon">N</div>
+    <div class="login-title">Choose your username</div>
+    <div class="login-sub">This is how you'll show up on NexStep - pick something you'll recognize later. You can't change this later, so choose carefully.</div>
+    <input class="login-input" id="usernameInput" placeholder="e.g. akankshu_codes" autocomplete="off">
+    <button class="login-btn" onclick="submitUsername()">Save username →</button>
+    <div class="login-error" id="usernameError">Username must be at least 3 characters and not already taken.</div>
+  </div>
+</div>
+
+<div class="review-toast" id="reviewToast">
+  <button class="review-close" onclick="hideReview()">✕</button>
+  <div class="review-inner">
+    <span class="review-icon">📥</span>
+    <div>
+      <div class="review-title">Submitted for review!</div>
+      <div class="review-body">We'll go through your project and message you back — what's missing, what's good, and whether it's ready. Usually within 24-48 hrs.</div>
+    </div>
+  </div>
+</div>
+
+<div class="feat-toast" id="featToast">
+  <div class="feat-toast-title">✨ Everything is free right now</div>
+  <div class="feat-toast-body">DSA tracker, Dev + AI/ML roadmaps, AI doubt solver, analytics, project reviews — all unlocked. Pick DSA, Dev, or AI/ML above and start with topic 1.</div>
+</div>
+
+<div class="hiw-overlay" id="hiwOverlay" onclick="if(event.target===this) closeHowItWorks()">
+  <div class="hiw-modal">
+    <div class="hiw-top">
+      <span class="hiw-title">How NexStep works</span>
+      <button class="hiw-close" onclick="closeHowItWorks()">✕</button>
+    </div>
+
+    <div class="hiw-step">
+      <span class="hiw-num">1</span>
+      <div>
+        <div class="hiw-step-title">Pick your track</div>
+        <div class="hiw-step-body">Choose DSA (for placements), Dev (for projects/portfolio), or AI/ML (Python-first). Not sure? Use the "Confused?" helper — it points you in the right direction based on your goal.</div>
+      </div>
+    </div>
+
+    <div class="hiw-step">
+      <span class="hiw-num">2</span>
+      <div>
+        <div class="hiw-step-title">Follow the order, topic by topic</div>
+        <div class="hiw-step-body">Every track is a straight line — no jumping around guessing what's next. Each topic has curated free resources and, for DSA, direct LeetCode links sorted Easy → Hard.</div>
+      </div>
+    </div>
+
+    <div class="hiw-step">
+      <span class="hiw-num">3</span>
+      <div>
+        <div class="hiw-step-title">Get milestone check-ins as you go</div>
+        <div class="hiw-step-body">Clear a few questions or a topic, and NexStep tells you what to revise before moving on — no silent progress, no false confidence. You can even listen to these notes out loud.</div>
+      </div>
+    </div>
+
+    <div class="hiw-step">
+      <span class="hiw-num">4</span>
+      <div>
+        <div class="hiw-step-title">Build real projects, not just tick boxes</div>
+        <div class="hiw-step-body">Finishing a topic unlocks a matching project — HTML unlocks a resume page, JS unlocks a to-do app, and so on. Submit your GitHub link and get feedback on what's missing and what's solid.</div>
+      </div>
+    </div>
+
+    <div class="hiw-step">
+      <span class="hiw-num">5</span>
+      <div>
+        <div class="hiw-step-title">Stay consistent with streaks + AI help</div>
+        <div class="hiw-step-body">Daily streaks keep momentum visible. Stuck on something at 2 AM? The AI doubt solver knows what you've already covered and answers accordingly, instead of generic textbook explanations.</div>
+      </div>
+    </div>
+
+    <button class="btn-glow hiw-cta" onclick="closeHowItWorks(); startForFree()">Got it — let's start →</button>
+  </div>
+</div>
+
+<nav>
+  <div class="nav-logo">
+    <div class="logo-icon">N</div>
+    <span class="logo-text">NexStep</span>
+  </div>
+  <div class="nav-links">
+    <a onclick="jumpTo('paths');return false" href="javascript:void(0)">Paths</a>
+    <a onclick="jumpTo('dsa');return false" href="javascript:void(0)">DSA</a>
+    <a onclick="openPage('dev');return false" href="javascript:void(0)">Dev</a>
+    <a onclick="openPage('aiml');return false" href="javascript:void(0)">AI/ML</a>
+    <a onclick="openNotebookModal();return false" href="javascript:void(0)">📓 Notebook</a>
+    <a onclick="jumpTo('streak');return false" href="javascript:void(0)">Streak</a>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px;flex-shrink:0">
+    <div class="streak-pill">
+      <span class="fire-icon">🔥</span>
+      <span class="streak-count" id="navStreakCount">12</span>
+      <span style="color:var(--muted)">days</span>
+    </div>
+    <button class="nav-cta">Get started</button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge">
+    <span class="badge-dot"></span>
+    Built for engineering students
+  </div>
+  <h1 class="hero-title">
+    <span class="line1">Stop watching. Start doing.</span>
+    <span class="line2">One path, zero confusion.</span>
+  </h1>
+  <p class="hero-sub">Every topic, every next step, every problem — planned out for you. Just show up daily and follow the path.</p>
+  <div class="hero-ctas">
+    <button class="btn-glow" onclick="startForFree()">Start for free →</button>
+    <button class="btn-ghost" onclick="openHowItWorks()">See how it works</button>
+  </div>
+  <div class="hero-cards">
+    <div class="mini-card"><span class="mini-icon">🔥</span><div><div class="mini-val">2,400+</div>students active</div></div>
+    <div class="mini-card"><span class="mini-icon">✅</span><div><div class="mini-val">180+</div>LeetCode problems</div></div>
+    <div class="mini-card"><span class="mini-icon">🗺️</span><div><div class="mini-val">6 tracks</div>zero to hero</div></div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:1rem" id="top-tracks">
+  <div class="track-tabs reveal">
+    <div class="track-tab selected" id="tabDsa" onclick="selectTrack('dsa')">
+      <span class="track-tab-icon">🧠</span>
+      <div class="track-tab-name">DSA</div>
+      <div class="track-tab-sub">Placements, problem solving</div>
+    </div>
+    <div class="track-tab" id="tabDev" onclick="selectTrack('dev')">
+      <span class="track-tab-icon">🛠️</span>
+      <div class="track-tab-name">Dev</div>
+      <div class="track-tab-sub">Projects, portfolio</div>
+    </div>
+    <div class="track-tab" id="tabAiml" onclick="selectTrack('aiml')">
+      <span class="track-tab-icon">🤖</span>
+      <div class="track-tab-name">AI / ML</div>
+      <div class="track-tab-sub">Research, models</div>
+    </div>
+  </div>
+  <div class="confuse-helper reveal">
+    Not sure which one first? If <strong>college placements</strong> are your near-term goal, start with DSA — most campus drives filter on it. If you're chasing <strong>startups, freelancing, or a portfolio</strong> right now, Dev gets you visible results faster. <strong>AI/ML needs Python first</strong> — start it once your Python basics are solid, either alongside DSA/Dev in short daily sessions, or as full focus once you've cleared core DSA. Our take: do both eventually, but let DSA lead if placements are on the calendar.
+  </div>
+</section>
+
+<section class="section" id="paths">
+  <div class="reveal">
+    <p class="section-eyebrow">// choose_your_path</p>
+    <h2 class="section-title">Zero to hero — pick where you start.</h2>
+    <p class="section-sub">From your first line of code to dev tracks and AI/ML — every stage covered, not just DSA.</p>
+  </div>
+
+  <div class="confuse-box reveal">
+    <div class="confuse-top">
+      <span class="confuse-icon">🤔</span>
+      <span class="confuse-title">Brain fog? Happens to the best of us.</span>
+      <button class="confuse-toggle" onclick="document.getElementById('guidePanel').classList.toggle('open')">Fix it →</button>
+    </div>
+    <div class="confuse-body" id="guidePanel">
+      <div class="guide-card">
+        <div class="guide-q">🎯 Placements breathing down your neck?</div>
+        <div class="guide-a">DSA first. Java or C++. Non-negotiable.</div>
+      </div>
+      <div class="guide-card">
+        <div class="guide-q">🛠️ Want something to actually show off?</div>
+        <div class="guide-a">Web Dev. Build it, ship it, flex it.</div>
+      </div>
+      <div class="guide-card">
+        <div class="guide-q">🧠 More into "why does this work" than "just make it work"?</div>
+        <div class="guide-a">AI / ML is calling your name.</div>
+      </div>
+      <div class="guide-card">
+        <div class="guide-q">😅 Haven't written a single line yet?</div>
+        <div class="guide-a">No shame. Start with Python, we'll take it from there.</div>
+      </div>
+    </div>
+  </div>
+  <div class="paths-grid reveal">
+    <div class="path-card py">
+      <span class="path-emoji">🐍</span>
+      <div class="path-name">Python</div>
+      <div class="path-desc">Clean syntax, huge ecosystem. The easiest language to start DSA and scripting with.</div>
+      <div class="path-tags">
+        <span class="tag blue">Beginner friendly</span>
+        <span class="tag blue">Scripting</span>
+      </div>
+      <div class="path-resource">▶ <a href="https://www.youtube.com/playlist?list=PLsyeobzWxl7omDoEYrrf3oXvXxa6MPgek" target="_blank">Telusko — Complete Python Course (free)</a></div>
+    </div>
+    <div class="path-card cpp">
+      <span class="path-emoji">⚙️</span>
+      <div class="path-name">C / C++</div>
+      <div class="path-desc">How computers actually work. Best for DSA depth, competitive coding, and core CS fundamentals.</div>
+      <div class="path-tags">
+        <span class="tag blue">DSA core</span>
+        <span class="tag blue">Competitive</span>
+      </div>
+      <div class="path-resource">▶ <a href="https://www.youtube.com/playlist?list=PLfqMhTWNBTe0b2nM6JHVCnAkhQRGiZMSJ" target="_blank">Apna College — Complete C++ Course (free)</a></div>
+    </div>
+    <div class="path-card java featured">
+      <span class="path-badge">Most chosen</span>
+      <span class="path-emoji">☕</span>
+      <div class="path-name">Java</div>
+      <div class="path-desc">Backend, microservices, enterprise. Amazon, Flipkart, Infosys — stable and high paying career.</div>
+      <div class="path-tags">
+        <span class="tag green">Corporate</span>
+        <span class="tag green">Backend</span>
+      </div>
+      <div class="path-resource">▶ <a href="https://www.youtube.com/playlist?list=PL553KfytvSHTPfvmg7u0VMCLrUyfuO6_K" target="_blank">Telusko — Java Tutorials (free)</a></div>
+    </div>
+    <div class="path-card js">
+      <span class="path-emoji">⚡</span>
+      <div class="path-name">JavaScript</div>
+      <div class="path-desc">The language of the browser. Needed for any web dev track, frontend or backend.</div>
+      <div class="path-tags">
+        <span class="tag yellow">Web basics</span>
+        <span class="tag yellow">Fullstack</span>
+      </div>
+      <div class="path-resource">▶ <a href="https://www.youtube.com/playlist?list=PLu0W_9lII9agiCUZYRsvtGTXdxkzPyItg" target="_blank">CodeWithHarry — Web Dev: HTML, CSS & JS (free)</a></div>
+    </div>
+    <div class="path-card dev">
+      <span class="path-emoji">🌐</span>
+      <div class="path-name">Web dev</div>
+      <div class="path-desc">React, Node, databases, deployment. Ship real projects and build a portfolio that gets noticed.</div>
+      <div class="path-tags">
+        <span class="tag pink">Frontend</span>
+        <span class="tag pink">Backend</span>
+        <span class="tag pink">Projects</span>
+      </div>
+    </div>
+    <div class="path-card aiml">
+      <span class="path-emoji">🤖</span>
+      <div class="path-name">AI / ML</div>
+      <div class="path-desc">Math, ML models, deep learning. For students aiming at research roles or AI-first startups.</div>
+      <div class="path-tags">
+        <span class="tag purple">Machine learning</span>
+        <span class="tag purple">Research</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="dsa">
+  <div class="reveal">
+    <p class="section-eyebrow">// dsa_tracker</p>
+    <h2 class="section-title">DSA. Structured. Linked. Tracked.</h2>
+    <p class="section-sub">Topic-wise problems with direct LeetCode links. Mark solved, track progress — no more guessing what to do next.</p>
+  </div>
+  <div class="dsa-wrapper reveal">
+    <div class="topic-row">
+      <div class="topic-header">
+        <span class="topic-name">Programming Basics</span>
+        <span class="topic-meta">0/10 done</span>
+      </div>
+      <div class="pbar"><div class="pfill" style="width:0%"></div></div>
+      <div class="ques-list">
+        <div class="diff-tier easy-tier">// Easy</div>
+        <div class="ques"><div class="ql"><div class="chk"></div>FizzBuzz</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/fizz-buzz/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Palindrome Number</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/palindrome-number/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Reverse Integer</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/reverse-integer/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Add Digits</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/add-digits/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Power of Two</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/power-of-two/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Fibonacci Number</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/fibonacci-number/" target="_blank">LC →</a></div></div>
+
+        <div class="inline-milestone milestone-locked">
+          <span class="im-icon">✅</span>
+          <div>
+            <div class="im-title">Basics mastered!</div>
+            <div class="im-body">Loops and conditionals are clicking now. Revise these before moving ahead:</div>
+            <div class="im-tags">
+              <span class="mtag">If-else logic</span>
+              <span class="mtag">For / while loops</span>
+            </div>
+          </div>
+            <button class="im-voice-btn" onclick="speakMilestone(this)" title="Listen">🔊</button>
+        </div>
+
+        <div class="diff-tier med-tier">// Intermediate</div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Happy Number</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/happy-number/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Count Primes</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/count-primes/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Excel Sheet Column Number</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/excel-sheet-column-number/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Perfect Number</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/perfect-number/" target="_blank">LC →</a></div></div>
+      </div>
+    </div>
+
+    <div class="dev-group-title" style="margin-top:1.75rem;font-size:14px">// Real DSA — placement-level patterns start here</div>
+
+    <div class="topic-row">
+      <div class="topic-header">
+        <span class="topic-name">Arrays</span>
+        <span class="topic-meta">5/20 done</span>
+      </div>
+      <div class="pbar"><div class="pfill" style="width:25%"></div></div>
+      <div class="ques-list">
+        <div class="diff-tier easy-tier">// Easy</div>
+        <div class="ques"><div class="ql"><div class="chk done">✓</div>Two Sum</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/two-sum/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk done">✓</div>Best Time to Buy Stock</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk done">✓</div>Contains Duplicate</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/contains-duplicate/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Move Zeroes</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/move-zeroes/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Majority Element</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/majority-element/" target="_blank">LC →</a></div></div>
+
+        <div class="inline-milestone milestone-locked">
+          <span class="im-icon">✅</span>
+          <div>
+            <div class="im-title">Basics mastered!</div>
+            <div class="im-body">3 base questions cleared. Revise these before moving ahead:</div>
+            <div class="im-tags">
+              <span class="mtag">Two-pointer</span>
+              <span class="mtag">Prefix sum</span>
+              <span class="mtag">Subarray logic</span>
+            </div>
+          </div>
+            <button class="im-voice-btn" onclick="speakMilestone(this)" title="Listen">🔊</button>
+        </div>
+
+        <div class="diff-tier med-tier">// Intermediate</div>
+        <div class="ques"><div class="ql"><div class="chk done">✓</div>Product of Array Except Self</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/product-of-array-except-self/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk done">✓</div>Maximum Subarray</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/maximum-subarray/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>3Sum</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/3sum/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Container With Most Water</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/container-with-most-water/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Merge Intervals</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/merge-intervals/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Insert Interval</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/insert-interval/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Rotate Array</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/rotate-array/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Next Permutation</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/next-permutation/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Subarray Sum Equals K</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/subarray-sum-equals-k/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Set Matrix Zeroes</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/set-matrix-zeroes/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Spiral Matrix</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/spiral-matrix/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Rotate Image</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/rotate-image/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Find Minimum in Rotated Sorted Array</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Search in Rotated Sorted Array</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/search-in-rotated-sorted-array/" target="_blank">LC →</a></div></div>
+
+        <div class="inline-milestone milestone-locked">
+          <span class="im-icon">🔥</span>
+          <div>
+            <div class="im-title">Intermediate done — nice work!</div>
+            <div class="im-body">All mediums cleared so far. Revise these before the hard ones unlock:</div>
+            <div class="im-tags">
+              <span class="mtag">Sliding window</span>
+              <span class="mtag">Kadane's algorithm</span>
+            </div>
+          </div>
+            <button class="im-voice-btn" onclick="speakMilestone(this)" title="Listen">🔊</button>
+        </div>
+
+        <div class="diff-tier hard-tier">// Advanced</div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Trapping Rain Water</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/trapping-rain-water/" target="_blank">LC →</a></div></div>
+      </div>
+    </div>
+    <div class="topic-row">
+      <div class="topic-header">
+        <span class="topic-name">Strings</span>
+        <span class="topic-meta">1/20 done</span>
+      </div>
+      <div class="pbar"><div class="pfill" style="width:5%"></div></div>
+      <div class="ques-list">
+        <div class="diff-tier easy-tier">// Easy</div>
+        <div class="ques"><div class="ql"><div class="chk done">✓</div>Valid Anagram</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/valid-anagram/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Valid Palindrome</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/valid-palindrome/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Reverse String</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/reverse-string/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Isomorphic Strings</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/isomorphic-strings/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Ransom Note</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/ransom-note/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Longest Common Prefix</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/longest-common-prefix/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Find the Index of the First Occurrence in a String</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/" target="_blank">LC →</a></div></div>
+
+        <div class="inline-milestone milestone-locked">
+          <span class="im-icon">✅</span>
+          <div>
+            <div class="im-title">Basics mastered!</div>
+            <div class="im-body">Easy questions cleared. Revise these before moving ahead:</div>
+            <div class="im-tags">
+              <span class="mtag">Hashmaps</span>
+              <span class="mtag">Two-pointer on strings</span>
+            </div>
+          </div>
+            <button class="im-voice-btn" onclick="speakMilestone(this)" title="Listen">🔊</button>
+        </div>
+
+        <div class="diff-tier med-tier">// Intermediate</div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Longest Substring Without Repeat</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/longest-substring-without-repeating-characters/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Longest Palindromic Substring</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/longest-palindromic-substring/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Group Anagrams</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/group-anagrams/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>String to Integer (atoi)</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/string-to-integer-atoi/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Reverse Words in a String</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/reverse-words-in-a-string/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Zigzag Conversion</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/zigzag-conversion/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Count and Say</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/count-and-say/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Multiply Strings</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/multiply-strings/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Palindromic Substrings</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/palindromic-substrings/" target="_blank">LC →</a></div></div>
+
+        <div class="inline-milestone milestone-locked">
+          <span class="im-icon">🔥</span>
+          <div>
+            <div class="im-title">Intermediate done — nice work!</div>
+            <div class="im-body">All mediums cleared. Revise these before the hard ones unlock:</div>
+            <div class="im-tags">
+              <span class="mtag">Sliding window</span>
+              <span class="mtag">Expand around center</span>
+            </div>
+          </div>
+            <button class="im-voice-btn" onclick="speakMilestone(this)" title="Listen">🔊</button>
+        </div>
+
+        <div class="diff-tier hard-tier">// Advanced</div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Minimum Window Substring</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/minimum-window-substring/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Regular Expression Matching</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/regular-expression-matching/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Basic Calculator</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/basic-calculator/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Text Justification</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/text-justification/" target="_blank">LC →</a></div></div>
+      </div>
+    </div>
+    <div class="topic-row">
+      <div class="topic-header">
+        <span class="topic-name">Linked List</span>
+        <span class="topic-meta">3/20 done</span>
+      </div>
+      <div class="pbar"><div class="pfill" style="width:15%"></div></div>
+      <div class="ques-list">
+        <div class="diff-tier easy-tier">// Easy</div>
+        <div class="ques"><div class="ql"><div class="chk done">✓</div>Reverse Linked List</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/reverse-linked-list/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk done">✓</div>Merge Two Sorted Lists</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/merge-two-sorted-lists/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk done">✓</div>Linked List Cycle</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/linked-list-cycle/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Palindrome Linked List</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/palindrome-linked-list/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Intersection of Two Linked Lists</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/intersection-of-two-linked-lists/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Remove Duplicates from Sorted List</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/remove-duplicates-from-sorted-list/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Middle of the Linked List</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/middle-of-the-linked-list/" target="_blank">LC →</a></div></div>
+
+        <div class="inline-milestone milestone-locked">
+          <span class="im-icon">✅</span>
+          <div>
+            <div class="im-title">Basics mastered!</div>
+            <div class="im-body">Easy questions cleared. Revise these before moving ahead:</div>
+            <div class="im-tags">
+              <span class="mtag">Fast & slow pointers</span>
+              <span class="mtag">Pointer reversal</span>
+            </div>
+          </div>
+            <button class="im-voice-btn" onclick="speakMilestone(this)" title="Listen">🔊</button>
+        </div>
+
+        <div class="diff-tier med-tier">// Intermediate</div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Remove Nth Node From End</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/remove-nth-node-from-end-of-list/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Reorder List</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/reorder-list/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>LRU Cache</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/lru-cache/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Linked List Cycle II</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/linked-list-cycle-ii/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Add Two Numbers</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/add-two-numbers/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Copy List with Random Pointer</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/copy-list-with-random-pointer/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Rotate List</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/rotate-list/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Swap Nodes in Pairs</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/swap-nodes-in-pairs/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Odd Even Linked List</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/odd-even-linked-list/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Sort List</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/sort-list/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Reverse Linked List II</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/reverse-linked-list-ii/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Flatten a Multilevel Doubly Linked List</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/flatten-a-multilevel-doubly-linked-list/" target="_blank">LC →</a></div></div>
+
+        <div class="inline-milestone milestone-locked">
+          <span class="im-icon">🔥</span>
+          <div>
+            <div class="im-title">Intermediate done — nice work!</div>
+            <div class="im-body">All mediums cleared. Revise these before the hard one unlocks:</div>
+            <div class="im-tags">
+              <span class="mtag">Dummy node trick</span>
+              <span class="mtag">Hashmap + doubly linked list</span>
+            </div>
+          </div>
+            <button class="im-voice-btn" onclick="speakMilestone(this)" title="Listen">🔊</button>
+        </div>
+
+        <div class="diff-tier hard-tier">// Advanced</div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Merge K Sorted Lists</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/merge-k-sorted-lists/" target="_blank">LC →</a></div></div>
+      </div>
+    </div>
+
+    <div class="topic-row">
+      <div class="topic-header">
+        <span class="topic-name">Stack & Queue</span>
+        <span class="topic-meta">2/20 done</span>
+      </div>
+      <div class="pbar"><div class="pfill" style="width:10%"></div></div>
+      <div class="ques-list">
+        <div class="diff-tier easy-tier">// Easy</div>
+        <div class="ques"><div class="ql"><div class="chk done">✓</div>Valid Parentheses</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/valid-parentheses/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk done">✓</div>Implement Queue using Stacks</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/implement-queue-using-stacks/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Implement Stack using Queues</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/implement-stack-using-queues/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Next Greater Element I</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/next-greater-element-i/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Remove All Adjacent Duplicates In String</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/remove-all-adjacent-duplicates-in-string/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Backspace String Compare</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/backspace-string-compare/" target="_blank">LC →</a></div></div>
+
+        <div class="inline-milestone milestone-locked">
+          <span class="im-icon">✅</span>
+          <div>
+            <div class="im-title">Basics mastered!</div>
+            <div class="im-body">Easy questions cleared. Revise these before moving ahead:</div>
+            <div class="im-tags">
+              <span class="mtag">LIFO / FIFO logic</span>
+              <span class="mtag">Stack via array</span>
+            </div>
+          </div>
+            <button class="im-voice-btn" onclick="speakMilestone(this)" title="Listen">🔊</button>
+        </div>
+
+        <div class="diff-tier med-tier">// Intermediate</div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Min Stack</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/min-stack/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Evaluate Reverse Polish Notation</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/evaluate-reverse-polish-notation/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Daily Temperatures</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/daily-temperatures/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Next Greater Element II</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/next-greater-element-ii/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Decode String</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/decode-string/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Basic Calculator II</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/basic-calculator-ii/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Asteroid Collision</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/asteroid-collision/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Simplify Path</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/simplify-path/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Design Circular Queue</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/design-circular-queue/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Online Stock Span</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/online-stock-span/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Remove K Digits</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/remove-k-digits/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Car Fleet</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/car-fleet/" target="_blank">LC →</a></div></div>
+
+        <div class="inline-milestone milestone-locked">
+          <span class="im-icon">🔥</span>
+          <div>
+            <div class="im-title">Intermediate done — nice work!</div>
+            <div class="im-body">All mediums cleared. Revise this before the hard one unlocks:</div>
+            <div class="im-tags">
+              <span class="mtag">Monotonic stack</span>
+            </div>
+          </div>
+            <button class="im-voice-btn" onclick="speakMilestone(this)" title="Listen">🔊</button>
+        </div>
+
+        <div class="diff-tier hard-tier">// Advanced</div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Largest Rectangle in Histogram</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/largest-rectangle-in-histogram/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Sliding Window Maximum</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/sliding-window-maximum/" target="_blank">LC →</a></div></div>
+      </div>
+    </div>
+
+    <div class="topic-row">
+      <div class="topic-header">
+        <span class="topic-name">Trees</span>
+        <span class="topic-meta">3/20 done</span>
+      </div>
+      <div class="pbar"><div class="pfill" style="width:15%"></div></div>
+      <div class="ques-list">
+        <div class="diff-tier easy-tier">// Easy</div>
+        <div class="ques"><div class="ql"><div class="chk done">✓</div>Maximum Depth of Binary Tree</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/maximum-depth-of-binary-tree/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk done">✓</div>Invert Binary Tree</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/invert-binary-tree/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk done">✓</div>Same Tree</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/same-tree/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Symmetric Tree</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/symmetric-tree/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Path Sum</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/path-sum/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Diameter of Binary Tree</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/diameter-of-binary-tree/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Balanced Binary Tree</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/balanced-binary-tree/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Convert Sorted Array to Binary Search Tree</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/" target="_blank">LC →</a></div></div>
+
+        <div class="inline-milestone milestone-locked">
+          <span class="im-icon">✅</span>
+          <div>
+            <div class="im-title">Basics mastered!</div>
+            <div class="im-body">Easy questions cleared. Revise these before moving ahead:</div>
+            <div class="im-tags">
+              <span class="mtag">Recursion basics</span>
+              <span class="mtag">DFS traversal</span>
+            </div>
+          </div>
+            <button class="im-voice-btn" onclick="speakMilestone(this)" title="Listen">🔊</button>
+        </div>
+
+        <div class="diff-tier med-tier">// Intermediate</div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Binary Tree Level Order Traversal</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/binary-tree-level-order-traversal/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Validate Binary Search Tree</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/validate-binary-search-tree/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Lowest Common Ancestor of a BST</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Kth Smallest Element in a BST</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/kth-smallest-element-in-a-bst/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Binary Tree Zigzag Level Order Traversal</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Construct Binary Tree from Preorder and Inorder Traversal</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Flatten Binary Tree to Linked List</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/flatten-binary-tree-to-linked-list/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Count Good Nodes in Binary Tree</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/count-good-nodes-in-binary-tree/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Binary Tree Right Side View</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/binary-tree-right-side-view/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Insert into a Binary Search Tree</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/insert-into-a-binary-search-tree/" target="_blank">LC →</a></div></div>
+
+        <div class="inline-milestone milestone-locked">
+          <span class="im-icon">🔥</span>
+          <div>
+            <div class="im-title">Intermediate done — nice work!</div>
+            <div class="im-body">All mediums cleared. Revise this before the hard one unlocks:</div>
+            <div class="im-tags">
+              <span class="mtag">BFS with queue</span>
+              <span class="mtag">BST properties</span>
+            </div>
+          </div>
+            <button class="im-voice-btn" onclick="speakMilestone(this)" title="Listen">🔊</button>
+        </div>
+
+        <div class="diff-tier hard-tier">// Advanced</div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Binary Tree Maximum Path Sum</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/binary-tree-maximum-path-sum/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Serialize and Deserialize Binary Tree</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/serialize-and-deserialize-binary-tree/" target="_blank">LC →</a></div></div>
+      </div>
+    </div>
+
+    <div class="topic-row">
+      <div class="topic-header">
+        <span class="topic-name">Graphs</span>
+        <span class="topic-meta">3/20 done</span>
+      </div>
+      <div class="pbar"><div class="pfill" style="width:15%"></div></div>
+      <div class="ques-list">
+        <div class="diff-tier easy-tier">// Easy</div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Flood Fill</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/flood-fill/" target="_blank">LC →</a></div></div>
+
+        <div class="inline-milestone milestone-locked">
+          <span class="im-icon">✅</span>
+          <div>
+            <div class="im-title">Basics mastered!</div>
+            <div class="im-body">Core traversal questions cleared. Revise these before moving ahead:</div>
+            <div class="im-tags">
+              <span class="mtag">BFS / DFS on grids</span>
+              <span class="mtag">Visited-set tracking</span>
+            </div>
+          </div>
+            <button class="im-voice-btn" onclick="speakMilestone(this)" title="Listen">🔊</button>
+        </div>
+
+        <div class="diff-tier med-tier">// Intermediate</div>
+        <div class="ques"><div class="ql"><div class="chk done">✓</div>Number of Islands</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/number-of-islands/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk done">✓</div>Clone Graph</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/clone-graph/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk done">✓</div>Course Schedule</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/course-schedule/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Pacific Atlantic Water Flow</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/pacific-atlantic-water-flow/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Graph Valid Tree</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/graph-valid-tree/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Number of Connected Components</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/number-of-connected-components-in-an-undirected-graph/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Course Schedule II</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/course-schedule-ii/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Rotting Oranges</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/rotting-oranges/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Surrounded Regions</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/surrounded-regions/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Redundant Connection</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/redundant-connection/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Network Delay Time</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/network-delay-time/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Cheapest Flights Within K Stops</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/cheapest-flights-within-k-stops/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Is Graph Bipartite</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/is-graph-bipartite/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Minimum Height Trees</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/minimum-height-trees/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Accounts Merge</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/accounts-merge/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Evaluate Division</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/evaluate-division/" target="_blank">LC →</a></div></div>
+
+        <div class="inline-milestone milestone-locked">
+          <span class="im-icon">🔥</span>
+          <div>
+            <div class="im-title">Intermediate done — nice work!</div>
+            <div class="im-body">All mediums cleared. Revise this before the hard ones unlock:</div>
+            <div class="im-tags">
+              <span class="mtag">Topological sort</span>
+              <span class="mtag">Union-Find</span>
+            </div>
+          </div>
+            <button class="im-voice-btn" onclick="speakMilestone(this)" title="Listen">🔊</button>
+        </div>
+
+        <div class="diff-tier hard-tier">// Advanced</div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Alien Dictionary</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/alien-dictionary/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Word Ladder</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/word-ladder/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Reconstruct Itinerary</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/reconstruct-itinerary/" target="_blank">LC →</a></div></div>
+      </div>
+    </div>
+
+    <div class="topic-row">
+      <div class="topic-header">
+        <span class="topic-name">Dynamic Programming</span>
+        <span class="topic-meta">1/20 done</span>
+      </div>
+      <div class="pbar"><div class="pfill" style="width:5%"></div></div>
+      <div class="ques-list">
+        <div class="diff-tier easy-tier">// Easy</div>
+        <div class="ques"><div class="ql"><div class="chk done">✓</div>Climbing Stairs</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/climbing-stairs/" target="_blank">LC →</a></div></div>
+
+        <div class="inline-milestone milestone-locked">
+          <span class="im-icon">✅</span>
+          <div>
+            <div class="im-title">Basics mastered!</div>
+            <div class="im-body">The starting DP question is cleared. Revise this before moving ahead:</div>
+            <div class="im-tags">
+              <span class="mtag">Recurrence relations</span>
+            </div>
+          </div>
+            <button class="im-voice-btn" onclick="speakMilestone(this)" title="Listen">🔊</button>
+        </div>
+
+        <div class="diff-tier med-tier">// Intermediate</div>
+        <div class="ques"><div class="ql"><div class="chk"></div>House Robber</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/house-robber/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Coin Change</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/coin-change/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Longest Increasing Subsequence</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/longest-increasing-subsequence/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Word Break</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/word-break/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Combination Sum</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/combination-sum/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Unique Paths</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/unique-paths/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Partition Equal Subset Sum</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/partition-equal-subset-sum/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>House Robber II</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/house-robber-ii/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Decode Ways</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/decode-ways/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Jump Game</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/jump-game/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Longest Common Subsequence</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/longest-common-subsequence/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Unique Paths II</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/unique-paths-ii/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Minimum Path Sum</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/minimum-path-sum/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Target Sum</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/target-sum/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Best Time to Buy and Sell Stock with Cooldown</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Perfect Squares</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/perfect-squares/" target="_blank">LC →</a></div></div>
+
+        <div class="inline-milestone milestone-locked">
+          <span class="im-icon">🔥</span>
+          <div>
+            <div class="im-title">Intermediate done — nice work!</div>
+            <div class="im-body">All mediums cleared. Revise these before the hard ones unlock:</div>
+            <div class="im-tags">
+              <span class="mtag">1D & 2D DP tables</span>
+              <span class="mtag">Knapsack pattern</span>
+            </div>
+          </div>
+            <button class="im-voice-btn" onclick="speakMilestone(this)" title="Listen">🔊</button>
+        </div>
+
+        <div class="diff-tier hard-tier">// Advanced</div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Edit Distance</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/edit-distance/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Regular Expression Matching</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/regular-expression-matching/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Interleaving String</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/interleaving-string/" target="_blank">LC →</a></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="streak">
+  <div class="reveal">
+    <p class="section-eyebrow">// streak_system</p>
+    <h2 class="section-title">Stay consistent. Watch it compound.</h2>
+    <p class="section-sub">Daily streaks keep you accountable. Small daily effort, big results over time.</p>
+  </div>
+  <div class="streak-grid reveal">
+    <div class="scard"><div class="snum" id="streakDayNum">🔥 0</div><div class="slabel">day_streak</div></div>
+    <div class="scard"><div class="snum" id="streakSolvedNum">0</div><div class="slabel">problems_solved</div></div>
+    <div class="scard"><div class="snum" id="streakPctNum">0%</div><div class="slabel">roadmap_done</div></div>
+  </div>
+  <div class="cal-grid reveal" id="calGrid"></div>
+</section>
+
+<section class="section" id="ai-solver">
+  <div class="reveal">
+    <p class="section-eyebrow">// ai_doubt_solver <span class="upcoming-badge">UPCOMING FEATURE</span></p>
+    <h2 class="section-title">Stuck at 2 AM? Don't wait for morning.</h2>
+    <p class="section-sub">Explain your doubt, paste your code, or just say "I'm stuck" — the AI knows what you've already covered and answers accordingly.</p>
+  </div>
+  <div class="ai-chat reveal">
+    <div class="ai-msg user">
+      <div class="ai-avatar user">🧑</div>
+      <div class="ai-bubble">bhai sliding window samajh nahi aa raha, jab bhi try karta hu confuse ho jata hu</div>
+    </div>
+    <div class="ai-msg">
+      <div class="ai-avatar bot">🤖</div>
+      <div class="ai-bubble">Since you've already cleared Two Sum and Contains Duplicate — sliding window is just that idea stretched over a range. Keep two pointers, expand right, shrink left when the condition breaks. Try "Longest Substring Without Repeat" next — it's the cleanest one to learn the pattern on.</div>
+    </div>
+    <div class="ai-msg">
+      <div class="ai-avatar bot">🤖</div>
+      <div class="ai-typing"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+  <p class="upcoming-note">🚧 This is a preview of what's coming — the AI doubt solver isn't live yet, but this is exactly how it'll feel once it ships.</p>
+</section>
+
+<section class="section" id="analytics">
+  <div class="reveal">
+    <p class="section-eyebrow">// full_analysis</p>
+    <h2 class="section-title">Your prep, fully mapped out.</h2>
+    <p class="section-sub">Weekly and monthly breakdown of what's done, what's pending, and exactly where you're falling behind.</p>
+  </div>
+  <div class="report-tabs reveal">
+    <span class="report-tab active" onclick="selectAnalyticsPeriod('week', this)">This week</span>
+    <span class="report-tab" onclick="selectAnalyticsPeriod('month', this)">This month</span>
+    <span class="report-tab" onclick="selectAnalyticsPeriod('all', this)">Overall</span>
+  </div>
+  <div class="report-card reveal">
+    <div class="report-row"><span class="report-label">Questions solved</span><span class="report-value good" id="anQuestionsSolved">–</span></div>
+    <div class="report-row"><span class="report-label">Weakest topic</span><span class="report-value bad" id="anWeakest">–</span></div>
+    <div class="report-row"><span class="report-label">Strongest topic</span><span class="report-value good" id="anStrongest">–</span></div>
+    <div class="report-row"><span class="report-label">Days active</span><span class="report-value" id="anDaysActive">–</span></div>
+    <div class="insight-box">
+      <div class="insight-title">$ what_you_need_now</div>
+      <div class="insight-body" id="anInsight">Loading your real analytics...</div>
+    </div>
+  </div>
+</section>
+
+<div class="page-overlay" id="devPage">
+  <div class="page-back-bar">
+    <button class="page-back-btn" onclick="closePage()">← Back</button>
+  </div>
+<section class="section" id="devtrack">
+  <div class="reveal">
+    <p class="section-eyebrow">// dev_track</p>
+    <h2 class="section-title">Frontend → Backend → Fullstack.</h2>
+    <p class="section-sub">One connected path. Clear frontend, clear backend, and NexStep tells you the moment you're fullstack.</p>
+  </div>
+  <div class="dev-track reveal">
+    <div class="dev-list-title">Follow this order — top to bottom. Complete each topic's content, then tick it off before moving to the next.</div>
+
+    <div class="dev-group">
+      <div class="dev-group-title">// frontend</div>
+      <div class="dev-topic done">
+        <span class="dev-num">1</span>
+        <div style="flex:1">
+          <div class="dev-topic-name">HTML</div>
+          <div class="dev-resource">▶ <a href="https://www.youtube.com/playlist?list=PLu0W_9lII9agiCUZYRsvtGTXdxkzPyItg" target="_blank">CodeWithHarry — Web Dev Course (free)</a></div>
+        </div>
+        <span class="dev-tick">✓</span>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <span class="proj-level adv">Advanced</span>
+          <div class="proj-stack"><span>HTML only</span></div>
+        </div>
+        <div class="proj-title">🎉 HTML done! Project unlocked — Semantic resume page</div>
+        <div class="proj-desc">Pure HTML, no CSS. Focus on semantic tags (header, nav, section, article), proper heading hierarchy, and accessibility. This is where HTML mastery actually shows.</div>
+        <div class="proj-extra-row">
+          <button class="proj-hint-toggle" onclick="toggleHint(this)">💡 Hint</button>
+          <a class="proj-example-link" href="https://github.com/search?q=html%20resume%20portfolio&type=repositories" target="_blank">🔗 See real examples</a>
+        </div>
+        <div class="proj-hint-box">Use &lt;header&gt;, &lt;main&gt;, &lt;section&gt; for each resume block (experience, education, skills). A screen reader should be able to navigate it with zero CSS.</div>
+        <div class="proj-submit">
+          <input class="proj-input" placeholder="Paste your GitHub repo link...">
+          <button class="proj-submit-btn" onclick="submitProject(this)">Submit</button>
+        </div>
+      </div>
+
+      <div class="dev-topic done">
+        <span class="dev-num">2</span>
+        <div style="flex:1">
+          <div class="dev-topic-name">CSS</div>
+          <div class="dev-resource">▶ <a href="https://www.youtube.com/playlist?list=PLu0W_9lII9agiCUZYRsvtGTXdxkzPyItg" target="_blank">CodeWithHarry — Web Dev Course (free)</a></div>
+        </div>
+        <span class="dev-tick">✓</span>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <span class="proj-level inter">Intermediate</span>
+          <div class="proj-stack"><span>CSS only</span></div>
+        </div>
+        <div class="proj-title">🎉 CSS done! Project unlocked — Pure CSS art or card layout</div>
+        <div class="proj-desc">No JS. Build a CSS-only card grid or a small CSS-art piece using flexbox/grid, shadows, and transitions. Tests real styling control, not just copy-paste classes.</div>
+        <div class="proj-extra-row">
+          <button class="proj-hint-toggle" onclick="toggleHint(this)">💡 Hint</button>
+          <a class="proj-example-link" href="https://github.com/search?q=css%20art%20project&type=repositories" target="_blank">🔗 See real examples</a>
+        </div>
+        <div class="proj-hint-box">Start with a CSS grid for the layout, then add ONE hover transition. box-shadow + border-radius alone does most of the 'polished' look.</div>
+        <div class="proj-submit">
+          <input class="proj-input" placeholder="Paste your GitHub repo link...">
+          <button class="proj-submit-btn" onclick="submitProject(this)">Submit</button>
+        </div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-top">
+          <span class="proj-level adv">Advanced</span>
+          <div class="proj-stack"><span>HTML</span><span>CSS</span></div>
+        </div>
+        <div class="proj-title">Bonus — Full landing page (HTML + CSS combined)</div>
+        <div class="proj-desc">Clone or design a real landing page — hero, features, footer, fully responsive. This is where HTML and CSS come together as one skill.</div>
+        <div class="proj-extra-row">
+          <button class="proj-hint-toggle" onclick="toggleHint(this)">💡 Hint</button>
+          <a class="proj-example-link" href="https://github.com/search?q=landing%20page%20html%20css&type=repositories" target="_blank">🔗 See real examples</a>
+        </div>
+        <div class="proj-hint-box">Nail the structure first: hero, 3-feature grid, footer. Get spacing right before adding color — most landing pages fail on whitespace, not colors.</div>
+        <div class="proj-submit">
+          <input class="proj-input" placeholder="Paste your GitHub repo link...">
+          <button class="proj-submit-btn" onclick="submitProject(this)">Submit</button>
+        </div>
+      </div>
+
+      <div class="dev-topic done">
+        <span class="dev-num">3</span>
+        <div style="flex:1">
+          <div class="dev-topic-name">JavaScript</div>
+          <div class="dev-resource">▶ <a href="https://www.youtube.com/playlist?list=PLu0W_9lII9agiCUZYRsvtGTXdxkzPyItg" target="_blank">CodeWithHarry — Web Dev Course (free)</a></div>
+        </div>
+        <span class="dev-tick">✓</span>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <span class="proj-level adv">Advanced</span>
+          <div class="proj-stack"><span>HTML</span><span>CSS</span><span>JS</span></div>
+        </div>
+        <div class="proj-title">🎉 JavaScript done! Project unlocked — Interactive to-do app</div>
+        <div class="proj-desc">DOM manipulation, event listeners, in-memory state. Add, delete, mark complete — all three skills working together for the first time.</div>
+        <div class="proj-extra-row">
+          <button class="proj-hint-toggle" onclick="toggleHint(this)">💡 Hint</button>
+          <a class="proj-example-link" href="https://github.com/search?q=javascript%20todo%20app&type=repositories" target="_blank">🔗 See real examples</a>
+        </div>
+        <div class="proj-hint-box">Store todos in one JS array and re-render the whole list on every change. Don't optimize individual DOM updates yet — that comes later.</div>
+        <div class="proj-submit">
+          <input class="proj-input" placeholder="Paste your GitHub repo link...">
+          <button class="proj-submit-btn" onclick="submitProject(this)">Submit</button>
+        </div>
+      </div>
+
+      <div class="dev-topic done">
+        <span class="dev-num">4</span>
+        <div style="flex:1">
+          <div class="dev-topic-name">Tailwind CSS</div>
+          <div class="dev-resource">▶ <a href="https://www.youtube.com/playlist?list=PLCZo59YnSsMb18_B5j5UDl9PqWxJPoBBv" target="_blank">CodeWithHarry — Tailwind CSS Course (free)</a></div>
+        </div>
+        <span class="dev-tick">✓</span>
+      </div>
+      <div class="dev-topic done">
+        <span class="dev-num">5</span>
+        <div style="flex:1">
+          <div class="dev-topic-name">React</div>
+          <div class="dev-resource">▶ <a href="https://www.youtube.com/playlist?list=PLCZo59YnSsMaFGT2DHuxqUiyx_PFN3IOB" target="_blank">CodeWithHarry — Complete React Course (free)</a></div>
+        </div>
+        <span class="dev-tick">✓</span>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <span class="proj-level adv">Advanced</span>
+          <div class="proj-stack"><span>HTML</span><span>CSS</span><span>JS</span><span>Tailwind</span><span>React</span></div>
+        </div>
+        <div class="proj-title">🎉 Frontend complete! Project unlocked — Full React app</div>
+        <div class="proj-desc">A real multi-page React app styled with Tailwind — weather app, notes app, or expense tracker. Everything from HTML to React working as one.</div>
+        <div class="proj-extra-row">
+          <button class="proj-hint-toggle" onclick="toggleHint(this)">💡 Hint</button>
+          <a class="proj-example-link" href="https://github.com/search?q=react%20beginner%20project&type=repositories" target="_blank">🔗 See real examples</a>
+        </div>
+        <div class="proj-hint-box">Break it into 3-4 components max to start (App, List, Item, Form). Lift state up to the parent instead of passing data sideways.</div>
+        <div class="proj-submit">
+          <input class="proj-input" placeholder="Paste your GitHub repo link...">
+          <button class="proj-submit-btn" onclick="submitProject(this)">Submit</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="dev-group">
+      <div class="dev-group-title">// backend</div>
+      <div class="dev-topic done">
+        <span class="dev-num">6</span>
+        <div style="flex:1">
+          <div class="dev-topic-name">Node.js</div>
+          <div class="dev-resource">▶ <a href="https://www.youtube.com/playlist?list=PLobAq7hWqZWGTfhj4jNQAVzJd_y6iTErQ" target="_blank">CodeWithHarry — Node.js Course (free)</a></div>
+        </div>
+        <span class="dev-tick">✓</span>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <span class="proj-level inter">Intermediate</span>
+          <div class="proj-stack"><span>Node.js only</span></div>
+        </div>
+        <div class="proj-title">🎉 Node.js done! Project unlocked — CLI tool or file utility</div>
+        <div class="proj-desc">No Express yet. Build a small command-line tool in plain Node — a file renamer, a to-do CLI, or a simple scraper using core Node modules (fs, http).</div>
+        <div class="proj-extra-row">
+          <button class="proj-hint-toggle" onclick="toggleHint(this)">💡 Hint</button>
+          <a class="proj-example-link" href="https://github.com/search?q=node%20cli%20tool%20project&type=repositories" target="_blank">🔗 See real examples</a>
+        </div>
+        <div class="proj-hint-box">process.argv gives you the command-line arguments. Get renaming ONE file working before looping over a whole folder.</div>
+        <div class="proj-submit">
+          <input class="proj-input" placeholder="Paste your GitHub repo link...">
+          <button class="proj-submit-btn" onclick="submitProject(this)">Submit</button>
+        </div>
+      </div>
+
+      <div class="dev-topic done">
+        <span class="dev-num">7</span>
+        <div style="flex:1">
+          <div class="dev-topic-name">Express</div>
+          <div class="dev-resource">▶ <a href="https://www.youtube.com/playlist?list=PLobAq7hWqZWGTfhj4jNQAVzJd_y6iTErQ" target="_blank">CodeWithHarry — Node.js Course, covers Express (free)</a></div>
+        </div>
+        <span class="dev-tick">✓</span>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <span class="proj-level adv">Advanced</span>
+          <div class="proj-stack"><span>Node</span><span>Express</span></div>
+        </div>
+        <div class="proj-title">🎉 Express done! Project unlocked — In-memory REST API</div>
+        <div class="proj-desc">Build a CRUD API (Create, Read, Update, Delete) with Express — no database yet, just in-memory arrays. Test every route with Postman or Thunder Client.</div>
+        <div class="proj-extra-row">
+          <button class="proj-hint-toggle" onclick="toggleHint(this)">💡 Hint</button>
+          <a class="proj-example-link" href="https://github.com/search?q=express%20rest%20api%20project&type=repositories" target="_blank">🔗 See real examples</a>
+        </div>
+        <div class="proj-hint-box">Test with Postman before writing any frontend for it. GET should never change data — only POST/PUT/DELETE should.</div>
+        <div class="proj-submit">
+          <input class="proj-input" placeholder="Paste your GitHub repo link...">
+          <button class="proj-submit-btn" onclick="submitProject(this)">Submit</button>
+        </div>
+      </div>
+
+      <div class="dev-topic">
+        <span class="dev-num">8</span>
+        <div style="flex:1">
+          <div class="dev-topic-name">Databases (SQL / NoSQL)</div>
+          <div class="dev-resource">▶ <a href="https://www.youtube.com/playlist?list=PLobAq7hWqZWGTfhj4jNQAVzJd_y6iTErQ" target="_blank">CodeWithHarry — Node.js Course, covers MongoDB (free)</a></div>
+        </div>
+        <span class="dev-tick"></span>
+      </div>
+
+      <div class="proj-card locked">
+        <div class="proj-top">
+          <span class="proj-level adv">Advanced</span>
+          <div class="proj-stack"><span>Node</span><span>Express</span><span>DB</span></div>
+        </div>
+        <div class="proj-title">Project unlocked — API with real database</div>
+        <div class="proj-desc">Take your Express CRUD API and connect it to MongoDB or PostgreSQL. Data should now persist across restarts — this is the real backend milestone.</div>
+        <div class="proj-extra-row">
+          <button class="proj-hint-toggle" onclick="toggleHint(this)">💡 Hint</button>
+          <a class="proj-example-link" href="https://github.com/search?q=express%20mongodb%20crud&type=repositories" target="_blank">🔗 See real examples</a>
+        </div>
+        <div class="proj-hint-box">Get one working GET-by-id route reading from the real database before migrating all your other routes over.</div>
+        <div class="proj-locked-note">🔒 Unlocks once Databases is marked complete</div>
+      </div>
+
+      <div class="dev-topic">
+        <span class="dev-num">9</span>
+        <div style="flex:1">
+          <div class="dev-topic-name">REST APIs</div>
+          <div class="dev-resource">▶ <a href="https://www.youtube.com/playlist?list=PLobAq7hWqZWGTfhj4jNQAVzJd_y6iTErQ" target="_blank">CodeWithHarry — Node.js Course, covers REST APIs (free)</a></div>
+        </div>
+        <span class="dev-tick"></span>
+      </div>
+      <div class="dev-topic">
+        <span class="dev-num">10</span>
+        <div style="flex:1">
+          <div class="dev-topic-name">Auth & Deployment</div>
+          <div class="dev-resource"><span class="pending">Best free playlist — link coming soon</span></div>
+        </div>
+        <span class="dev-tick"></span>
+      </div>
+
+      <div class="proj-card locked">
+        <div class="proj-top">
+          <span class="proj-level adv">Advanced</span>
+          <div class="proj-stack"><span>Node</span><span>Express</span><span>DB</span><span>Auth</span></div>
+        </div>
+        <div class="proj-title">Final project — Full backend, deployed (Fullstack combined)</div>
+        <div class="proj-desc">A real REST API with database, login/signup auth, and live deployment — connected to your React frontend. This is the project that makes you fullstack.</div>
+        <div class="proj-extra-row">
+          <button class="proj-hint-toggle" onclick="toggleHint(this)">💡 Hint</button>
+          <a class="proj-example-link" href="https://github.com/search?q=mern%20stack%20project&type=repositories" target="_blank">🔗 See real examples</a>
+        </div>
+        <div class="proj-hint-box">Deploy the backend alone first (Render/Railway) and test it with Postman before connecting your React frontend to it.</div>
+        <div class="proj-locked-note">🔒 Unlocks once REST APIs & Auth/Deployment are marked complete</div>
+      </div>
+    </div>
+
+    <div class="stage-tracker">
+      <div class="stage celebrate">
+        <span class="celebrate-confetti">🎉</span>
+        <span class="stage-icon celebrate-icon">🏆</span>
+        <div>
+          <div class="celebrate-title">Frontend done. Backend loading... 🚀</div>
+          <div class="celebrate-body">All frontend topics cleared — HTML to React, solid. Finish Databases, REST APIs, and Auth & Deployment and NexStep will officially tag you: <strong>Fullstack Developer.</strong> You're closer than you think.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="page-overlay" id="aimlPage">
+  <div class="page-back-bar">
+    <button class="page-back-btn" onclick="closePage()">← Back</button>
+  </div>
+<section class="section" id="aiml">
+  <div class="reveal">
+    <p class="section-eyebrow">// aiml_track</p>
+    <h2 class="section-title">Python first. Then the real AI/ML begins.</h2>
+    <p class="section-sub">Python is mandatory here — not optional. Start this once your Python basics are solid, alongside DSA/Dev or as full focus after core DSA.</p>
+  </div>
+  <div class="dev-track reveal">
+    <div class="dev-list-title">Follow this order — top to bottom. Complete each topic's content, then tick it off before moving to the next.</div>
+
+    <div class="dev-group">
+      <div class="dev-group-title">// foundation — mandatory</div>
+      <div class="dev-topic done">
+        <span class="dev-num">1</span>
+        <div style="flex:1">
+          <div class="dev-topic-name">Python <span class="pro-badge" style="background:linear-gradient(135deg,#ff6b6b,#ff8c42)">MANDATORY</span></div>
+          <div class="dev-resource">▶ <a href="https://www.youtube.com/playlist?list=PLsyeobzWxl7omDoEYrrf3oXvXxa6MPgek" target="_blank">Telusko — Complete Python Course (free)</a></div>
+        </div>
+        <span class="dev-tick">✓</span>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <span class="proj-level inter">Intermediate</span>
+          <div class="proj-stack"><span>Python only</span></div>
+        </div>
+        <div class="proj-title">🎉 Python done! Project unlocked — Automation script</div>
+        <div class="proj-desc">Build a small Python script that solves a real annoyance — a file organizer, a bulk renamer, or a basic web scraper using requests/BeautifulSoup.</div>
+        <div class="proj-extra-row">
+          <button class="proj-hint-toggle" onclick="toggleHint(this)">💡 Hint</button>
+          <a class="proj-example-link" href="https://github.com/search?q=python%20automation%20script&type=repositories" target="_blank">🔗 See real examples</a>
+        </div>
+        <div class="proj-hint-box">Pick one annoying repetitive task you actually do by hand, and automate just that one thing. Don't design for generality yet.</div>
+        <div class="proj-submit">
+          <input class="proj-input" placeholder="Paste your GitHub repo link...">
+          <button class="proj-submit-btn" onclick="submitProject(this)">Submit</button>
+        </div>
+      </div>
+
+      <div class="dev-topic done">
+        <span class="dev-num">2</span>
+        <div style="flex:1">
+          <div class="dev-topic-name">Math for ML (Linear Algebra + Probability)</div>
+          <div class="dev-resource"><span class="pending">Best free playlist — link coming soon</span></div>
+        </div>
+        <span class="dev-tick">✓</span>
+      </div>
+      <div class="dev-topic">
+        <span class="dev-num">3</span>
+        <div style="flex:1">
+          <div class="dev-topic-name">NumPy & Pandas</div>
+          <div class="dev-resource"><span class="pending">Best free playlist — link coming soon</span></div>
+        </div>
+        <span class="dev-tick"></span>
+      </div>
+
+      <div class="proj-card locked">
+        <div class="proj-top">
+          <span class="proj-level inter">Intermediate</span>
+          <div class="proj-stack"><span>Python</span><span>NumPy</span><span>Pandas</span></div>
+        </div>
+        <div class="proj-title">Project unlocked — Clean & analyze a real dataset</div>
+        <div class="proj-desc">Take a messy CSV (Kaggle has plenty) and clean it — handle nulls, fix types, compute summary stats with Pandas. This is 80% of a real data job.</div>
+        <div class="proj-extra-row">
+          <button class="proj-hint-toggle" onclick="toggleHint(this)">💡 Hint</button>
+          <a class="proj-example-link" href="https://github.com/search?q=pandas%20data%20cleaning%20project&type=repositories" target="_blank">🔗 See real examples</a>
+        </div>
+        <div class="proj-hint-box">Run .info() and .isnull().sum() first, before touching anything. You can't fix what you haven't measured.</div>
+        <div class="proj-locked-note">🔒 Unlocks once NumPy & Pandas is marked complete</div>
+      </div>
+
+      <div class="dev-topic">
+        <span class="dev-num">4</span>
+        <div style="flex:1">
+          <div class="dev-topic-name">Data Visualization (Matplotlib / Seaborn)</div>
+          <div class="dev-resource"><span class="pending">Best free playlist — link coming soon</span></div>
+        </div>
+        <span class="dev-tick"></span>
+      </div>
+
+      <div class="proj-card locked">
+        <div class="proj-top">
+          <span class="proj-level adv">Advanced</span>
+          <div class="proj-stack"><span>Pandas</span><span>Matplotlib</span><span>Seaborn</span></div>
+        </div>
+        <div class="proj-title">Project unlocked — Data story with 5+ charts</div>
+        <div class="proj-desc">Turn your cleaned dataset into a visual story — trends, correlations, distributions. This is what a data analysis portfolio piece looks like.</div>
+        <div class="proj-extra-row">
+          <button class="proj-hint-toggle" onclick="toggleHint(this)">💡 Hint</button>
+          <a class="proj-example-link" href="https://github.com/search?q=data%20visualization%20project%20matplotlib&type=repositories" target="_blank">🔗 See real examples</a>
+        </div>
+        <div class="proj-hint-box">Decide the one story you want the data to tell before making any chart. Charts made 'just to explore' rarely make it into a good final report.</div>
+        <div class="proj-locked-note">🔒 Unlocks once Data Visualization is marked complete</div>
+      </div>
+    </div>
+
+    <div class="dev-group">
+      <div class="dev-group-title">// machine learning</div>
+      <div class="dev-topic">
+        <span class="dev-num">5</span>
+        <div style="flex:1">
+          <div class="dev-topic-name">ML Basics (Regression, Classification — scikit-learn)</div>
+          <div class="dev-resource"><span class="pending">Best free playlist — link coming soon</span></div>
+        </div>
+        <span class="dev-tick"></span>
+      </div>
+
+      <div class="proj-card locked">
+        <div class="proj-top">
+          <span class="proj-level adv">Advanced</span>
+          <div class="proj-stack"><span>scikit-learn</span></div>
+        </div>
+        <div class="proj-title">Project unlocked — Your first trained model</div>
+        <div class="proj-desc">Train a classifier or regressor on a real dataset (house prices, iris, titanic) — split train/test, fit the model, print an accuracy score.</div>
+        <div class="proj-extra-row">
+          <button class="proj-hint-toggle" onclick="toggleHint(this)">💡 Hint</button>
+          <a class="proj-example-link" href="https://github.com/search?q=scikit-learn%20beginner%20project&type=repositories" target="_blank">🔗 See real examples</a>
+        </div>
+        <div class="proj-hint-box">Get a baseline model working end-to-end first, even a dumb one. A working bad model beats a half-built good one.</div>
+        <div class="proj-locked-note">🔒 Unlocks once ML Basics is marked complete</div>
+      </div>
+
+      <div class="dev-topic">
+        <span class="dev-num">6</span>
+        <div style="flex:1">
+          <div class="dev-topic-name">Model Evaluation & Feature Engineering</div>
+          <div class="dev-resource"><span class="pending">Best free playlist — link coming soon</span></div>
+        </div>
+        <span class="dev-tick"></span>
+      </div>
+
+      <div class="proj-card locked">
+        <div class="proj-top">
+          <span class="proj-level adv">Advanced</span>
+          <div class="proj-stack"><span>scikit-learn</span><span>Feature engineering</span></div>
+        </div>
+        <div class="proj-title">Project unlocked — Improve your model's score</div>
+        <div class="proj-desc">Take the model from before and actually improve it — engineer new features, tune hyperparameters, compare precision/recall, not just accuracy.</div>
+        <div class="proj-extra-row">
+          <button class="proj-hint-toggle" onclick="toggleHint(this)">💡 Hint</button>
+          <a class="proj-example-link" href="https://github.com/search?q=feature%20engineering%20machine%20learning&type=repositories" target="_blank">🔗 See real examples</a>
+        </div>
+        <div class="proj-hint-box">Try feature engineering before hyperparameter tuning — a better feature usually beats a better parameter.</div>
+        <div class="proj-locked-note">🔒 Unlocks once Model Evaluation is marked complete</div>
+      </div>
+    </div>
+
+    <div class="dev-group">
+      <div class="dev-group-title">// deep learning</div>
+      <div class="dev-topic">
+        <span class="dev-num">7</span>
+        <div style="flex:1">
+          <div class="dev-topic-name">Neural Networks (TensorFlow / PyTorch)</div>
+          <div class="dev-resource"><span class="pending">Best free playlist — link coming soon</span></div>
+        </div>
+        <span class="dev-tick"></span>
+      </div>
+
+      <div class="proj-card locked">
+        <div class="proj-top">
+          <span class="proj-level adv">Advanced</span>
+          <div class="proj-stack"><span>TensorFlow / PyTorch</span></div>
+        </div>
+        <div class="proj-title">Project unlocked — Build your first neural net</div>
+        <div class="proj-desc">Train a basic neural network on MNIST (handwritten digits) — this is the "hello world" of deep learning, but genuinely satisfying to get working.</div>
+        <div class="proj-extra-row">
+          <button class="proj-hint-toggle" onclick="toggleHint(this)">💡 Hint</button>
+          <a class="proj-example-link" href="https://github.com/search?q=mnist%20neural%20network%20tutorial&type=repositories" target="_blank">🔗 See real examples</a>
+        </div>
+        <div class="proj-hint-box">Get the input/output shapes right first — most beginner errors here are shape mismatches, not logic mistakes.</div>
+        <div class="proj-locked-note">🔒 Unlocks once Neural Networks is marked complete</div>
+      </div>
+
+      <div class="dev-topic">
+        <span class="dev-num">8</span>
+        <div style="flex:1">
+          <div class="dev-topic-name">Pick a specialization — NLP or Computer Vision</div>
+          <div class="dev-resource"><span class="pending">Best free playlist — link coming soon</span></div>
+        </div>
+        <span class="dev-tick"></span>
+      </div>
+
+      <div class="proj-card locked">
+        <div class="proj-top">
+          <span class="proj-level adv">Advanced</span>
+          <div class="proj-stack"><span>NLP or CV</span></div>
+        </div>
+        <div class="proj-title">Project unlocked — Specialization mini-project</div>
+        <div class="proj-desc">NLP path: build a sentiment classifier on movie reviews. CV path: build an image classifier (cats vs dogs). Pick whichever specialization you chose.</div>
+        <div class="proj-extra-row">
+          <button class="proj-hint-toggle" onclick="toggleHint(this)">💡 Hint</button>
+          <a class="proj-example-link" href="https://github.com/search?q=beginner%20nlp%20or%20computer%20vision%20project&type=repositories" target="_blank">🔗 See real examples</a>
+        </div>
+        <div class="proj-hint-box">Start with the smallest version — binary classification (2 classes only) — before attempting anything multi-class.</div>
+        <div class="proj-locked-note">🔒 Unlocks once your specialization is marked complete</div>
+      </div>
+
+      <div class="dev-topic">
+        <span class="dev-num">9</span>
+        <div style="flex:1">
+          <div class="dev-topic-name">Build & deploy a real project (Kaggle / portfolio)</div>
+          <div class="dev-resource"><span class="pending">Best free playlist — link coming soon</span></div>
+        </div>
+        <span class="dev-tick"></span>
+      </div>
+
+      <div class="proj-card locked">
+        <div class="proj-top">
+          <span class="proj-level adv">Advanced</span>
+          <div class="proj-stack"><span>Everything combined</span></div>
+        </div>
+        <div class="proj-title">Final project — Deployed AI/ML app</div>
+        <div class="proj-desc">Take your best model and wrap it in a simple web app (Streamlit or Flask) so anyone can use it live. This is the project that goes on your resume.</div>
+        <div class="proj-extra-row">
+          <button class="proj-hint-toggle" onclick="toggleHint(this)">💡 Hint</button>
+          <a class="proj-example-link" href="https://github.com/search?q=streamlit%20ml%20app%20example&type=repositories" target="_blank">🔗 See real examples</a>
+        </div>
+        <div class="proj-hint-box">Streamlit is the fastest path — a working demo in under 50 lines of code beats a 'perfect' one you never finish.</div>
+        <div class="proj-locked-note">🔒 Unlocks once this final topic is marked complete</div>
+      </div>
+    </div>
+
+    <div class="stage-tracker">
+      <div class="stage active">
+        <span class="stage-icon">🔥</span>
+        <div>
+          <div class="stage-title">Foundation in progress</div>
+          <div class="stage-body">Python and Math are the real gatekeepers here — rush them and everything after gets harder. Take your time on these two before touching a single ML library.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="notebook-overlay" id="notebookOverlay" onclick="if(event.target===this) closeNotebookModal()">
+  <div class="notebook-modal">
+    <div class="notebook-modal-top">
+      <div>
+        <p class="section-eyebrow" style="margin:0">// notebook</p>
+        <h2 class="section-title" style="margin:6px 0 0">Notes that talk back.</h2>
+      </div>
+      <button class="hiw-close" onclick="closeNotebookModal()">✕</button>
+    </div>
+    <p class="section-sub" style="margin-top:6px">Write it once, then let the voice agent read it back to you — great for revising while you're away from the screen.</p>
+
+    <div class="nb-card reveal">
+      <span class="nb-tag">Arrays</span>
+      <div class="nb-title">Sliding window pattern</div>
+      <div class="nb-body">Use two pointers l and r.<br>Expand r, shrink l when condition breaks.<br>Time: O(n) | Space: O(1)</div>
+      <button class="voice-btn" id="voiceBtn" onclick="toggleVoice()">
+        <span id="voiceIcon">🔊</span>
+        <span id="voiceLabel">Listen to this note</span>
+      </button>
+    </div>
+
+    <div id="notebookSavedList" style="margin-top:14px"></div>
+  </div>
+</div>
+
+
+<footer>
+  <div class="footer-logo">NexStep</div>
+  <p>Built for engineering students who are done being confused.</p>
+</footer>
+
+<script>
+// ===================== REAL BACKEND INTEGRATION =====================
+// Change this if your backend runs somewhere other than localhost:8080
+const API_BASE = 'http://localhost:8080';
+
+// Not read from localStorage anymore - the Google session cookie is the
+// real source of truth now, checked fresh via checkSession() on every load.
+let currentUser = null;
+
+function topicNameToSlug(name){
+  return name.trim().toLowerCase().replace(/ & /g, '-').replace(/\s+/g, '-');
+}
+
+function getQuestionName(quesDiv){
+  const ql = quesDiv.querySelector('.ql');
+  const clone = ql.cloneNode(true);
+  const chk = clone.querySelector('.chk');
+  if(chk) chk.remove();
+  const badge = clone.querySelector('.pro-badge');
+  if(badge) badge.remove();
+  return clone.textContent.trim();
+}
+
+function showLogin(){
+  document.getElementById('loginOverlay').classList.add('open');
+}
+function hideLogin(){
+  document.getElementById('loginOverlay').classList.remove('open');
+}
+function showUsernameStep(){
+  document.getElementById('usernameOverlay').classList.add('open');
+}
+function hideUsernameStep(){
+  document.getElementById('usernameOverlay').classList.remove('open');
+}
+
+// Full-page redirect to Spring Security's Google login endpoint - this is
+// NOT a fetch() call, it's a real navigation, because Google's login page
+// can't be loaded inside our own page.
+function startGoogleLogin(){
+  window.location.href = `${API_BASE}/oauth2/authorization/google`;
+}
+
+async function submitUsername(){
+  const username = document.getElementById('usernameInput').value.trim();
+  const errorEl = document.getElementById('usernameError');
+
+  if(username.length < 3){
+    errorEl.textContent = 'Username must be at least 3 characters.';
+    errorEl.style.display = 'block';
+    return;
+  }
+
+  try{
+    const res = await fetch(`${API_BASE}/api/set-username`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      credentials: 'include',
+      body: JSON.stringify({userId: currentUser.id, username})
+    });
+    if(!res.ok){
+      errorEl.textContent = await res.text();
+      errorEl.style.display = 'block';
+      return;
+    }
+    currentUser = await res.json();
+    hideUsernameStep();
+    runFullSync();
+  }catch(err){
+    errorEl.textContent = "Couldn't reach the server. Is the backend running?";
+    errorEl.style.display = 'block';
+  }
+}
+
+async function markSolved(questionId, chkEl, quesDiv){
+  if(!currentUser) return;
+  const willBeSolved = !chkEl.classList.contains('done');
+
+  // optimistic UI update
+  if(willBeSolved){
+    chkEl.classList.add('done');
+    chkEl.textContent = '✓';
+  } else {
+    chkEl.classList.remove('done');
+    chkEl.textContent = '';
+  }
+  updateTopicCounts(quesDiv.closest('.topic-row'));
+
+  try{
+    await fetch(`${API_BASE}/api/progress/mark-solved`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      credentials: 'include',
+      body: JSON.stringify({userId: currentUser.id, questionId})
+    });
+    refreshStreak();
+  }catch(err){
+    // revert on failure
+    if(willBeSolved){ chkEl.classList.remove('done'); chkEl.textContent = ''; }
+    else { chkEl.classList.add('done'); chkEl.textContent = '✓'; }
+    updateTopicCounts(quesDiv.closest('.topic-row'));
+  }
+}
+
+function updateTopicCounts(topicRow){
+  if(!topicRow) return;
+  const allChks = topicRow.querySelectorAll('.ques .chk');
+  const total = allChks.length;
+  const done = topicRow.querySelectorAll('.ques .chk.done').length;
+  const meta = topicRow.querySelector('.topic-meta');
+  const pfill = topicRow.querySelector('.pfill');
+  if(meta) meta.textContent = `${done}/${total} done`;
+  if(pfill) pfill.style.width = (total ? Math.round(done/total*100) : 0) + '%';
+  checkMilestones(topicRow);
+}
+
+// Reveals "Basics mastered!" / "Intermediate done!" only once every question
+// in that tier is actually ticked, and shows a mastery card once the WHOLE
+// topic is cleared. Hidden by default via the .milestone-locked class.
+function checkMilestones(topicRow){
+  const quesList = topicRow.querySelector('.ques-list');
+  if(!quesList) return;
+  const children = Array.from(quesList.children);
+  let tierBucket = [];
+
+  children.forEach(child => {
+    if(child.classList.contains('diff-tier')){
+      tierBucket = [];
+    } else if(child.classList.contains('ques')){
+      tierBucket.push(child);
+    } else if(child.classList.contains('inline-milestone')){
+      const allDone = tierBucket.length > 0 && tierBucket.every(q => q.querySelector('.chk').classList.contains('done'));
+      child.classList.toggle('milestone-locked', !allDone);
+      tierBucket = [];
+    }
+  });
+
+  // Whole-topic mastery card
+  const allChks = topicRow.querySelectorAll('.ques .chk');
+  const allDoneOverall = allChks.length > 0 && Array.from(allChks).every(c => c.classList.contains('done'));
+  let masteryEl = topicRow.querySelector('.mastery-card');
+
+  if(allDoneOverall && !masteryEl){
+    const topicName = topicRow.querySelector('.topic-name').textContent;
+    masteryEl = document.createElement('div');
+    masteryEl.className = 'mastery-card';
+    masteryEl.innerHTML = `
+      <span class="mastery-confetti">🎉</span>
+      <span class="mastery-icon">🏆</span>
+      <div>
+        <div class="mastery-title">Congrats — you've mastered ${topicName}! 🔥</div>
+        <div class="mastery-body">Every question cleared — easy, medium, and hard. That's real, proven understanding. Revisit once a week or solve one on your own to stay sharp.</div>
+      </div>`;
+    quesList.after(masteryEl);
+  } else if(!allDoneOverall && masteryEl){
+    masteryEl.remove();
+  }
+}
+
+async function refreshStreak(){
+  if(!currentUser) return;
+  try{
+    const res = await fetch(`${API_BASE}/api/progress/summary?userId=${currentUser.id}`, { credentials: 'include' });
+    if(!res.ok) return;
+    const data = await res.json();
+
+    const navEl = document.getElementById('navStreakCount');
+    if(navEl) navEl.textContent = data.currentStreak;
+
+    const dayEl = document.getElementById('streakDayNum');
+    if(dayEl) dayEl.textContent = '🔥 ' + data.currentStreak;
+
+    const solvedEl = document.getElementById('streakSolvedNum');
+    if(solvedEl) solvedEl.textContent = data.totalSolved;
+
+    const pctEl = document.getElementById('streakPctNum');
+    if(pctEl) pctEl.textContent = Math.round((data.totalSolved / TOTAL_QUESTIONS) * 100) + '%';
+
+    renderStreakCalendar(data.currentStreak);
+  }catch(err){ /* silent - streak display just won't update */ }
+}
+
+let currentAnalyticsPeriod = 'week';
+
+// ---- Showcase / demo mode -------------------------------------------------
+// Lets a visitor skip Google login and explore the app. Nothing is saved and
+// there is no backend call. The numbers below are SAMPLE data, and the
+// "Demo mode" banner says so on screen.
+let demoMode = false;
+
+const DEMO_ANALYTICS = {
+  week:  { solved: 9,  active: 5,  total: 7,  weak: 'Dynamic Programming', weakPct: 12, strong: 'Arrays', strongPct: 68 },
+  month: { solved: 31, active: 14, total: new Date().getDate(), weak: 'Dynamic Programming', weakPct: 12, strong: 'Arrays', strongPct: 68 },
+  all:   { solved: 64, active: 26, total: 41, weak: 'Dynamic Programming', weakPct: 12, strong: 'Arrays', strongPct: 68 }
+};
+
+function showDemoAnalytics(period){
+  currentAnalyticsPeriod = period;
+  const d = DEMO_ANALYTICS[period] || DEMO_ANALYTICS.week;
+  const set = (id, text) => { const el = document.getElementById(id); if(el) el.textContent = text; };
+  set('anQuestionsSolved', d.solved + ' solved');
+  set('anWeakest', `${d.weak} (${d.weakPct}%)`);
+  set('anStrongest', `${d.strong} (${d.strongPct}%)`);
+  set('anDaysActive', `${Math.min(d.active, d.total)} / ${d.total}`);
+  set('anInsight', `Sample data: you're strongest in ${d.strong} (${d.strongPct}% done). ${d.weak} is your weakest spot at ${d.weakPct}% complete - focus extra time there next. In a real account these numbers come from the questions you actually solve.`);
+}
+
+function enterDemoMode(){
+  demoMode = true;
+  hideLogin();
+  hideUsernameStep();
+  document.getElementById('demoBanner').classList.add('show');
+
+  // Sample streak cards (same elements the real backend data fills)
+  const set = (id, text) => { const el = document.getElementById(id); if(el) el.textContent = text; };
+  set('navStreakCount', 7);
+  set('streakDayNum', '🔥 7');
+  set('streakSolvedNum', 24);
+  set('streakPctNum', Math.round((24 / TOTAL_QUESTIONS) * 100) + '%');
+  renderStreakCalendar(7);
+
+  showDemoAnalytics('week');
+}
+
+async function refreshAnalytics(period = currentAnalyticsPeriod){
+  if(demoMode){ showDemoAnalytics(period); return; }
+  if(!currentUser) return;
+  currentAnalyticsPeriod = period;
+  try{
+    const res = await fetch(`${API_BASE}/api/analytics/summary?userId=${currentUser.id}&period=${period}`, { credentials: 'include' });
+    if(!res.ok) throw new Error('analytics fetch failed');
+    const data = await res.json();
+
+    const solvedEl = document.getElementById('anQuestionsSolved');
+    if(solvedEl) solvedEl.textContent = data.questionsSolvedInPeriod + ' solved';
+
+    const weakEl = document.getElementById('anWeakest');
+    if(weakEl) weakEl.textContent = data.weakestTopic ? `${data.weakestTopic} (${data.weakestTopicPercent}%)` : 'Not enough data yet';
+
+    const strongEl = document.getElementById('anStrongest');
+    if(strongEl) strongEl.textContent = data.strongestTopic ? `${data.strongestTopic} (${data.strongestTopicPercent}%)` : 'Not enough data yet';
+
+    const daysEl = document.getElementById('anDaysActive');
+    if(daysEl) daysEl.textContent = `${data.daysActiveInPeriod} / ${data.totalDaysInPeriod}`;
+
+    const insightEl = document.getElementById('anInsight');
+    if(insightEl) insightEl.textContent = data.insight;
+  }catch(err){
+    const insightEl = document.getElementById('anInsight');
+    if(insightEl) insightEl.textContent = 'Could not load analytics right now - is the backend running?';
+  }
+}
+
+function selectAnalyticsPeriod(period, tabEl){
+  document.querySelectorAll('.report-tab').forEach(t => t.classList.remove('active'));
+  tabEl.classList.add('active');
+  refreshAnalytics(period);
+}
+
+async function syncProgress(){
+  if(!currentUser) return;
+  let questions;
+  try{
+    const res = await fetch(`${API_BASE}/api/questions?track=DSA&userId=${currentUser.id}`, { credentials: 'include' });
+    if(!res.ok) throw new Error('fetch failed');
+    questions = await res.json();
+  }catch(err){
+    console.warn('Could not reach backend - showing static demo data instead.', err);
+    return;
+  }
+
+  // Build lookup: topicSlug -> { questionName -> {id, solved} }
+  const lookup = {};
+  questions.forEach(q => {
+    if(!lookup[q.topic]) lookup[q.topic] = {};
+    lookup[q.topic][q.name] = q;
+  });
+
+  document.querySelectorAll('#dsa .topic-row').forEach(topicRow => {
+    const nameEl = topicRow.querySelector('.topic-name');
+    if(!nameEl) return;
+    const slug = topicNameToSlug(nameEl.textContent);
+    const topicQuestions = lookup[slug];
+    if(!topicQuestions) return; // topic not seeded in backend yet - leave static demo state
+
+    topicRow.querySelectorAll('.ques').forEach(quesDiv => {
+      const qName = getQuestionName(quesDiv);
+      const match = topicQuestions[qName];
+      if(!match) return; // question not found in backend - leave as-is
+
+      const chkEl = quesDiv.querySelector('.chk');
+      if(match.solved){
+        chkEl.classList.add('done');
+        chkEl.textContent = '✓';
+      } else {
+        chkEl.classList.remove('done');
+        chkEl.textContent = '';
+      }
+      chkEl.style.cursor = 'pointer';
+      chkEl.onclick = () => markSolved(match.id, chkEl, quesDiv);
+    });
+
+    updateTopicCounts(topicRow);
+  });
+
+  refreshStreak();
+}
+
+// ---- Dev / AI-ML: same tick system, one "question" per topic ----
+function getDevTopicName(devTopicEl){
+  const nameEl = devTopicEl.querySelector('.dev-topic-name');
+  const clone = nameEl.cloneNode(true);
+  const badge = clone.querySelector('.pro-badge');
+  if(badge) badge.remove();
+  return clone.textContent.trim();
+}
+
+async function markSolvedGeneric(questionId, devTopicEl){
+  if(!currentUser) return;
+  const willBeSolved = !devTopicEl.classList.contains('done');
+  devTopicEl.classList.toggle('done', willBeSolved);
+
+  try{
+    await fetch(`${API_BASE}/api/progress/mark-solved`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      credentials: 'include',
+      body: JSON.stringify({userId: currentUser.id, questionId})
+    });
+    refreshStreak();
+  }catch(err){
+    devTopicEl.classList.toggle('done', !willBeSolved); // revert
+  }
+}
+
+async function syncTrackTopics(track, containerSelector){
+  if(!currentUser) return;
+  let questions;
+  try{
+    const res = await fetch(`${API_BASE}/api/questions?track=${track}&userId=${currentUser.id}`, { credentials: 'include' });
+    if(!res.ok) throw new Error('fetch failed');
+    questions = await res.json();
+  }catch(err){
+    console.warn(`Could not sync ${track} topics - showing static demo state.`, err);
+    return;
+  }
+
+  const byName = {};
+  questions.forEach(q => { byName[q.name] = q; });
+
+  document.querySelectorAll(containerSelector).forEach(devTopicEl => {
+    const name = getDevTopicName(devTopicEl);
+    const match = byName[name];
+    if(!match) return;
+
+    devTopicEl.classList.toggle('done', match.solved);
+    const tickEl = devTopicEl.querySelector('.dev-tick');
+    if(tickEl){
+      tickEl.style.cursor = 'pointer';
+      tickEl.onclick = () => markSolvedGeneric(match.id, devTopicEl);
+    }
+  });
+}
+
+// ---- Project submissions: wire "Submit" buttons to the real backend ----
+async function syncProjects(track, sectionSelector){
+  if(!currentUser) return;
+  let projects;
+  try{
+    const res = await fetch(`${API_BASE}/api/projects?track=${track}`, { credentials: 'include' });
+    if(!res.ok) throw new Error('fetch failed');
+    projects = await res.json();
+  }catch(err){
+    console.warn(`Could not load ${track} projects from backend.`, err);
+    return;
+  }
+
+  const byTitle = {};
+  projects.forEach(p => { byTitle[p.title] = p; });
+
+  document.querySelectorAll(`${sectionSelector} .proj-card`).forEach(card => {
+    const titleEl = card.querySelector('.proj-title');
+    if(!titleEl) return;
+    const rawTitle = titleEl.textContent.replace(/🎉\s*/, '').trim();
+    const match = byTitle[rawTitle];
+    if(!match) return; // e.g. still-locked cards with no backend row yet
+
+    const submitBtn = card.querySelector('.proj-submit-btn');
+    const input = card.querySelector('.proj-input');
+    if(!submitBtn || !input) return;
+
+    submitBtn.onclick = async () => {
+      const link = input.value.trim();
+      if(!link) return;
+      try{
+        await fetch(`${API_BASE}/api/projects/submit`, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+      credentials: 'include',
+          body: JSON.stringify({userId: currentUser.id, projectId: match.id, githubLink: link})
+        });
+        submitProject(submitBtn); // existing function - shows the "submitted for review" toast
+      }catch(err){
+        console.warn('Submission failed - is the backend running?', err);
+        submitProject(submitBtn); // still show the toast so the UI doesn't feel broken
+      }
+    };
+  });
+}
+
+// On page load: ask the backend "who, if anyone, is logged in right now"
+// via the session cookie. Three outcomes:
+//  1. Nobody logged in         -> show the Google login screen
+//  2. Logged in, no username yet (first-ever login) -> show username screen
+//  3. Logged in, username set  -> straight into the app
+async function checkSession(){
+  try{
+    const res = await fetch(`${API_BASE}/api/me`, { credentials: 'include' });
+    if(!res.ok) throw new Error('session check failed');
+    const data = await res.json();
+
+    if(!data){
+      showLogin();
+      return;
+    }
+
+    currentUser = data;
+    if(!currentUser.username){
+      showUsernameStep();
+    } else {
+      hideLogin();
+      hideUsernameStep();
+      runFullSync();
+    }
+  }catch(err){
+    console.warn('Backend not reachable - showing static demo data instead.', err);
+    showLogin();
+  }
+}
+
+function runFullSync(){
+  syncProgress();
+  syncTrackTopics('DEV', '#devtrack .dev-topic');
+  syncTrackTopics('AIML', '#aiml .dev-topic');
+  syncProjects('DEV', '#devtrack');
+  syncProjects('AIML', '#aiml');
+  refreshStreak(); // populate the 3 stat cards + calendar right away, not just after a click
+  refreshAnalytics('week'); // populate the real analytics section, not just after a tab click
+}
+
+// Makes every checkbox clickable immediately, even before (or without) the
+// backend responding. Backend sync later overrides these with the real,
+// persisted version - but the UI never feels "dead" while that's loading.
+function wireLocalFallback(){
+  document.querySelectorAll('#dsa .ques').forEach(quesDiv => {
+    const chkEl = quesDiv.querySelector('.chk');
+    if(!chkEl || chkEl.onclick) return; // don't stomp a real handler if already wired
+    chkEl.style.cursor = 'pointer';
+    chkEl.onclick = () => {
+      const nowDone = !chkEl.classList.contains('done');
+      chkEl.classList.toggle('done', nowDone);
+      chkEl.textContent = nowDone ? '✓' : '';
+      updateTopicCounts(quesDiv.closest('.topic-row'));
+    };
+  });
+
+  document.querySelectorAll('#devtrack .dev-topic, #aiml .dev-topic').forEach(devTopicEl => {
+    const tickEl = devTopicEl.querySelector('.dev-tick');
+    if(!tickEl || tickEl.onclick) return;
+    tickEl.style.cursor = 'pointer';
+    tickEl.onclick = () => {
+      devTopicEl.classList.toggle('done');
+    };
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  wireLocalFallback(); // checkboxes work immediately, backend or not
+  wireNotebookButtons();
+  renderNotebookList();
+  checkSession(); // always ask the backend who's really logged in
+});
+// ===================== END BACKEND INTEGRATION =====================
+
+// ===================== NOTEBOOK SAVE SYSTEM =====================
+// Saved locally in the browser for now (localStorage) - no backend
+// table for this yet, so it's per-device rather than per-account.
+function getSavedNotebook(){
+  return JSON.parse(localStorage.getItem('nextstep_notebook') || '[]');
+}
+function setSavedNotebook(arr){
+  localStorage.setItem('nextstep_notebook', JSON.stringify(arr));
+}
+function findNotebookEntry(topic, name){
+  return getSavedNotebook().find(e => e.topic === topic && e.name === name);
+}
+
+function toggleNotebookSave(btn, topic, name, url){
+  let saved = getSavedNotebook();
+  const idx = saved.findIndex(e => e.topic === topic && e.name === name);
+  if(idx >= 0){
+    saved.splice(idx, 1);
+    btn.classList.remove('saved');
+  } else {
+    saved.push({topic, name, url});
+    btn.classList.add('saved');
+  }
+  setSavedNotebook(saved);
+  renderNotebookList();
+}
+
+function speakNotebookText(btn, text){
+  if(btn.dataset.speaking === '1'){
+    window.speechSynthesis.cancel();
+    btn.dataset.speaking = '0';
+    btn.textContent = '🔊';
+    return;
+  }
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.rate = 0.95;
+  utter.onend = () => { btn.dataset.speaking = '0'; btn.textContent = '🔊'; };
+  window.speechSynthesis.speak(utter);
+  btn.dataset.speaking = '1';
+  btn.textContent = '⏸';
+}
+
+function renderNotebookList(){
+  const container = document.getElementById('notebookSavedList');
+  if(!container) return;
+  const saved = getSavedNotebook();
+
+  if(saved.length === 0){
+    container.innerHTML = '<div class="nb-empty">Tap the 📓 icon next to any question you want to revisit — it\'ll show up here.</div>';
+    return;
+  }
+
+  container.innerHTML = saved.map((entry, i) => {
+    const linkHtml = entry.url ? `<a class="lc-btn" href="${entry.url}" target="_blank" style="margin-top:8px;display:inline-block">Open question →</a>` : '';
+    const speakText = `${entry.name}, from ${entry.topic}. Saved for revision.`;
+    return `
+      <div class="nb-card" style="margin-top:10px">
+        <button class="nb-remove" onclick="removeNotebookEntry(${i})">✕</button>
+        <span class="nb-tag">${entry.topic}</span>
+        <div class="nb-title">${entry.name}</div>
+        <div class="nb-body">Saved from your practice — come back and re-solve this in a week to lock it in.</div>
+        ${linkHtml}
+        <button class="voice-btn" onclick="speakNotebookText(this, '${speakText.replace(/'/g, "\\'")}')">
+          <span>🔊</span><span>Listen</span>
+        </button>
+      </div>`;
+  }).join('');
+}
+
+function removeNotebookEntry(index){
+  let saved = getSavedNotebook();
+  saved.splice(index, 1);
+  setSavedNotebook(saved);
+  renderNotebookList();
+  wireNotebookButtons(); // refresh button 'saved' states
+}
+
+// Adds a 📓 button to every DSA question row, letting you bookmark it
+// into the Notebook section below.
+function wireNotebookButtons(){
+  document.querySelectorAll('#dsa .ques').forEach(quesDiv => {
+    const qr = quesDiv.querySelector('.qr');
+    if(!qr || qr.querySelector('.notebook-btn')) return; // don't double-wire
+
+    const topicRow = quesDiv.closest('.topic-row');
+    const topicName = topicRow ? topicRow.querySelector('.topic-name').textContent.trim() : '';
+    const qName = getQuestionName(quesDiv);
+    const linkEl = quesDiv.querySelector('.lc-btn');
+    const url = linkEl ? linkEl.href : '';
+
+    const btn = document.createElement('button');
+    btn.className = 'notebook-btn';
+    btn.title = 'Save to notebook';
+    btn.textContent = '📓';
+    if(findNotebookEntry(topicName, qName)) btn.classList.add('saved');
+    btn.onclick = () => toggleNotebookSave(btn, topicName, qName, url);
+
+    qr.appendChild(btn);
+  });
+}
+// ===================== END NOTEBOOK SAVE SYSTEM =====================
+
+
+// Nav streak count starts at 0 - refreshStreak() (backend integration block
+// above) fills in the real value once the backend responds.
+document.getElementById('navStreakCount').textContent = '0';
+
+// Generate calendar — starts empty, gets filled in with real streak data
+// once refreshStreak() runs (see backend integration block above).
+const TOTAL_QUESTIONS = 169; // 150 DSA + 10 Dev + 9 AI/ML, matches DataSeeder
+function renderStreakCalendar(streakDays){
+  const grid = document.getElementById('calGrid');
+  if(!grid) return;
+  grid.innerHTML = '';
+  const totalCells = 49;
+  for(let i = 0; i < totalCells; i++){
+    const d = document.createElement('div');
+    const posFromEnd = totalCells - i; // 1 = last cell = today
+    let cls;
+    if(posFromEnd === 1) cls = 'today';
+    else if(posFromEnd <= streakDays) cls = 'done';
+    else cls = 'miss';
+    d.className = 'cal-day ' + cls;
+    grid.appendChild(d);
+  }
+}
+renderStreakCalendar(0);
+
+// Scroll reveal
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible') });
+}, {threshold:0, rootMargin:'0px 0px -10% 0px'});
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Safety fallback: force-reveal everything after 1.5s regardless,
+// so content is never permanently stuck invisible even if the observer misbehaves.
+setTimeout(() => {
+  document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+}, 1500);
+
+// Animate progress bars on scroll
+const pbObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting) {
+      const fill = e.target.querySelector('.pfill');
+      if(fill) { const w = fill.style.width; fill.style.width='0'; setTimeout(()=>fill.style.width=w,100); }
+    }
+  });
+},{threshold:0});
+document.querySelectorAll('.topic-row').forEach(el => pbObs.observe(el));
+
+// Smooth-scroll nav (avoids hash-navigation warning inside sandboxed previews)
+function jumpTo(id){
+  const target = document.getElementById(id);
+  if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+// Project submission review popup
+let reviewTimer;
+function submitProject(btn){
+  const toast = document.getElementById('reviewToast');
+  toast.classList.add('show');
+  clearTimeout(reviewTimer);
+  reviewTimer = setTimeout(() => toast.classList.remove('show'), 5000);
+  const input = btn.previousElementSibling;
+  if(input) input.value = '';
+}
+function hideReview(){
+  document.getElementById('reviewToast').classList.remove('show');
+  clearTimeout(reviewTimer);
+}
+
+// Toggle a project's hint box open/closed
+function toggleHint(btn){
+  const box = btn.closest('.proj-card').querySelector('.proj-hint-box');
+  if(!box) return;
+  box.classList.toggle('open');
+  btn.textContent = box.classList.contains('open') ? '💡 Hide hint' : '💡 Hint';
+}
+
+// Hero buttons
+let featTimer;
+function startForFree(){
+  const toast = document.getElementById('featToast');
+  toast.classList.add('show');
+  clearTimeout(featTimer);
+  featTimer = setTimeout(() => toast.classList.remove('show'), 6000);
+  const target = document.getElementById('top-tracks');
+  if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
+}
+function openHowItWorks(){
+  document.getElementById('hiwOverlay').classList.add('open');
+}
+function closeHowItWorks(){
+  document.getElementById('hiwOverlay').classList.remove('open');
+}
+
+function openNotebookModal(){
+  document.getElementById('notebookOverlay').classList.add('open');
+}
+function closeNotebookModal(){
+  document.getElementById('notebookOverlay').classList.remove('open');
+}
+
+// Speak a milestone note aloud (real browser text-to-speech)
+let speakingBtn = null;
+function speakMilestone(btn){
+  const card = btn.closest('.inline-milestone');
+  if(speakingBtn === btn){
+    window.speechSynthesis.cancel();
+    btn.classList.remove('speaking');
+    speakingBtn = null;
+    return;
+  }
+  if(speakingBtn){ speakingBtn.classList.remove('speaking'); window.speechSynthesis.cancel(); }
+
+  const title = card.querySelector('.im-title')?.innerText || '';
+  const body = card.querySelector('.im-body')?.innerText || '';
+  const tags = Array.from(card.querySelectorAll('.mtag')).map(t => t.innerText).join(', ');
+  const text = title + '. ' + body + (tags ? ' Topics: ' + tags : '');
+
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.rate = 0.95;
+  utter.onend = () => { btn.classList.remove('speaking'); speakingBtn = null; };
+  window.speechSynthesis.speak(utter);
+  btn.classList.add('speaking');
+  speakingBtn = btn;
+}
+
+// Milestone popup toast — this is what fires automatically in the real app
+// the moment a question is marked solved and a stage threshold is hit.
+let toastTimer;
+function showMilestone(type){
+  const toast = document.getElementById('milestoneToast');
+  if(!toast) return;
+  const icon = document.getElementById('toastIcon');
+  const title = document.getElementById('toastTitle');
+  const body = document.getElementById('toastBody');
+
+  if(type === 'basics'){
+    icon.textContent = '✅';
+    title.textContent = 'Basics mastered!';
+    body.textContent = "3 base questions cleared. Revise these before moving ahead: Two-pointer, Prefix sum, Subarray logic.";
+  } else if(type === 'intermediate'){
+    icon.textContent = '🔥';
+    title.textContent = 'Intermediate done — nice work!';
+    body.textContent = "All mediums cleared. Revise Sliding window and Kadane's algorithm, then the hard questions unlock.";
+  }
+
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 5000);
+}
+function hideMilestone(){
+  const toast = document.getElementById('milestoneToast');
+  if(toast) toast.classList.remove('show');
+  clearTimeout(toastTimer);
+}
+
+// Track tab select
+function selectTrack(track){
+  document.getElementById('tabDsa').classList.toggle('selected', track === 'dsa');
+  document.getElementById('tabDev').classList.toggle('selected', track === 'dev');
+  document.getElementById('tabAiml').classList.toggle('selected', track === 'aiml');
+
+  if(track === 'dsa'){
+    const target = document.getElementById('dsa');
+    if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
+  } else {
+    openPage(track); // 'dev' or 'aiml' — opens as a full page, not a scroll
+  }
+}
+
+// ===================== FULL-PAGE NAVIGATION (Dev / AI-ML) =====================
+// Uses the browser History API so the phone's physical back button
+// (and a browser's back gesture) closes the page naturally, exactly
+// like a real separate page would - no actual page reload needed.
+const PAGE_IDS = {dev: 'devPage', aiml: 'aimlPage'};
+let currentOpenPage = null;
+
+function openPage(name){
+  const el = document.getElementById(PAGE_IDS[name]);
+  if(!el) return;
+  el.classList.add('open');
+  el.scrollTop = 0;
+  currentOpenPage = name;
+  history.pushState({nextstepPage: name}, '', '#' + name);
+}
+
+function closePage(){
+  // Close immediately (guaranteed — doesn't depend on history quirks),
+  // then try to sync browser history too so the phone's back button
+  // doesn't try to "close" something already closed.
+  closePageImmediate();
+  if(currentOpenPageBeforeClose){
+    try{ history.back(); }catch(e){ /* ignore - already closed above regardless */ }
+  }
+}
+
+function closePageImmediate(){
+  currentOpenPageBeforeClose = currentOpenPage;
+  if(currentOpenPage){
+    const el = document.getElementById(PAGE_IDS[currentOpenPage]);
+    if(el) el.classList.remove('open');
+    currentOpenPage = null;
+  }
+}
+let currentOpenPageBeforeClose = null;
+
+window.addEventListener('popstate', (e) => {
+  if(e.state && e.state.nextstepPage){
+    // navigated forward into a page state (rare, e.g. forward button) - open it
+    const el = document.getElementById(PAGE_IDS[e.state.nextstepPage]);
+    if(el){ el.classList.add('open'); currentOpenPage = e.state.nextstepPage; }
+  } else {
+    // back to the base page - close whatever full-page overlay is open
+    closePageImmediate();
+  }
+});
+// ===================== END FULL-PAGE NAVIGATION =====================
+
+
+// Voice agent - real browser text-to-speech
+let isSpeaking = false;
+function toggleVoice(){
+  const btn = document.getElementById('voiceBtn');
+  const icon = document.getElementById('voiceIcon');
+  const label = document.getElementById('voiceLabel');
+  if(isSpeaking){
+    window.speechSynthesis.cancel();
+    isSpeaking = false;
+    btn.classList.remove('speaking');
+    icon.textContent = '🔊';
+    label.textContent = 'Listen to this note';
+    return;
+  }
+  const text = "Sliding window pattern. Use two pointers, l and r. Expand r, shrink l when the condition breaks. Time complexity O of n. Space complexity O of 1.";
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.rate = 0.95;
+  utter.onend = () => {
+    isSpeaking = false;
+    btn.classList.remove('speaking');
+    icon.textContent = '🔊';
+    label.textContent = 'Listen to this note';
+  };
+  window.speechSynthesis.speak(utter);
+  isSpeaking = true;
+  btn.classList.add('speaking');
+  icon.innerHTML = '<span class="voice-wave"><span></span><span></span><span></span><span></span></span>';
+  label.textContent = 'Playing... tap to stop';
+}
+</script>
+</body>
+</html>
