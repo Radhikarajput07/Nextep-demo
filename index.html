@@ -569,6 +569,101 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;border-top:1px
   .dev-chip-row{gap:6px}
   .dev-chip{padding:5px 10px;font-size:11px}
 }
+
+/* ---- SHOWCASE POLISH ---- */
+#paths,#dsa,#streak,#ai-solver,#analytics{max-width:1120px;margin-left:auto;margin-right:auto}
+#paths .section-eyebrow,#dsa .section-eyebrow,#streak .section-eyebrow,#ai-solver .section-eyebrow,#analytics .section-eyebrow,
+#paths .section-title,#dsa .section-title,#streak .section-title,#ai-solver .section-title,#analytics .section-title,
+#paths .section-sub,#dsa .section-sub,#streak .section-sub,#ai-solver .section-sub,#analytics .section-sub{text-align:center}
+#paths .section-sub,#dsa .section-sub,#streak .section-sub,#ai-solver .section-sub,#analytics .section-sub{margin-left:auto;margin-right:auto;max-width:560px}
+#paths .paths-grid{grid-template-columns:repeat(3,1fr)}
+@media (max-width:900px){#paths .paths-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){#paths .paths-grid{grid-template-columns:1fr}}
+.dsa-wrapper{max-width:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:start}
+@media (max-width:900px){.dsa-wrapper{grid-template-columns:1fr}}
+.topic-row{margin-bottom:0}
+.topic-row .ques-list{display:none}
+.topic-row.open .ques-list{display:flex}
+.topic-row .topic-header{cursor:pointer;user-select:none}
+.topic-name::after{content:"▾";display:inline-block;margin-left:8px;color:var(--muted);font-size:11px;transition:transform .2s;transform:rotate(-90deg)}
+.topic-row.open .topic-name::after{transform:rotate(0)}
+.topic-row.open{border-color:rgba(108,99,255,0.35)}
+.pbar{height:4px}.pfill{height:4px}
+#streak .streak-grid,#streak .cal-grid,#streak .cal-legend{max-width:720px;margin-left:auto;margin-right:auto}
+.cal-day{height:28px;border-radius:6px}
+.cal-grid{gap:6px}
+.cal-legend{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center;margin-top:14px;font-size:12px;color:var(--muted)}
+.cal-legend span{display:inline-flex;align-items:center;gap:6px}
+.cal-legend .lg{display:inline-block;width:12px;height:12px;border-radius:3px}
+.cal-legend .lg.done{background:linear-gradient(135deg,#6C63FF,#3ECFAD)}
+.cal-legend .lg.today{background:#6C63FF;box-shadow:0 0 6px rgba(108,99,255,.7)}
+.cal-legend .lg.miss{background:var(--surface2);border:1px solid var(--border)}
+.cal-legend .lg-note{margin-left:auto}
+#ai-solver .ai-chat,#ai-solver .upcoming-note,#analytics .report-tabs,#analytics .report-card{margin-left:auto;margin-right:auto;max-width:720px}
+#ai-solver .ai-chat{max-width:720px}
+#ai-solver .upcoming-note{max-width:720px}
+#analytics .report-tabs{justify-content:center}
+.backend-offline .login-btn{opacity:.5;pointer-events:none;background:var(--card);color:var(--muted);border:1px solid var(--border)}
+.backend-offline .login-skip{background:linear-gradient(135deg,#6C63FF,#5a52e0);color:#fff;border:none;font-weight:600;padding:12px;font-size:14px;order:-1}
+.login-box{display:flex;flex-direction:column}
+.login-box .login-icon,.login-box .login-title,.login-box .login-sub{align-self:center;order:-2}
+.login-box .login-sub{text-align:center}
+.offline-note{display:none;font-size:11.5px;color:var(--muted);text-align:center;margin-top:10px;line-height:1.5}
+.backend-offline .offline-note{display:block}
+@media (max-width:640px){.cal-day{height:22px}.cal-legend .lg-note{margin-left:0;width:100%}}
+
+/* local sign-in */
+.local-login{display:none;flex-direction:column;gap:10px;order:-1;margin-bottom:10px}
+.local-mode .local-login{display:flex}
+.local-login input{width:100%;box-sizing:border-box;background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:12px 14px;font:500 14px 'Inter',sans-serif;outline:none}
+.local-login input:focus{border-color:#6C63FF}
+.local-mode .login-skip{background:transparent;color:var(--muted);border:1px solid var(--border);font-weight:400;font-size:13px;padding:10px;order:0}
+.local-mode .login-btn{order:1}
+.local-mode .offline-note{order:2}
+.local-mode .local-login .login-btn{opacity:1;pointer-events:auto;order:0;background:linear-gradient(135deg,#6C63FF,#5a52e0);color:#fff}
+/* AI chat */
+#ai-solver .ai-chat{padding:1.1rem}
+.ai-log{max-height:400px;overflow-y:auto;padding-right:6px;scroll-behavior:smooth}
+.ai-log .ai-bubble{max-width:calc(100% - 46px)}
+.ai-bubble code{font-family:'JetBrains Mono',monospace;font-size:12px;background:rgba(255,255,255,.07);padding:1px 5px;border-radius:4px}
+.ai-bubble pre{margin:8px 0 0;background:#07070f;border:1px solid var(--border);border-radius:8px;padding:10px 12px;overflow-x:auto;font:12px/1.55 'JetBrains Mono',monospace;color:#cfd3ff}
+.ai-bubble ul{margin:6px 0 0 16px;padding:0}
+.ai-chips{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 12px}
+.ai-chip{background:rgba(108,99,255,.1);border:1px solid rgba(108,99,255,.3);color:#c9c6ff;border-radius:100px;padding:6px 12px;font:500 12px 'Inter',sans-serif;cursor:pointer}
+.ai-chip:hover{background:rgba(108,99,255,.22)}
+.ai-form{display:flex;gap:8px;border-top:1px solid var(--border);padding-top:12px;margin-top:4px}
+.ai-form input{flex:1;min-width:0;background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:11px 14px;font:14px 'Inter',sans-serif;outline:none}
+.ai-form input:focus{border-color:#6C63FF}
+.ai-form button{background:linear-gradient(135deg,#6C63FF,#5a52e0);color:#fff;border:none;border-radius:10px;padding:0 18px;font:600 13px 'Inter',sans-serif;cursor:pointer}
+/* auth tabs + profile */
+.auth-tabs{display:flex;gap:6px;background:var(--surface2);border-radius:10px;padding:4px}
+.auth-tabs button{flex:1;background:transparent;border:none;color:var(--muted);border-radius:8px;padding:8px;font:600 13px 'Inter',sans-serif;cursor:pointer}
+.auth-tabs button.on{background:rgba(108,99,255,.25);color:#fff}
+.profile-box{background:var(--surface);border:1px solid var(--border);border-radius:20px;width:100%;max-width:600px;max-height:88vh;overflow-y:auto;padding:1.6rem;position:relative}
+.pf-close{position:absolute;top:12px;right:14px;background:transparent;border:none;color:var(--muted);font-size:22px;cursor:pointer}
+.pf-head{display:flex;align-items:center;gap:14px;margin-bottom:1.2rem}
+.pf-avatar{width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,#6C63FF,#3ECFAD);display:flex;align-items:center;justify-content:center;font:700 24px 'Inter',sans-serif;color:#fff;text-transform:uppercase}
+.pf-name{font:700 20px 'Inter',sans-serif;color:#fff}.pf-since{font-size:12.5px;color:var(--muted);margin-top:2px}
+.pf-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.2rem}
+.pf-stat{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 8px;text-align:center}
+.pf-stat b{display:block;font:700 22px 'Inter',sans-serif;color:#7aa7ff}.pf-stat span{font:11px 'JetBrains Mono',monospace;color:var(--muted)}
+.pf-h{font:600 11px 'JetBrains Mono',monospace;color:#3ECFAD;letter-spacing:.05em;margin:1.2rem 0 .6rem}
+.pf-bar{display:flex;align-items:center;gap:10px;font-size:13px;margin:7px 0}.pf-bar .n{width:150px;color:#ddd;flex-shrink:0}
+.pf-bar .t{flex:1;height:7px;background:var(--surface2);border-radius:99px;overflow:hidden}.pf-bar .t i{display:block;height:100%;background:linear-gradient(90deg,#6C63FF,#3ECFAD)}
+.pf-bar .v{width:64px;text-align:right;font:12px 'JetBrains Mono',monospace;color:var(--muted)}
+.pf-log{list-style:none;margin:0;padding:0}.pf-log li{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;color:#ddd}
+.pf-log li small{color:var(--muted);white-space:nowrap}.pf-empty{color:var(--muted);font-size:13px;font-style:italic}
+.pf-out{margin-top:1.4rem;width:100%;background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:10px;padding:10px;font:600 13px 'Inter',sans-serif;cursor:pointer}
+.pf-out:hover{color:#ff8a8a;border-color:#ff8a8a}
+@media (max-width:560px){.pf-stats{grid-template-columns:repeat(2,1fr)}.pf-bar .n{width:105px}}
+.streak-pill{cursor:pointer}
+.streak-pill.bump{animation:streakBump .6s ease}
+@keyframes streakBump{0%{transform:scale(1)}40%{transform:scale(1.2);box-shadow:0 0 18px rgba(255,150,50,.6)}100%{transform:scale(1)}}
+
+.user-chip{background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:20px;padding:6px 12px;font:600 12px 'Inter',sans-serif;cursor:pointer;align-items:center;white-space:nowrap}
+.user-chip:hover{border-color:rgba(108,99,255,.6)}
+.cloud-note{display:none;font-size:12px;color:var(--muted);text-align:center;margin-top:10px}
+@media (max-width:640px){.user-chip{max-width:110px;overflow:hidden;text-overflow:ellipsis;padding:5px 8px;font-size:11px}}
 </style>
 </head>
 <body>
@@ -581,8 +676,17 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;border-top:1px
     <div class="login-icon">N</div>
     <div class="login-title">Welcome to NexStep</div>
     <div class="login-sub">Sign in with your Google account to start tracking your progress.</div>
+    <div class="local-login" id="localLogin">
+      <div class="auth-tabs"><button type="button" id="tabSignup" class="on" onclick="setAuthMode('signup')">New account</button><button type="button" id="tabLogin" onclick="setAuthMode('login')">I have an account</button></div>
+      <input id="localName" placeholder="Username (3-20 letters/numbers)" maxlength="20" autocomplete="off" onkeydown="if(event.key==='Enter')document.getElementById('localPin').focus()">
+      <input id="localPin" type="password" placeholder="PIN (4+ characters)" maxlength="20" autocomplete="off" onkeydown="if(event.key==='Enter')localLogin()">
+      <button class="login-btn" id="localGo" style="order:0" onclick="localLogin()">Create account →</button>
+      <div class="login-error" id="localError"></div>
+    </div>
     <button class="login-btn" onclick="startGoogleLogin()">Continue with Google →</button>
     <button class="login-skip" onclick="enterDemoMode()">Skip login — view demo</button>
+    <div class="offline-note">Google sign-in needs the NextStep server, which isn't hosted for this demo. The demo below uses sample data.</div>
+    <div class="cloud-note" id="cloudNote">Your username, streak and solved problems are saved to your account.</div>
     <div class="login-error" id="loginError">Couldn't reach the server. Is the backend running?</div>
   </div>
 </div>
@@ -592,11 +696,15 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;border-top:1px
   <button onclick="location.reload()">Sign in</button>
 </div>
 
+<div class="login-overlay" id="profileOverlay" onclick="if(event.target===this)closeProfile()">
+  <div class="profile-box" id="profileBox"></div>
+</div>
+
 <div class="login-overlay" id="usernameOverlay">
   <div class="login-box">
     <div class="login-icon">N</div>
     <div class="login-title">Choose your username</div>
-    <div class="login-sub">This is how you'll show up on NexStep - pick something you'll recognize later. You can't change this later, so choose carefully.</div>
+    <div class="login-sub">This is how you'll show up on NexStep. Use 3-20 letters, numbers, _ or .</div>
     <input class="login-input" id="usernameInput" placeholder="e.g. akankshu_codes" autocomplete="off">
     <button class="login-btn" onclick="submitUsername()">Save username →</button>
     <div class="login-error" id="usernameError">Username must be at least 3 characters and not already taken.</div>
@@ -608,8 +716,8 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;border-top:1px
   <div class="review-inner">
     <span class="review-icon">📥</span>
     <div>
-      <div class="review-title">Submitted for review!</div>
-      <div class="review-body">We'll go through your project and message you back — what's missing, what's good, and whether it's ready. Usually within 24-48 hrs.</div>
+      <div class="review-title">Project link saved!</div>
+      <div class="review-body">Your GitHub link is saved to your profile (log in to keep it). Project reviews by mentors are coming soon.</div>
     </div>
   </div>
 </div>
@@ -684,7 +792,8 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;border-top:1px
     <a onclick="jumpTo('streak');return false" href="javascript:void(0)">Streak</a>
   </div>
   <div style="display:flex;align-items:center;gap:12px;flex-shrink:0">
-    <div class="streak-pill">
+    <button id="userChip" class="user-chip" onclick="openProfile()" title="My profile" style="display:none"></button>
+    <div class="streak-pill" onclick="jumpTo('streak')" title="View your streak">
       <span class="fire-icon">🔥</span>
       <span class="streak-count" id="navStreakCount">12</span>
       <span style="color:var(--muted)">days</span>
@@ -708,8 +817,8 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;border-top:1px
     <button class="btn-ghost" onclick="openHowItWorks()">See how it works</button>
   </div>
   <div class="hero-cards">
-    <div class="mini-card"><span class="mini-icon">🔥</span><div><div class="mini-val">2,400+</div>students active</div></div>
-    <div class="mini-card"><span class="mini-icon">✅</span><div><div class="mini-val">180+</div>LeetCode problems</div></div>
+    <div class="mini-card"><span class="mini-icon">🧩</span><div><div class="mini-val">220</div>DSA problems</div></div>
+    <div class="mini-card"><span class="mini-icon">📚</span><div><div class="mini-val">8 topics</div>easy to hard</div></div>
     <div class="mini-card"><span class="mini-icon">🗺️</span><div><div class="mini-val">6 tracks</div>zero to hero</div></div>
   </div>
 </section>
@@ -788,7 +897,8 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;border-top:1px
         <span class="tag blue">DSA core</span>
         <span class="tag blue">Competitive</span>
       </div>
-      <div class="path-resource">▶ <a href="https://www.youtube.com/playlist?list=PLfqMhTWNBTe0b2nM6JHVCnAkhQRGiZMSJ" target="_blank">Apna College — Complete C++ Course (free)</a></div>
+      <div class="path-resource">▶ <b>C:</b> <a href="https://www.youtube.com/playlist?list=PLu0W_9lII9aiXlHcLx-mDH1Qul38wD3aR" target="_blank">CodeWithHarry — C Tutorial in Hindi (free)</a></div>
+      <div class="path-resource" style="margin-top:6px">▶ <b>C++:</b> <a href="https://www.youtube.com/playlist?list=PLfqMhTWNBTe0b2nM6JHVCnAkhQRGiZMSJ" target="_blank">Apna College — Complete C++ Course (free)</a></div>
     </div>
     <div class="path-card java featured">
       <span class="path-badge">Most chosen</span>
@@ -843,7 +953,7 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;border-top:1px
     <div class="topic-row">
       <div class="topic-header">
         <span class="topic-name">Programming Basics</span>
-        <span class="topic-meta">0/10 done</span>
+        <span class="topic-meta">0/20 done</span>
       </div>
       <div class="pbar"><div class="pfill" style="width:0%"></div></div>
       <div class="ques-list">
@@ -854,6 +964,10 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;border-top:1px
         <div class="ques"><div class="ql"><div class="chk"></div>Add Digits</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/add-digits/" target="_blank">LC →</a></div></div>
         <div class="ques"><div class="ql"><div class="chk"></div>Power of Two</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/power-of-two/" target="_blank">LC →</a></div></div>
         <div class="ques"><div class="ql"><div class="chk"></div>Fibonacci Number</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/fibonacci-number/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Plus One</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/plus-one/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Sqrt(x)</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/sqrtx/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Ugly Number</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/ugly-number/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Valid Perfect Square</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/valid-perfect-square/" target="_blank">LC →</a></div></div>
 
         <div class="inline-milestone milestone-locked">
           <span class="im-icon">✅</span>
@@ -873,6 +987,12 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;border-top:1px
         <div class="ques"><div class="ql"><div class="chk"></div>Count Primes</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/count-primes/" target="_blank">LC →</a></div></div>
         <div class="ques"><div class="ql"><div class="chk"></div>Excel Sheet Column Number</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/excel-sheet-column-number/" target="_blank">LC →</a></div></div>
         <div class="ques"><div class="ql"><div class="chk"></div>Perfect Number</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/perfect-number/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Pow(x, n)</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/powx-n/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Integer to Roman</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/integer-to-roman/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Factorial Trailing Zeroes</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/factorial-trailing-zeroes/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Divide Two Integers</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/divide-two-integers/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Sum of Two Integers</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/sum-of-two-integers/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Bitwise AND of Numbers Range</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/bitwise-and-of-numbers-range/" target="_blank">LC →</a></div></div>
       </div>
     </div>
 
@@ -881,9 +1001,9 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;border-top:1px
     <div class="topic-row">
       <div class="topic-header">
         <span class="topic-name">Arrays</span>
-        <span class="topic-meta">5/20 done</span>
+        <span class="topic-meta">5/37 done</span>
       </div>
-      <div class="pbar"><div class="pfill" style="width:25%"></div></div>
+      <div class="pbar"><div class="pfill" style="width:14%"></div></div>
       <div class="ques-list">
         <div class="diff-tier easy-tier">// Easy</div>
         <div class="ques"><div class="ql"><div class="chk done">✓</div>Two Sum</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/two-sum/" target="_blank">LC →</a></div></div>
@@ -891,6 +1011,12 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;border-top:1px
         <div class="ques"><div class="ql"><div class="chk done">✓</div>Contains Duplicate</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/contains-duplicate/" target="_blank">LC →</a></div></div>
         <div class="ques"><div class="ql"><div class="chk"></div>Move Zeroes</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/move-zeroes/" target="_blank">LC →</a></div></div>
         <div class="ques"><div class="ql"><div class="chk"></div>Majority Element</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/majority-element/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Single Number</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/single-number/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Missing Number</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/missing-number/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Merge Sorted Array</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/merge-sorted-array/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Pascal's Triangle</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/pascals-triangle/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Remove Duplicates from Sorted Array</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/remove-duplicates-from-sorted-array/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Remove Element</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/remove-element/" target="_blank">LC →</a></div></div>
 
         <div class="inline-milestone milestone-locked">
           <span class="im-icon">✅</span>
@@ -921,6 +1047,13 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;border-top:1px
         <div class="ques"><div class="ql"><div class="chk"></div>Rotate Image</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/rotate-image/" target="_blank">LC →</a></div></div>
         <div class="ques"><div class="ql"><div class="chk"></div>Find Minimum in Rotated Sorted Array</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/" target="_blank">LC →</a></div></div>
         <div class="ques"><div class="ql"><div class="chk"></div>Search in Rotated Sorted Array</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/search-in-rotated-sorted-array/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Sort Colors</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/sort-colors/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Longest Consecutive Sequence</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/longest-consecutive-sequence/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Maximum Product Subarray</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/maximum-product-subarray/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Best Time to Buy and Sell Stock II</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Find the Duplicate Number</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/find-the-duplicate-number/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Top K Frequent Elements</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/top-k-frequent-elements/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Kth Largest Element in an Array</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/kth-largest-element-in-an-array/" target="_blank">LC →</a></div></div>
 
         <div class="inline-milestone milestone-locked">
           <span class="im-icon">🔥</span>
@@ -937,14 +1070,18 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;border-top:1px
 
         <div class="diff-tier hard-tier">// Advanced</div>
         <div class="ques"><div class="ql"><div class="chk"></div>Trapping Rain Water</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/trapping-rain-water/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>First Missing Positive</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/first-missing-positive/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Median of Two Sorted Arrays</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/median-of-two-sorted-arrays/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Candy</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/candy/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Maximum Gap</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/maximum-gap/" target="_blank">LC →</a></div></div>
       </div>
     </div>
     <div class="topic-row">
       <div class="topic-header">
         <span class="topic-name">Strings</span>
-        <span class="topic-meta">1/20 done</span>
+        <span class="topic-meta">1/27 done</span>
       </div>
-      <div class="pbar"><div class="pfill" style="width:5%"></div></div>
+      <div class="pbar"><div class="pfill" style="width:4%"></div></div>
       <div class="ques-list">
         <div class="diff-tier easy-tier">// Easy</div>
         <div class="ques"><div class="ql"><div class="chk done">✓</div>Valid Anagram</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/valid-anagram/" target="_blank">LC →</a></div></div>
@@ -954,6 +1091,9 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;border-top:1px
         <div class="ques"><div class="ql"><div class="chk"></div>Ransom Note</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/ransom-note/" target="_blank">LC →</a></div></div>
         <div class="ques"><div class="ql"><div class="chk"></div>Longest Common Prefix</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/longest-common-prefix/" target="_blank">LC →</a></div></div>
         <div class="ques"><div class="ql"><div class="chk"></div>Find the Index of the First Occurrence in a String</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>First Unique Character in a String</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/first-unique-character-in-a-string/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Word Pattern</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/word-pattern/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Add Binary</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/add-binary/" target="_blank">LC →</a></div></div>
 
         <div class="inline-milestone milestone-locked">
           <span class="im-icon">✅</span>
@@ -978,6 +1118,8 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;border-top:1px
         <div class="ques"><div class="ql"><div class="chk"></div>Count and Say</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/count-and-say/" target="_blank">LC →</a></div></div>
         <div class="ques"><div class="ql"><div class="chk"></div>Multiply Strings</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/multiply-strings/" target="_blank">LC →</a></div></div>
         <div class="ques"><div class="ql"><div class="chk"></div>Palindromic Substrings</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/palindromic-substrings/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Longest Repeating Character Replacement</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/longest-repeating-character-replacement/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Permutation in String</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/permutation-in-string/" target="_blank">LC →</a></div></div>
 
         <div class="inline-milestone milestone-locked">
           <span class="im-icon">🔥</span>
@@ -997,14 +1139,16 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;border-top:1px
         <div class="ques"><div class="ql"><div class="chk"></div>Regular Expression Matching</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/regular-expression-matching/" target="_blank">LC →</a></div></div>
         <div class="ques"><div class="ql"><div class="chk"></div>Basic Calculator</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/basic-calculator/" target="_blank">LC →</a></div></div>
         <div class="ques"><div class="ql"><div class="chk"></div>Text Justification</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/text-justification/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Longest Valid Parentheses</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/longest-valid-parentheses/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Distinct Subsequences</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/distinct-subsequences/" target="_blank">LC →</a></div></div>
       </div>
     </div>
     <div class="topic-row">
       <div class="topic-header">
         <span class="topic-name">Linked List</span>
-        <span class="topic-meta">3/20 done</span>
+        <span class="topic-meta">3/25 done</span>
       </div>
-      <div class="pbar"><div class="pfill" style="width:15%"></div></div>
+      <div class="pbar"><div class="pfill" style="width:12%"></div></div>
       <div class="ques-list">
         <div class="diff-tier easy-tier">// Easy</div>
         <div class="ques"><div class="ql"><div class="chk done">✓</div>Reverse Linked List</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/reverse-linked-list/" target="_blank">LC →</a></div></div>
@@ -1014,6 +1158,7 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;border-top:1px
         <div class="ques"><div class="ql"><div class="chk"></div>Intersection of Two Linked Lists</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/intersection-of-two-linked-lists/" target="_blank">LC →</a></div></div>
         <div class="ques"><div class="ql"><div class="chk"></div>Remove Duplicates from Sorted List</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/remove-duplicates-from-sorted-list/" target="_blank">LC →</a></div></div>
         <div class="ques"><div class="ql"><div class="chk"></div>Middle of the Linked List</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/middle-of-the-linked-list/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Remove Linked List Elements</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/remove-linked-list-elements/" target="_blank">LC →</a></div></div>
 
         <div class="inline-milestone milestone-locked">
           <span class="im-icon">✅</span>
@@ -1041,6 +1186,9 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;border-top:1px
         <div class="ques"><div class="ql"><div class="chk"></div>Sort List</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/sort-list/" target="_blank">LC →</a></div></div>
         <div class="ques"><div class="ql"><div class="chk"></div>Reverse Linked List II</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/reverse-linked-list-ii/" target="_blank">LC →</a></div></div>
         <div class="ques"><div class="ql"><div class="chk"></div>Flatten a Multilevel Doubly Linked List</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/flatten-a-multilevel-doubly-linked-list/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Partition List</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/partition-list/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Add Two Numbers II</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/add-two-numbers-ii/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Remove Duplicates from Sorted List II</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/remove-duplicates-from-sorted-list-ii/" target="_blank">LC →</a></div></div>
 
         <div class="inline-milestone milestone-locked">
           <span class="im-icon">🔥</span>
@@ -1057,15 +1205,16 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;border-top:1px
 
         <div class="diff-tier hard-tier">// Advanced</div>
         <div class="ques"><div class="ql"><div class="chk"></div>Merge K Sorted Lists</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/merge-k-sorted-lists/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Reverse Nodes in k-Group</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/reverse-nodes-in-k-group/" target="_blank">LC →</a></div></div>
       </div>
     </div>
 
     <div class="topic-row">
       <div class="topic-header">
         <span class="topic-name">Stack & Queue</span>
-        <span class="topic-meta">2/20 done</span>
+        <span class="topic-meta">2/25 done</span>
       </div>
-      <div class="pbar"><div class="pfill" style="width:10%"></div></div>
+      <div class="pbar"><div class="pfill" style="width:8%"></div></div>
       <div class="ques-list">
         <div class="diff-tier easy-tier">// Easy</div>
         <div class="ques"><div class="ql"><div class="chk done">✓</div>Valid Parentheses</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/valid-parentheses/" target="_blank">LC →</a></div></div>
@@ -1074,6 +1223,9 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;border-top:1px
         <div class="ques"><div class="ql"><div class="chk"></div>Next Greater Element I</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/next-greater-element-i/" target="_blank">LC →</a></div></div>
         <div class="ques"><div class="ql"><div class="chk"></div>Remove All Adjacent Duplicates In String</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/remove-all-adjacent-duplicates-in-string/" target="_blank">LC →</a></div></div>
         <div class="ques"><div class="ql"><div class="chk"></div>Backspace String Compare</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/backspace-string-compare/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Baseball Game</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/baseball-game/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Number of Recent Calls</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/number-of-recent-calls/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Time Needed to Buy Tickets</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/time-needed-to-buy-tickets/" target="_blank">LC →</a></div></div>
 
         <div class="inline-milestone milestone-locked">
           <span class="im-icon">✅</span>
@@ -1101,6 +1253,7 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;border-top:1px
         <div class="ques"><div class="ql"><div class="chk"></div>Online Stock Span</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/online-stock-span/" target="_blank">LC →</a></div></div>
         <div class="ques"><div class="ql"><div class="chk"></div>Remove K Digits</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/remove-k-digits/" target="_blank">LC →</a></div></div>
         <div class="ques"><div class="ql"><div class="chk"></div>Car Fleet</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/car-fleet/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Generate Parentheses</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/generate-parentheses/" target="_blank">LC →</a></div></div>
 
         <div class="inline-milestone milestone-locked">
           <span class="im-icon">🔥</span>
@@ -1117,15 +1270,16 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;border-top:1px
         <div class="diff-tier hard-tier">// Advanced</div>
         <div class="ques"><div class="ql"><div class="chk"></div>Largest Rectangle in Histogram</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/largest-rectangle-in-histogram/" target="_blank">LC →</a></div></div>
         <div class="ques"><div class="ql"><div class="chk"></div>Sliding Window Maximum</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/sliding-window-maximum/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Maximal Rectangle</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/maximal-rectangle/" target="_blank">LC →</a></div></div>
       </div>
     </div>
 
     <div class="topic-row">
       <div class="topic-header">
         <span class="topic-name">Trees</span>
-        <span class="topic-meta">3/20 done</span>
+        <span class="topic-meta">3/28 done</span>
       </div>
-      <div class="pbar"><div class="pfill" style="width:15%"></div></div>
+      <div class="pbar"><div class="pfill" style="width:11%"></div></div>
       <div class="ques-list">
         <div class="diff-tier easy-tier">// Easy</div>
         <div class="ques"><div class="ql"><div class="chk done">✓</div>Maximum Depth of Binary Tree</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/maximum-depth-of-binary-tree/" target="_blank">LC →</a></div></div>
@@ -1136,6 +1290,9 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;border-top:1px
         <div class="ques"><div class="ql"><div class="chk"></div>Diameter of Binary Tree</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/diameter-of-binary-tree/" target="_blank">LC →</a></div></div>
         <div class="ques"><div class="ql"><div class="chk"></div>Balanced Binary Tree</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/balanced-binary-tree/" target="_blank">LC →</a></div></div>
         <div class="ques"><div class="ql"><div class="chk"></div>Convert Sorted Array to Binary Search Tree</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Subtree of Another Tree</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/subtree-of-another-tree/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Minimum Depth of Binary Tree</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/minimum-depth-of-binary-tree/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Binary Tree Inorder Traversal</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/binary-tree-inorder-traversal/" target="_blank">LC →</a></div></div>
 
         <div class="inline-milestone milestone-locked">
           <span class="im-icon">✅</span>
@@ -1161,6 +1318,9 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;border-top:1px
         <div class="ques"><div class="ql"><div class="chk"></div>Count Good Nodes in Binary Tree</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/count-good-nodes-in-binary-tree/" target="_blank">LC →</a></div></div>
         <div class="ques"><div class="ql"><div class="chk"></div>Binary Tree Right Side View</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/binary-tree-right-side-view/" target="_blank">LC →</a></div></div>
         <div class="ques"><div class="ql"><div class="chk"></div>Insert into a Binary Search Tree</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/insert-into-a-binary-search-tree/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Lowest Common Ancestor of a Binary Tree</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Path Sum II</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/path-sum-ii/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Path Sum III</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/path-sum-iii/" target="_blank">LC →</a></div></div>
 
         <div class="inline-milestone milestone-locked">
           <span class="im-icon">🔥</span>
@@ -1178,18 +1338,23 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;border-top:1px
         <div class="diff-tier hard-tier">// Advanced</div>
         <div class="ques"><div class="ql"><div class="chk"></div>Binary Tree Maximum Path Sum</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/binary-tree-maximum-path-sum/" target="_blank">LC →</a></div></div>
         <div class="ques"><div class="ql"><div class="chk"></div>Serialize and Deserialize Binary Tree</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/serialize-and-deserialize-binary-tree/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Binary Tree Cameras</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/binary-tree-cameras/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Vertical Order Traversal of a Binary Tree</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/vertical-order-traversal-of-a-binary-tree/" target="_blank">LC →</a></div></div>
       </div>
     </div>
 
     <div class="topic-row">
       <div class="topic-header">
         <span class="topic-name">Graphs</span>
-        <span class="topic-meta">3/20 done</span>
+        <span class="topic-meta">3/30 done</span>
       </div>
-      <div class="pbar"><div class="pfill" style="width:15%"></div></div>
+      <div class="pbar"><div class="pfill" style="width:10%"></div></div>
       <div class="ques-list">
         <div class="diff-tier easy-tier">// Easy</div>
         <div class="ques"><div class="ql"><div class="chk"></div>Flood Fill</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/flood-fill/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Find if Path Exists in Graph</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/find-if-path-exists-in-graph/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Find the Town Judge</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/find-the-town-judge/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Find Center of Star Graph</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/find-center-of-star-graph/" target="_blank">LC →</a></div></div>
 
         <div class="inline-milestone milestone-locked">
           <span class="im-icon">✅</span>
@@ -1221,6 +1386,10 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;border-top:1px
         <div class="ques"><div class="ql"><div class="chk"></div>Minimum Height Trees</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/minimum-height-trees/" target="_blank">LC →</a></div></div>
         <div class="ques"><div class="ql"><div class="chk"></div>Accounts Merge</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/accounts-merge/" target="_blank">LC →</a></div></div>
         <div class="ques"><div class="ql"><div class="chk"></div>Evaluate Division</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/evaluate-division/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Number of Provinces</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/number-of-provinces/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Max Area of Island</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/max-area-of-island/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Min Cost to Connect All Points</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/min-cost-to-connect-all-points/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Open the Lock</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/open-the-lock/" target="_blank">LC →</a></div></div>
 
         <div class="inline-milestone milestone-locked">
           <span class="im-icon">🔥</span>
@@ -1239,18 +1408,23 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;border-top:1px
         <div class="ques"><div class="ql"><div class="chk"></div>Alien Dictionary</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/alien-dictionary/" target="_blank">LC →</a></div></div>
         <div class="ques"><div class="ql"><div class="chk"></div>Word Ladder</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/word-ladder/" target="_blank">LC →</a></div></div>
         <div class="ques"><div class="ql"><div class="chk"></div>Reconstruct Itinerary</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/reconstruct-itinerary/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Swim in Rising Water</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/swim-in-rising-water/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Critical Connections in a Network</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/critical-connections-in-a-network/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Making A Large Island</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/making-a-large-island/" target="_blank">LC →</a></div></div>
       </div>
     </div>
 
     <div class="topic-row">
       <div class="topic-header">
         <span class="topic-name">Dynamic Programming</span>
-        <span class="topic-meta">1/20 done</span>
+        <span class="topic-meta">1/28 done</span>
       </div>
-      <div class="pbar"><div class="pfill" style="width:5%"></div></div>
+      <div class="pbar"><div class="pfill" style="width:4%"></div></div>
       <div class="ques-list">
         <div class="diff-tier easy-tier">// Easy</div>
         <div class="ques"><div class="ql"><div class="chk done">✓</div>Climbing Stairs</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/climbing-stairs/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Min Cost Climbing Stairs</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/min-cost-climbing-stairs/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>N-th Tribonacci Number</div><div class="qr"><span class="diff easy">Easy</span><a class="lc-btn" href="https://leetcode.com/problems/n-th-tribonacci-number/" target="_blank">LC →</a></div></div>
 
         <div class="inline-milestone milestone-locked">
           <span class="im-icon">✅</span>
@@ -1281,6 +1455,10 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;border-top:1px
         <div class="ques"><div class="ql"><div class="chk"></div>Target Sum</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/target-sum/" target="_blank">LC →</a></div></div>
         <div class="ques"><div class="ql"><div class="chk"></div>Best Time to Buy and Sell Stock with Cooldown</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/" target="_blank">LC →</a></div></div>
         <div class="ques"><div class="ql"><div class="chk"></div>Perfect Squares</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/perfect-squares/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Coin Change II</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/coin-change-ii/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Maximal Square</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/maximal-square/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Longest Palindromic Subsequence</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/longest-palindromic-subsequence/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Jump Game II</div><div class="qr"><span class="diff med">Medium</span><a class="lc-btn" href="https://leetcode.com/problems/jump-game-ii/" target="_blank">LC →</a></div></div>
 
         <div class="inline-milestone milestone-locked">
           <span class="im-icon">🔥</span>
@@ -1299,6 +1477,8 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;border-top:1px
         <div class="ques"><div class="ql"><div class="chk"></div>Edit Distance</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/edit-distance/" target="_blank">LC →</a></div></div>
         <div class="ques"><div class="ql"><div class="chk"></div>Regular Expression Matching</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/regular-expression-matching/" target="_blank">LC →</a></div></div>
         <div class="ques"><div class="ql"><div class="chk"></div>Interleaving String</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/interleaving-string/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Burst Balloons</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/burst-balloons/" target="_blank">LC →</a></div></div>
+        <div class="ques"><div class="ql"><div class="chk"></div>Wildcard Matching</div><div class="qr"><span class="diff hard">Hard</span><a class="lc-btn" href="https://leetcode.com/problems/wildcard-matching/" target="_blank">LC →</a></div></div>
       </div>
     </div>
   </div>
@@ -1316,29 +1496,25 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;border-top:1px
     <div class="scard"><div class="snum" id="streakPctNum">0%</div><div class="slabel">roadmap_done</div></div>
   </div>
   <div class="cal-grid reveal" id="calGrid"></div>
+  <div class="cal-legend reveal"><span><i class="lg done"></i>Solved a problem</span><span><i class="lg today"></i>Today</span><span><i class="lg miss"></i>Missed</span><span class="lg-note">Last 7 weeks · each square is one day</span></div>
 </section>
 
 <section class="section" id="ai-solver">
   <div class="reveal">
-    <p class="section-eyebrow">// ai_doubt_solver <span class="upcoming-badge">UPCOMING FEATURE</span></p>
+    <p class="section-eyebrow">// ai_doubt_solver <span class="upcoming-badge">DEMO</span></p>
     <h2 class="section-title">Stuck at 2 AM? Don't wait for morning.</h2>
     <p class="section-sub">Explain your doubt, paste your code, or just say "I'm stuck" — the AI knows what you've already covered and answers accordingly.</p>
   </div>
   <div class="ai-chat reveal">
-    <div class="ai-msg user">
-      <div class="ai-avatar user">🧑</div>
-      <div class="ai-bubble">bhai sliding window samajh nahi aa raha, jab bhi try karta hu confuse ho jata hu</div>
-    </div>
-    <div class="ai-msg">
-      <div class="ai-avatar bot">🤖</div>
-      <div class="ai-bubble">Since you've already cleared Two Sum and Contains Duplicate — sliding window is just that idea stretched over a range. Keep two pointers, expand right, shrink left when the condition breaks. Try "Longest Substring Without Repeat" next — it's the cleanest one to learn the pattern on.</div>
-    </div>
-    <div class="ai-msg">
-      <div class="ai-avatar bot">🤖</div>
-      <div class="ai-typing"><span></span><span></span><span></span></div>
-    </div>
+    <div class="ai-log" id="aiLog"></div>
+    <div class="ai-chips" id="aiChips"></div>
+    <div id="aiHistWrap" style="display:none"><div class="pf-h" style="margin:.2rem 0 .4rem">// your_recent_questions</div><div class="ai-chips" id="aiHist"></div></div>
+    <form class="ai-form" id="aiForm" autocomplete="off">
+      <input id="aiInput" placeholder="Ask a DSA doubt, e.g. &quot;sliding window samajh nahi aa raha&quot;" maxlength="300">
+      <button type="submit">Ask</button>
+    </form>
   </div>
-  <p class="upcoming-note">🚧 This is a preview of what's coming — the AI doubt solver isn't live yet, but this is exactly how it'll feel once it ships.</p>
+  <p class="upcoming-note">🚧 Demo assistant: replies are pre-written for common DSA doubts and use the problems you've ticked. The live AI model plugs into the same chat box.</p>
 </section>
 
 <section class="section" id="analytics">
@@ -1909,6 +2085,39 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;border-top:1px
   <p>Built for engineering students who are done being confused.</p>
 </footer>
 
+<script>window.nsCloudReady = new Promise(function(r){ window._nsRes = r; });</script>
+<script type="module">
+// ===================== FIREBASE (Google login + saved progress) =====================
+// Paste your Firebase web-app config here. While apiKey is empty, the page
+// falls back to the demo (no login), so nothing breaks.
+const FIREBASE_CONFIG = {
+  apiKey: "",
+  authDomain: "",
+  projectId: "",
+  appId: ""
+};
+try{
+  if(!FIREBASE_CONFIG.apiKey) throw new Error('Firebase not configured');
+  const V = '10.12.2';
+  const [{initializeApp}, A, F] = await Promise.all([
+    import(`https://www.gstatic.com/firebasejs/${V}/firebase-app.js`),
+    import(`https://www.gstatic.com/firebasejs/${V}/firebase-auth.js`),
+    import(`https://www.gstatic.com/firebasejs/${V}/firebase-firestore.js`)
+  ]);
+  const app = initializeApp(FIREBASE_CONFIG);
+  const auth = A.getAuth(app), db = F.getFirestore(app);
+  window._nsRes({
+    onUser: cb => A.onAuthStateChanged(auth, cb),
+    signIn: () => A.signInWithPopup(auth, new A.GoogleAuthProvider()),
+    signOut: () => A.signOut(auth),
+    load: async uid => { const s = await F.getDoc(F.doc(db, 'users', uid)); return s.exists() ? s.data() : null; },
+    save: (uid, data) => F.setDoc(F.doc(db, 'users', uid), data, { merge: true })
+  });
+}catch(err){
+  console.info('Cloud login not active:', err.message);
+  window._nsRes(null);
+}
+</script>
 <script>
 // ===================== REAL BACKEND INTEGRATION =====================
 // Change this if your backend runs somewhere other than localhost:8080
@@ -1949,10 +2158,12 @@ function hideUsernameStep(){
 // NOT a fetch() call, it's a real navigation, because Google's login page
 // can't be loaded inside our own page.
 function startGoogleLogin(){
+  if(cloud){ cloudSignIn(); return; }
   window.location.href = `${API_BASE}/oauth2/authorization/google`;
 }
 
 async function submitUsername(){
+  if(cloud){ cloudSubmitUsername(); return; }
   const username = document.getElementById('usernameInput').value.trim();
   const errorEl = document.getElementById('usernameError');
 
@@ -2099,22 +2310,187 @@ let currentAnalyticsPeriod = 'week';
 // "Demo mode" banner says so on screen.
 let demoMode = false;
 
-const DEMO_ANALYTICS = {
-  week:  { solved: 9,  active: 5,  total: 7,  weak: 'Dynamic Programming', weakPct: 12, strong: 'Arrays', strongPct: 68 },
-  month: { solved: 31, active: 14, total: new Date().getDate(), weak: 'Dynamic Programming', weakPct: 12, strong: 'Arrays', strongPct: 68 },
-  all:   { solved: 64, active: 26, total: 41, weak: 'Dynamic Programming', weakPct: 12, strong: 'Arrays', strongPct: 68 }
+const DEMO_SAMPLE = {
+  week:  { cap: 9,  active: 5,  total: 7 },
+  month: { cap: 31, active: 14, total: new Date().getDate() },
+  all:   { cap: 9999, active: 26, total: 41 }
 };
+
+// Every number below is computed from the boxes the visitor has ticked on
+// the page, so ticking a problem really changes the streak cards and the
+// analytics. Only the streak length, the active-day counts and the week /
+// month caps are sample values (the demo banner says so).
+function demoTopicStats(){
+  return Array.from(document.querySelectorAll('#dsa .topic-row')).map(r => {
+    const total = r.querySelectorAll('.ques .chk').length;
+    const done = r.querySelectorAll('.ques .chk.done').length;
+    return { name: r.querySelector('.topic-name').textContent.trim(), total, done,
+             percent: total ? Math.round(done * 100 / total) : 0 };
+  });
+}
 
 function showDemoAnalytics(period){
   currentAnalyticsPeriod = period;
-  const d = DEMO_ANALYTICS[period] || DEMO_ANALYTICS.week;
   const set = (id, text) => { const el = document.getElementById(id); if(el) el.textContent = text; };
-  set('anQuestionsSolved', d.solved + ' solved');
-  set('anWeakest', `${d.weak} (${d.weakPct}%)`);
-  set('anStrongest', `${d.strong} (${d.strongPct}%)`);
-  set('anDaysActive', `${Math.min(d.active, d.total)} / ${d.total}`);
-  set('anInsight', `Sample data: you're strongest in ${d.strong} (${d.strongPct}% done). ${d.weak} is your weakest spot at ${d.weakPct}% complete - focus extra time there next. In a real account these numbers come from the questions you actually solve.`);
+  const topics = demoTopicStats();
+  const totalDone = topics.reduce((a, t) => a + t.done, 0);
+  const s = DEMO_SAMPLE[period] || DEMO_SAMPLE.week;
+  const solved = Math.min(totalDone, s.cap);
+  const active = Math.min(s.active, solved);
+
+  const ranked = topics.filter(t => t.total >= 3);
+  let weakest = null, strongest = null;
+  ranked.forEach(t => {
+    if(!weakest || t.percent < weakest.percent) weakest = t;
+    if(!strongest || t.percent > strongest.percent) strongest = t;
+  });
+
+  set('anQuestionsSolved', solved + ' solved');
+  set('anWeakest', weakest ? `${weakest.name} (${weakest.percent}%)` : 'Not enough data yet');
+  set('anStrongest', strongest ? `${strongest.name} (${strongest.percent}%)` : 'Not enough data yet');
+  set('anDaysActive', `${active} / ${s.total}`);
+
+  if(solved === 0){
+    set('anInsight', 'Nothing solved yet - tick a problem in the DSA tracker above and watch these numbers change.');
+  } else {
+    set('anInsight', `You're strongest in ${strongest.name} (${strongest.percent}% done). ${weakest.name} is your weakest spot at ${weakest.percent}% complete - focus extra time there next. Demo numbers: these update from the problems ticked on this page.`);
+  }
 }
+
+function refreshDemoStats(){
+  if(!demoMode) return;
+  const set = (id, text) => { const el = document.getElementById(id); if(el) el.textContent = text; };
+  const totalDone = demoTopicStats().reduce((a, t) => a + t.done, 0);
+  set('streakSolvedNum', totalDone);
+  set('streakPctNum', Math.round((totalDone / TOTAL_QUESTIONS) * 100) + '%');
+  showDemoAnalytics(currentAnalyticsPeriod);
+}
+
+// ---- Demo streak: real, per-browser (localStorage) ----
+const DEMO_DAYS_KEY = 'nextstep_demo_days';
+const dayKey = d => d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+let cloud = null, cloudUid = null, cloudData = null;   // set when Firebase login is active
+function loadDemoDays(){
+  if(cloudUid) return new Set((cloudData && cloudData.days) || []);
+  try{ return new Set(JSON.parse(localStorage.getItem(DEMO_DAYS_KEY) || '[]')); }catch(e){ return new Set(); }
+}
+function saveDemoDays(s){
+  if(cloudUid){ cloudData = Object.assign(cloudData || {}, { days: [...s] }); cloud.save(cloudUid, { days: [...s] }).catch(console.warn); return; }
+  try{ localStorage.setItem(DEMO_DAYS_KEY, JSON.stringify([...s])); }catch(e){}
+}
+function quesKey(div){ return topicNameToSlug(div.closest('.topic-row').querySelector('.topic-name').textContent) + '|' + getQuestionName(div); }
+function logActivity(chk){
+  if(!cloudUid) return;
+  const q = chk.closest('.ques'); if(!q) return;
+  const name = getQuestionName(q), topic = q.closest('.topic-row').querySelector('.topic-name').textContent.trim();
+  let log = ((cloudData && cloudData.log) || []).filter(x => x.q !== name);   // re-ticking replaces, un-ticking removes
+  if(chk.classList.contains('done')) log.push({ q: name, topic, at: new Date().toISOString() });
+  cloudData = Object.assign(cloudData || {}, { log });
+  cloud.save(cloudUid, { log }).catch(console.warn);
+}
+function saveCloudTicks(){
+  if(!cloudUid) return;
+  const ticked = [];
+  document.querySelectorAll('#dsa .topic-row .ques').forEach(q => { if(q.querySelector('.chk.done')) ticked.push(quesKey(q)); });
+  cloudData = Object.assign(cloudData || {}, { ticked });
+  cloud.save(cloudUid, { ticked }).catch(console.warn);
+}
+function applyCloudTicks(){
+  const set = new Set((cloudData && cloudData.ticked) || []);
+  document.querySelectorAll('#dsa .topic-row').forEach(r => {
+    r.querySelectorAll('.ques').forEach(q => {
+      const c = q.querySelector('.chk'); if(!c) return;
+      const on = set.has(quesKey(q));
+      c.classList.toggle('done', on); c.textContent = on ? '✓' : '';
+    });
+    updateTopicCounts(r);
+  });
+}
+function enterCloudMode(user, data){
+  cloudUid = user.uid; cloudData = data || {};
+  demoMode = true;                       // reuse the on-page stats logic
+  hideLogin(); hideUsernameStep();
+  document.getElementById('demoBanner').classList.remove('show');
+  const chip = document.getElementById('userChip');
+  chip.textContent = '👤 @' + cloudData.username; chip.style.display = 'inline-flex';
+  applyCloudTicks(); renderDemoStreak(); refreshDemoStats(); renderAiHistory();
+}
+async function initAuth(){
+  const api = await Promise.race([window.nsCloudReady, new Promise(r => setTimeout(() => r(null), 6000))]);
+  if(!api){ checkSession(); return; }
+  initAuthWith(api);
+}
+function initAuthWith(api){
+  cloud = api;
+  document.getElementById('cloudNote').style.display = 'block';
+  api.onUser(async user => {
+    if(!user){
+      cloudUid = null; cloudData = null; demoMode = false; try{ renderAiHistory(); }catch(e){}
+      document.getElementById('userChip').style.display = 'none';
+      hideUsernameStep(); showLogin(); return;
+    }
+    let data = null;
+    try{ data = await api.load(user.uid); }catch(e){ console.warn(e); loginMsg('Signed in, but could not load saved data. Check the Firestore rules.'); }
+    if(!data || !data.username){
+      cloudUid = user.uid; cloudData = data || {}; pendingUser = user; hideLogin(); showUsernameStep();
+    } else enterCloudMode(user, data);
+  });
+}
+let pendingUser = null;
+function loginMsg(t){ const e = document.getElementById('loginError'); e.textContent = t; e.style.display = 'block'; }
+async function cloudSignIn(){
+  try{ await cloud.signIn(); }
+  catch(e){ if(e && e.code !== 'auth/popup-closed-by-user') loginMsg('Google sign-in failed: ' + (e.code || e.message)); }
+}
+async function cloudSubmitUsername(){
+  const el = document.getElementById('usernameInput'), err = document.getElementById('usernameError');
+  const name = el.value.trim();
+  if(!/^[A-Za-z0-9_.]{3,20}$/.test(name)){ err.textContent = 'Use 3-20 letters, numbers, _ or .'; err.style.display = 'block'; return; }
+  err.style.display = 'none';
+  try{ await cloud.save(cloudUid, { username: name, ticked: [], days: [] }); }
+  catch(e){ err.textContent = "Couldn't save. Check the Firestore rules."; err.style.display = 'block'; return; }
+  enterCloudMode(pendingUser, { username: name, ticked: [], days: [] });
+}
+function cloudLogout(){ if(cloud && confirm('Sign out of NexStep?')) cloud.signOut(); }
+function demoStreakInfo(days){
+  // streak = consecutive days ending today (or yesterday, so it survives until today's first solve)
+  const d = new Date();
+  if(!days.has(dayKey(d))) d.setDate(d.getDate() - 1);
+  let n = 0;
+  while(days.has(dayKey(d))){ n++; d.setDate(d.getDate() - 1); }
+  return n;
+}
+function renderDemoStreak(){
+  const days = loadDemoDays();
+  const streak = demoStreakInfo(days);
+  const nav = document.getElementById('navStreakCount'); if(nav) nav.textContent = streak;
+  const big = document.getElementById('streakDayNum'); if(big) big.textContent = '🔥 ' + streak;
+  const grid = document.getElementById('calGrid'); if(!grid) return;
+  grid.innerHTML = '';
+  const todayKey = dayKey(new Date());
+  for(let i = 48; i >= 0; i--){
+    const d = new Date(); d.setDate(d.getDate() - i);
+    const k = dayKey(d);
+    const c = document.createElement('div');
+    c.className = 'cal-day ' + (k === todayKey ? (days.has(k) ? 'done' : 'today') : (days.has(k) ? 'done' : 'miss'));
+    c.title = d.toDateString() + (days.has(k) ? ' - solved' : '');
+    grid.appendChild(c);
+  }
+}
+document.addEventListener('click', e => {
+  const chk = demoMode && e.target.closest('#dsa .chk');
+  if(!chk) return;
+  setTimeout(() => {
+    if(chk.classList.contains('done')){          // ticked (not un-ticked) -> counts for today
+      const days = loadDemoDays(); days.add(dayKey(new Date())); saveDemoDays(days);
+      renderDemoStreak();
+      const nav = document.querySelector('.streak-pill'); if(nav){ nav.classList.remove('bump'); void nav.offsetWidth; nav.classList.add('bump'); }
+    }
+    refreshDemoStats();
+    saveCloudTicks();
+    logActivity(chk);
+  }, 0);
+});
 
 function enterDemoMode(){
   demoMode = true;
@@ -2122,15 +2498,9 @@ function enterDemoMode(){
   hideUsernameStep();
   document.getElementById('demoBanner').classList.add('show');
 
-  // Sample streak cards (same elements the real backend data fills)
   const set = (id, text) => { const el = document.getElementById(id); if(el) el.textContent = text; };
-  set('navStreakCount', 7);
-  set('streakDayNum', '🔥 7');
-  set('streakSolvedNum', 24);
-  set('streakPctNum', Math.round((24 / TOTAL_QUESTIONS) * 100) + '%');
-  renderStreakCalendar(7);
-
-  showDemoAnalytics('week');
+  renderDemoStreak();
+  refreshDemoStats();
 }
 
 async function refreshAnalytics(period = currentAnalyticsPeriod){
@@ -2324,6 +2694,243 @@ async function syncProjects(track, sectionSelector){
 //  1. Nobody logged in         -> show the Google login screen
 //  2. Logged in, no username yet (first-ever login) -> show username screen
 //  3. Logged in, username set  -> straight into the app
+
+// ===================== LOCAL ACCOUNTS (no server needed) =====================
+// Usernames are unique on this device. Each account = username + PIN, and keeps its own
+// ticks, streak and activity history. (A shared database would be needed for uniqueness
+// across different devices.)
+function hashPin(s){ // simple non-cryptographic hash, just to avoid storing the PIN as plain text
+  let h1 = 0xdeadbeef, h2 = 0x41c6ce57;
+  for(let i = 0; i < s.length; i++){ const c = s.charCodeAt(i); h1 = Math.imul(h1 ^ c, 2654435761); h2 = Math.imul(h2 ^ c, 1597334677); }
+  h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+  h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+  return (4294967296 * (2097151 & h2) + (h1 >>> 0)).toString(36);
+}
+function makeLocalCloud(){
+  let cb = null;
+  const K = u => 'nextstep_local_' + u, CUR = 'nextstep_local_current';
+  const read = u => { try{ return JSON.parse(localStorage.getItem(K(u)) || 'null'); }catch(e){ return null; } };
+  return {
+    onUser: f => { cb = f; const last = localStorage.getItem(CUR); f(last && read(last) ? {uid:last} : null); return () => {}; },
+    signOut: async () => { localStorage.removeItem(CUR); cb && cb(null); },
+    load: async uid => read(uid),
+    save: async (uid, data) => { localStorage.setItem(K(uid), JSON.stringify(Object.assign(read(uid) || {}, data))); },
+    signup: async (name, pin) => {
+      const uid = name.toLowerCase();
+      if(read(uid)) return 'This username already exists. Pick a different one, or use "I have an account" if it is yours.';
+      localStorage.setItem(K(uid), JSON.stringify({ username: name, pin: hashPin(pin), joined: new Date().toISOString(), ticked: [], days: [], log: [] }));
+      localStorage.setItem(CUR, uid); cb && cb({uid}); return null;
+    },
+    login: async (name, pin) => {
+      const uid = name.toLowerCase(), d = read(uid);
+      if(!d) return 'No account with that username. Use "New account" to create it.';
+      if(d.pin && d.pin !== hashPin(pin)) return 'Wrong PIN for that username.';
+      localStorage.setItem(CUR, uid); cb && cb({uid}); return null;
+    }
+  };
+}
+let localCloud = null, authMode = 'signup';
+function setAuthMode(m){
+  authMode = m;
+  document.getElementById('tabSignup').classList.toggle('on', m === 'signup');
+  document.getElementById('tabLogin').classList.toggle('on', m === 'login');
+  document.getElementById('localGo').textContent = m === 'signup' ? 'Create account →' : 'Log in →';
+  document.getElementById('localError').style.display = 'none';
+}
+function startLocalAuth(){
+  localCloud = makeLocalCloud();
+  document.body.classList.add('backend-offline', 'local-mode');
+  document.querySelector('#loginOverlay .login-sub').textContent = 'Create your own account to keep your streak, progress and history.';
+  const note = document.querySelector('#loginOverlay .offline-note');
+  if(note) note.textContent = 'Google sign-in needs the NextStep server, which isn\'t hosted yet. Accounts are saved on this device.';
+  initAuthWith(localCloud);
+  document.getElementById('cloudNote').style.display = 'none';
+}
+async function localLogin(){
+  const name = document.getElementById('localName').value.trim(), pin = document.getElementById('localPin').value, err = document.getElementById('localError');
+  const show = t => { err.textContent = t; err.style.display = 'block'; };
+  if(!/^[A-Za-z0-9_.]{3,20}$/.test(name)) return show('Username: 3-20 letters, numbers, _ or .');
+  if(pin.length < 4) return show('PIN must be at least 4 characters.');
+  const msg = authMode === 'signup' ? await localCloud.signup(name, pin) : await localCloud.login(name, pin);
+  if(msg) show(msg); else { err.style.display = 'none'; document.getElementById('localPin').value = ''; }
+}
+
+// ===================== MY PROFILE =====================
+function longestStreak(days){
+  const arr = [...days].sort(); let best = 0, run = 0, prev = null;
+  arr.forEach(k => {
+    const d = new Date(k + 'T00:00:00');
+    if(prev && Math.round((d - prev) / 86400000) === 1) run++; else run = 1;
+    best = Math.max(best, run); prev = d;
+  });
+  return best;
+}
+function openProfile(){
+  if(!cloudUid) return;
+  const d = cloudData || {}, days = loadDemoDays();
+  const topics = demoTopicStats();
+  const solved = topics.reduce((a, t) => a + t.done, 0);
+  const pct = Math.round(solved / TOTAL_QUESTIONS * 100);
+  const fmt = iso => { const t = new Date(iso); return t.toLocaleDateString('en-IN', {day:'numeric', month:'short'}) + ', ' + t.toLocaleTimeString('en-IN', {hour:'numeric', minute:'2-digit'}); };
+  const log = (d.log || []).slice().reverse().slice(0, 15);
+  document.getElementById('profileBox').innerHTML = `
+    <button class="pf-close" onclick="closeProfile()" aria-label="Close">×</button>
+    <div class="pf-head"><div class="pf-avatar">${esc((d.username || '?')[0])}</div>
+      <div><div class="pf-name">@${esc(d.username || '')}</div>
+      <div class="pf-since">${d.joined ? 'Member since ' + new Date(d.joined).toLocaleDateString('en-IN', {day:'numeric', month:'long', year:'numeric'}) : 'NexStep member'}</div></div></div>
+    <div class="pf-stats">
+      <div class="pf-stat"><b>🔥 ${demoStreakInfo(days)}</b><span>current_streak</span></div>
+      <div class="pf-stat"><b>${longestStreak(days)}</b><span>longest_streak</span></div>
+      <div class="pf-stat"><b>${solved}</b><span>problems_solved</span></div>
+      <div class="pf-stat"><b>${days.size}</b><span>active_days</span></div>
+    </div>
+    <div class="pf-h">// roadmap_${pct}%_done</div>
+    <div class="pf-bar"><span class="n">Overall</span><span class="t"><i style="width:${pct}%"></i></span><span class="v">${solved}/${TOTAL_QUESTIONS}</span></div>
+    <div class="pf-h">// topic_progress</div>
+    ${topics.map(t => `<div class="pf-bar"><span class="n">${esc(t.name)}</span><span class="t"><i style="width:${t.percent}%"></i></span><span class="v">${t.done}/${t.total}</span></div>`).join('')}
+    <div class="pf-h">// submitted_projects</div>
+    ${(d.projects || []).length ? `<ul class="pf-log">${d.projects.slice().reverse().map(x => `<li><span><a href="${esc(x.url)}" target="_blank" rel="noopener" style="color:#9aa6ff">${esc(x.title)}</a><br><small>${esc(x.url.replace(/^https?:\/\/(www\.)?/, ''))}</small></span><small>${fmt(x.at)}</small></li>`).join('')}</ul>` : '<div class="pf-empty">No projects submitted yet. Paste a GitHub repo link on a Dev project and it is saved here.</div>'}
+    <div class="pf-h">// ai_doubt_history</div>
+    ${(d.chat || []).length ? `<ul class="pf-log">${d.chat.slice().reverse().slice(0, 10).map(x => `<li><span>${esc(x.q)}</span><small>${fmt(x.at)}</small></li>`).join('')}</ul>` : '<div class="pf-empty">No questions asked yet. Try the AI doubt solver.</div>'}
+    <div class="pf-h">// recent_activity</div>
+    ${log.length ? `<ul class="pf-log">${log.map(l => `<li><span>✓ ${esc(l.q)} <small>· ${esc(l.topic || '')}</small></span><small>${fmt(l.at)}</small></li>`).join('')}</ul>` : '<div class="pf-empty">Nothing yet. Tick a problem in the DSA tracker and it shows up here.</div>'}
+    <button class="pf-out" onclick="closeProfile();cloudLogout()">Sign out</button>`;
+  document.getElementById('profileOverlay').classList.add('open');
+}
+function closeProfile(){ document.getElementById('profileOverlay').classList.remove('open'); }
+
+// ===================== AI DOUBT SOLVER (demo assistant) =====================
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function aiProgress(){
+  const solved = [];
+  document.querySelectorAll('#dsa .ques').forEach(q => { if(q.querySelector('.chk.done')) solved.push(getQuestionName(q)); });
+  const topics = demoTopicStats().filter(t => t.total >= 3);
+  const weakest = topics.slice().sort((a,b) => a.percent - b.percent)[0];
+  let next = null;
+  if(weakest){
+    document.querySelectorAll('#dsa .topic-row').forEach(r => {
+      if(next || r.querySelector('.topic-name').textContent.trim() !== weakest.name) return;
+      const q = [...r.querySelectorAll('.ques')].find(x => !x.querySelector('.chk.done')); if(q) next = getQuestionName(q);
+    });
+  }
+  return { solved, weakest, next };
+}
+const AI_KB = [
+  { re: /sliding|window|longest substring|subarray of size/i, title: 'Sliding window',
+    a: (p) => `Sliding window is two pointers moving over a range: <b>expand right</b>, and when the condition breaks, <b>shrink left</b> until it holds again.${p.solved.length ? ` You've already solved <b>${esc(p.solved[0])}</b>, so you know the idea of tracking what you've seen. This just does it over a range.` : ''}<pre>left = 0
+for right in range(len(s)):
+    add s[right] to window
+    while window is invalid:
+        remove s[left]; left += 1
+    best = max(best, right - left + 1)</pre>Practice on "Longest Substring Without Repeating Characters" first.` },
+  { re: /two.?pointer|pair|sorted array.*sum|3.?sum|container/i, title: 'Two pointers',
+    a: () => `On a <b>sorted</b> array, put one pointer at each end. If the sum is too big, move the right pointer in; if too small, move the left one in. That turns O(n²) into O(n).<pre>l, r = 0, len(a) - 1
+while l < r:
+    s = a[l] + a[r]
+    if s == target: return [l, r]
+    l, r = (l + 1, r) if s < target else (l, r - 1)</pre>Good practice: 3Sum and Container With Most Water.` },
+  { re: /binary search|rotated|mid\b/i, title: 'Binary search',
+    a: () => `Binary search works whenever you can ask a yes/no question that flips once, not only on sorted arrays. Keep <code>lo</code> and <code>hi</code>, test the middle, throw away the half that can't hold the answer.<pre>lo, hi = 0, len(a) - 1
+while lo <= hi:
+    mid = (lo + hi) // 2
+    if a[mid] == x: return mid
+    if a[mid] < x: lo = mid + 1
+    else: hi = mid - 1</pre>Watch the loop condition and the <code>mid ± 1</code>. Most bugs live there.` },
+  { re: /dp|dynamic|memo|knapsack|fibonacci|climb/i, title: 'Dynamic programming',
+    a: () => `DP is recursion that remembers answers. Three steps: (1) define what <code>dp[i]</code> means in words, (2) write how it depends on smaller states, (3) set the base cases.<pre>dp[0], dp[1] = 1, 1          # climbing stairs
+for i in range(2, n + 1):
+    dp[i] = dp[i-1] + dp[i-2]</pre>Start with Climbing Stairs, then House Robber, then Coin Change.` },
+  { re: /recurs|backtrack|permut|subset|combination/i, title: 'Recursion / backtracking',
+    a: () => `Think of recursion as: <b>make a choice, recurse, undo the choice</b>. Always write the base case first, and draw the call tree for a tiny input like [1,2,3].<pre>def go(path):
+    if done(path): out.append(path[:]); return
+    for c in choices:
+        path.append(c); go(path); path.pop()</pre>` },
+  { re: /linked list|\bnode\b|reverse list|cycle/i, title: 'Linked list',
+    a: () => `Most linked-list problems are pointer bookkeeping. Draw the nodes. Use a <b>dummy head</b> to avoid edge cases, and <b>slow/fast pointers</b> for the middle or a cycle.<pre>prev, cur = None, head
+while cur:
+    nxt = cur.next
+    cur.next = prev
+    prev, cur = cur, nxt</pre>That reverses a list. Save <code>next</code> before you overwrite it.` },
+  { re: /tree|bst|inorder|preorder|height|depth/i, title: 'Trees',
+    a: () => `For trees, trust the recursion: solve for the left subtree, solve for the right, then combine at the current node.<pre>def height(n):
+    if not n: return 0
+    return 1 + max(height(n.left), height(n.right))</pre>Use BFS (a queue) for level order, and DFS for everything else.` },
+  { re: /graph|bfs|dfs|island|visited|adjacen/i, title: 'Graphs',
+    a: () => `A graph is nodes plus neighbours. DFS goes deep with recursion or a stack; BFS goes level by level with a queue, and gives shortest paths when edges are unweighted. Always keep a <code>visited</code> set.<pre>q, seen = deque([s]), {s}
+while q:
+    u = q.popleft()
+    for v in g[u]:
+        if v not in seen: seen.add(v); q.append(v)</pre>Try Number of Islands first.` },
+  { re: /stack|queue|parenthes|bracket|monotonic/i, title: 'Stack & queue',
+    a: () => `A stack is "last in, first out". Use it when the most recent unfinished thing matters, like matching brackets. A queue is "first in, first out" and is how BFS works.<pre>for ch in s:
+    if ch in "([{": st.append(ch)
+    elif not st or pair[st.pop()] != ch: return False
+return not st</pre>` },
+  { re: /hash|map|dictionary|frequency|anagram|two sum/i, title: 'Hash maps',
+    a: () => `A hash map trades memory for time: remember what you've seen so you don't loop again. For Two Sum, store <code>value → index</code>, and for each number ask "is <code>target - x</code> already in the map?"<pre>seen = {}
+for i, x in enumerate(a):
+    if target - x in seen: return [seen[target - x], i]
+    seen[x] = i</pre>` },
+  { re: /big.?o|complexity|time complexity|o\(n/i, title: 'Complexity',
+    a: () => `Count how many times the busiest line runs as the input grows. One loop is O(n), a loop in a loop is O(n²), halving each step is O(log n), and sorting is O(n log n). Interviewers expect you to say it out loud for every solution.` },
+  { re: /prefix|cumulative|running sum/i, title: 'Prefix sums',
+    a: () => `Store running totals so any range sum becomes one subtraction: <code>sum(i..j) = pre[j+1] - pre[i]</code>. Combined with a hash map it solves "Subarray Sum Equals K".` },
+  { re: /sort|merge|quick/i, title: 'Sorting',
+    a: () => `In interviews you rarely write a sort from scratch. You use it as a step: sort first, then two pointers, or sort intervals by start time and sweep. Know that merge sort is O(n log n) and stable, and that quicksort averages O(n log n) but is O(n²) in the worst case.` },
+  { re: /next|what should i|what to solve|recommend|suggest|where.*(start|begin)|roadmap/i, title: 'Next problem',
+    a: (p) => p.next ? `Your weakest topic right now is <b>${esc(p.weakest.name)}</b> (${p.weakest.percent}% done). Try <b>${esc(p.next)}</b> next. It's the first unsolved problem there.` : `Tick a few problems in the tracker above and I'll point you to the next one.` },
+  { re: /stuck|confus|samajh|nahi aa|lost|give up|hard|difficult|demotiv/i, title: 'Stuck',
+    a: (p) => `That's normal. Here is a routine that works when you're stuck:<ul><li>Solve a tiny example by hand first.</li><li>Say what you do in plain words, then turn it into code.</li><li>Give it 20 minutes, then read the hint (not the full solution).</li><li>Re-solve it tomorrow from a blank file.</li></ul>${p.solved.length ? `You've solved <b>${p.solved.length}</b> problems already. That's real progress.` : ''}` },
+  { re: /^(hi|hello|hey|hii|yo)\b/i, title: 'Hello',
+    a: () => `Hi! Ask me about a DSA pattern (sliding window, two pointers, DP, graphs...), tell me you're stuck, or ask what to solve next.` },
+];
+function aiReply(q){
+  const p = aiProgress();
+  const hit = AI_KB.find(k => k.re.test(q));
+  if(hit) return hit.a(p);
+  return `I don't have a ready answer for that in the demo. Try asking about <b>sliding window</b>, <b>two pointers</b>, <b>binary search</b>, <b>DP</b>, <b>graphs</b>, <b>recursion</b>, or ask <b>"what should I solve next?"</b>. The live version will handle any question.`;
+}
+function aiAdd(role, html){
+  const log = document.getElementById('aiLog');
+  const m = document.createElement('div'); m.className = 'ai-msg' + (role === 'user' ? ' user' : '');
+  m.innerHTML = `<div class="ai-avatar ${role === 'user' ? 'user' : 'bot'}">${role === 'user' ? '🧑' : '🤖'}</div><div class="ai-bubble">${html}</div>`;
+  log.appendChild(m); log.scrollTop = log.scrollHeight; return m;
+}
+function saveAiQuestion(q){
+  if(!cloudUid) return;
+  const chat = ((cloudData && cloudData.chat) || []).filter(x => x.q !== q);
+  chat.push({ q, at: new Date().toISOString() });
+  const trimmed = chat.slice(-30);
+  cloudData = Object.assign(cloudData || {}, { chat: trimmed });
+  cloud.save(cloudUid, { chat: trimmed }).catch(console.warn);
+  renderAiHistory();
+}
+function renderAiHistory(){
+  const wrap = document.getElementById('aiHistWrap'), box = document.getElementById('aiHist');
+  const chat = cloudUid && cloudData && cloudData.chat ? cloudData.chat.slice().reverse().slice(0, 8) : [];
+  wrap.style.display = chat.length ? 'block' : 'none';
+  box.innerHTML = '';
+  chat.forEach(x => { const b = document.createElement('button'); b.type = 'button'; b.className = 'ai-chip'; b.textContent = x.q.length > 46 ? x.q.slice(0, 46) + '…' : x.q; b.title = x.q; b.onclick = () => aiAsk(x.q); box.appendChild(b); });
+}
+let aiBusy = false;
+function aiAsk(q){
+  q = q.trim(); if(!q || aiBusy) return; aiBusy = true;
+  aiAdd('user', esc(q));
+  saveAiQuestion(q);
+  const log = document.getElementById('aiLog');
+  const t = document.createElement('div'); t.className = 'ai-msg';
+  t.innerHTML = '<div class="ai-avatar bot">🤖</div><div class="ai-typing"><span></span><span></span><span></span></div>';
+  log.appendChild(t); log.scrollTop = log.scrollHeight;
+  setTimeout(() => { t.remove(); aiAdd('bot', aiReply(q)); aiBusy = false; }, 650);
+}
+(function initAi(){
+  aiAdd('bot', `Hi, I'm the NexStep doubt solver. Ask me about any DSA pattern, tell me you're stuck, or ask what to solve next. I use the problems you've ticked above.`);
+  const chips = ['Sliding window samajh nahi aa raha', 'Explain two pointers', 'What should I solve next?', 'How does DP work?', "I'm stuck"];
+  const c = document.getElementById('aiChips');
+  chips.forEach(txt => { const b = document.createElement('button'); b.type = 'button'; b.className = 'ai-chip'; b.textContent = txt; b.onclick = () => aiAsk(txt); c.appendChild(b); });
+  document.getElementById('aiForm').addEventListener('submit', e => { e.preventDefault(); const i = document.getElementById('aiInput'); const v = i.value; i.value = ''; aiAsk(v); });
+})();
+
 async function checkSession(){
   try{
     const res = await fetch(`${API_BASE}/api/me`, { credentials: 'include' });
@@ -2345,7 +2952,7 @@ async function checkSession(){
     }
   }catch(err){
     console.warn('Backend not reachable - showing static demo data instead.', err);
-    showLogin();
+    startLocalAuth();
   }
 }
 
@@ -2386,10 +2993,17 @@ function wireLocalFallback(){
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  // DSA topics are collapsible: click a topic header to open or close its problems.
+  document.querySelectorAll('#dsa .topic-header').forEach(hd => {
+    hd.addEventListener('click', () => hd.closest('.topic-row').classList.toggle('open'));
+  });
+  const firstOpen = Array.from(document.querySelectorAll('#dsa .topic-row'))
+    .find(r => r.querySelector('.topic-name').textContent.trim() === 'Arrays');
+  if(firstOpen) firstOpen.classList.add('open');
   wireLocalFallback(); // checkboxes work immediately, backend or not
   wireNotebookButtons();
   renderNotebookList();
-  checkSession(); // always ask the backend who's really logged in
+  initAuth(); // Firebase login if configured, otherwise the old backend check / demo
 });
 // ===================== END BACKEND INTEGRATION =====================
 
@@ -2502,7 +3116,7 @@ document.getElementById('navStreakCount').textContent = '0';
 
 // Generate calendar — starts empty, gets filled in with real streak data
 // once refreshStreak() runs (see backend integration block above).
-const TOTAL_QUESTIONS = 169; // 150 DSA + 10 Dev + 9 AI/ML, matches DataSeeder
+const TOTAL_QUESTIONS = 239; // 220 DSA + 10 Dev + 9 AI/ML
 function renderStreakCalendar(streakDays){
   const grid = document.getElementById('calGrid');
   if(!grid) return;
@@ -2552,7 +3166,29 @@ function jumpTo(id){
 
 // Project submission review popup
 let reviewTimer;
+// To receive submitted GitHub links: paste your Google Apps Script web-app URL here (see setup steps).
+// While empty, links are only saved in the student's own profile on their device.
+const SUBMIT_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwO4i6TTGw9S875xSIj7dZXkEOLia6MWvDUBZ6D8Wq8kTtsdq29T0WPsRSH1SoQG4qYvg/exec';
+function sendSubmission(payload){
+  if(!SUBMIT_ENDPOINT) return;
+  fetch(SUBMIT_ENDPOINT, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(payload) }).catch(console.warn);
+}
 function submitProject(btn){
+  const input0 = btn.previousElementSibling;
+  const url = input0 ? input0.value.trim() : '';
+  if(!/^https?:\/\/(www\.)?github\.com\/[\w.-]+\/[\w.-]+/i.test(url)){
+    if(input0){ input0.value = ''; input0.placeholder = 'Paste a valid github.com/user/repo link'; input0.style.borderColor = '#ff6b6b'; setTimeout(() => input0.style.borderColor = '', 2500); }
+    return;
+  }
+  if(cloudUid){   // save to this account's profile
+    const card = btn.closest('.proj-card'), t = card && card.querySelector('.proj-title');
+    const projects = ((cloudData && cloudData.projects) || []).filter(x => x.url !== url);
+    projects.push({ title: t ? t.textContent.trim() : 'Project', url, at: new Date().toISOString() });
+    cloudData = Object.assign(cloudData || {}, { projects });
+    cloud.save(cloudUid, { projects }).catch(console.warn);
+  }
+  { const c = btn.closest('.proj-card'), t = c && c.querySelector('.proj-title');
+    sendSubmission({ username: (cloudData && cloudData.username) || 'guest', project: t ? t.textContent.trim() : 'Project', url, at: new Date().toISOString() }); }
   const toast = document.getElementById('reviewToast');
   toast.classList.add('show');
   clearTimeout(reviewTimer);
@@ -2679,7 +3315,7 @@ function openPage(name){
   el.classList.add('open');
   el.scrollTop = 0;
   currentOpenPage = name;
-  history.pushState({nextstepPage: name}, '', '#' + name);
+  try{ history.pushState({nextstepPage: name}, '', '#' + name); }catch(e){ /* sandboxed preview: history not available */ }
 }
 
 function closePage(){
