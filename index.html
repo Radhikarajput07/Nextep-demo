@@ -656,6 +656,11 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;border-top:1px
 .pf-out{margin-top:1.4rem;width:100%;background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:10px;padding:10px;font:600 13px 'Inter',sans-serif;cursor:pointer}
 .pf-out:hover{color:#ff8a8a;border-color:#ff8a8a}
 @media (max-width:560px){.pf-stats{grid-template-columns:repeat(2,1fr)}.pf-bar .n{width:105px}}
+.proj-card.submitted{border-color:rgba(62,207,173,.45)}
+.proj-done{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px;color:#3ECFAD}
+.proj-done a{color:#9aa6ff;word-break:break-all}
+.proj-done button{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:5px 12px;font:500 12px 'Inter',sans-serif;cursor:pointer}
+.proj-done button:hover{color:#fff;border-color:#6C63FF}
 .streak-pill{cursor:pointer}
 .streak-pill.bump{animation:streakBump .6s ease}
 @keyframes streakBump{0%{transform:scale(1)}40%{transform:scale(1.2);box-shadow:0 0 18px rgba(255,150,50,.6)}100%{transform:scale(1)}}
@@ -2413,7 +2418,7 @@ function enterCloudMode(user, data){
   document.getElementById('demoBanner').classList.remove('show');
   const chip = document.getElementById('userChip');
   chip.textContent = '👤 @' + cloudData.username; chip.style.display = 'inline-flex';
-  applyCloudTicks(); renderDemoStreak(); refreshDemoStats(); renderAiHistory();
+  applyCloudTicks(); renderDemoStreak(); refreshDemoStats(); renderAiHistory(); restoreSubmissions();
 }
 async function initAuth(){
   const api = await Promise.race([window.nsCloudReady, new Promise(r => setTimeout(() => r(null), 6000))]);
@@ -2425,7 +2430,7 @@ function initAuthWith(api){
   document.getElementById('cloudNote').style.display = 'block';
   api.onUser(async user => {
     if(!user){
-      cloudUid = null; cloudData = null; demoMode = false; try{ renderAiHistory(); }catch(e){}
+      cloudUid = null; cloudData = null; demoMode = false; try{ renderAiHistory(); restoreSubmissions(); }catch(e){}
       document.getElementById('userChip').style.display = 'none';
       hideUsernameStep(); showLogin(); return;
     }
@@ -3173,6 +3178,34 @@ function sendSubmission(payload){
   if(!SUBMIT_ENDPOINT) return;
   fetch(SUBMIT_ENDPOINT, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(payload) }).catch(console.warn);
 }
+const GUEST_PROJ_KEY = 'nextstep_guest_projects';
+function getSubmissions(){
+  if(cloudUid) return (cloudData && cloudData.projects) || [];
+  try{ return JSON.parse(localStorage.getItem(GUEST_PROJ_KEY) || '[]'); }catch(e){ return []; }
+}
+function markSubmitted(card, url){
+  const box = card.querySelector('.proj-submit'); if(!box) return;
+  if(!card.dataset.orig) card.dataset.orig = box.innerHTML;
+  card.classList.add('submitted');
+  box.innerHTML = '<div class="proj-done">✅ Submitted · <a href="' + esc(url) + '" target="_blank" rel="noopener">' + esc(url.replace(/^https?:\/\/(www\.)?/, '')) + '</a><button type="button" onclick="editSubmission(this)">Change link</button></div>';
+}
+function editSubmission(btn){
+  const card = btn.closest('.proj-card'), box = card.querySelector('.proj-submit');
+  if(card.dataset.orig){ box.innerHTML = card.dataset.orig; }
+  card.classList.remove('submitted');
+}
+function resetSubmissions(){
+  document.querySelectorAll('.proj-card.submitted').forEach(card => { const box = card.querySelector('.proj-submit'); if(box && card.dataset.orig) box.innerHTML = card.dataset.orig; card.classList.remove('submitted'); });
+}
+function restoreSubmissions(){
+  resetSubmissions();
+  const subs = getSubmissions();
+  document.querySelectorAll('.proj-card').forEach(card => {
+    const t = card.querySelector('.proj-title'); if(!t) return;
+    const hit = subs.find(x => x.title === t.textContent.trim());
+    if(hit) markSubmitted(card, hit.url);
+  });
+}
 function submitProject(btn){
   const input0 = btn.previousElementSibling;
   const url = input0 ? input0.value.trim() : '';
@@ -3180,6 +3213,12 @@ function submitProject(btn){
     if(input0){ input0.value = ''; input0.placeholder = 'Paste a valid github.com/user/repo link'; input0.style.borderColor = '#ff6b6b'; setTimeout(() => input0.style.borderColor = '', 2500); }
     return;
   }
+  { const card0 = btn.closest('.proj-card');
+    if(!cloudUid && card0){   // guest: remember on this device
+      const t0 = card0.querySelector('.proj-title'), title0 = t0 ? t0.textContent.trim() : 'Project';
+      const list = getSubmissions().filter(x => x.title !== title0); list.push({ title: title0, url, at: new Date().toISOString() });
+      try{ localStorage.setItem(GUEST_PROJ_KEY, JSON.stringify(list)); }catch(e){}
+    } }
   if(cloudUid){   // save to this account's profile
     const card = btn.closest('.proj-card'), t = card && card.querySelector('.proj-title');
     const projects = ((cloudData && cloudData.projects) || []).filter(x => x.url !== url);
@@ -3188,6 +3227,7 @@ function submitProject(btn){
     cloud.save(cloudUid, { projects }).catch(console.warn);
   }
   { const c = btn.closest('.proj-card'), t = c && c.querySelector('.proj-title');
+    if(c) markSubmitted(c, url);
     sendSubmission({ username: (cloudData && cloudData.username) || 'guest', project: t ? t.textContent.trim() : 'Project', url, at: new Date().toISOString() }); }
   const toast = document.getElementById('reviewToast');
   toast.classList.add('show');
