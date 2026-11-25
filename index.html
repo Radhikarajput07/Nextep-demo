@@ -669,6 +669,26 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;border-top:1px
 .user-chip:hover{border-color:rgba(108,99,255,.6)}
 .cloud-note{display:none;font-size:12px;color:var(--muted);text-align:center;margin-top:10px}
 @media (max-width:640px){.user-chip{max-width:110px;overflow:hidden;text-overflow:ellipsis;padding:5px 8px;font-size:11px}}
+
+/* AI dock: chat always on screen */
+.hero-ask{display:flex;gap:8px;width:100%;max-width:640px;margin:2.2rem auto 0;background:var(--card);border:1px solid rgba(108,99,255,.45);border-radius:14px;padding:6px;box-shadow:0 0 0 4px rgba(108,99,255,.08)}
+.hero-ask input{flex:1;min-width:0;background:transparent;border:none;outline:none;color:var(--text);font-size:14.5px;padding:10px 12px;font-family:'Inter',sans-serif}
+.hero-ask button{background:var(--accent);color:#fff;border:none;border-radius:10px;padding:0 20px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif}
+.hero-ask-chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:.9rem;max-width:640px}
+.hero-ask-chips button{background:transparent;border:1px solid var(--border);color:var(--muted);font-size:12.5px;padding:6px 12px;border-radius:100px;cursor:pointer;font-family:'Inter',sans-serif}
+.hero-ask-chips button:hover{border-color:rgba(108,99,255,.6);color:var(--text)}
+.ai-fab{position:fixed;right:20px;bottom:20px;z-index:2300;background:linear-gradient(135deg,#6C63FF,#5a52e0);color:#fff;border:none;border-radius:100px;padding:13px 20px;font-size:14px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;box-shadow:0 8px 30px rgba(108,99,255,.45)}
+.ai-dock{position:fixed;right:20px;bottom:80px;z-index:2600;width:410px;max-width:calc(100vw - 24px);height:min(600px,calc(100vh - 110px));display:none;flex-direction:column;background:var(--surface);border:1px solid var(--border);border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.55);overflow:hidden}
+.ai-dock.open{display:flex}
+.ai-dock-head{display:flex;justify-content:space-between;align-items:flex-start;padding:14px 16px;border-bottom:1px solid var(--border);font-size:14px}
+.ai-dock-head .upcoming-badge{margin-left:8px}
+.ai-dock-sub{font-size:12px;color:var(--muted);margin-top:2px}
+.ai-dock-x{background:none;border:none;color:var(--muted);font-size:16px;cursor:pointer}
+.ai-dock .ai-chat{flex:1;min-height:0;display:flex;flex-direction:column;max-width:none!important;border:none;border-radius:0;background:transparent;padding:12px 14px!important}
+.ai-dock .ai-log{flex:1;min-height:0;max-height:none!important;overflow-y:auto}
+.ai-dock .ai-bubble{max-width:100%}
+@media (max-width:640px){.ai-dock{right:0;left:0;bottom:0;width:100%;max-width:100%;height:82vh;border-radius:16px 16px 0 0}.ai-fab{right:14px;bottom:14px}.hero-ask{margin-top:1.6rem}}
+.ai-dock .ai-msg{min-width:0}.ai-dock .ai-bubble{min-width:0;overflow-x:auto;max-width:calc(100% - 42px)}.ai-dock .ai-bubble pre{white-space:pre-wrap;word-break:break-word}
 </style>
 </head>
 <body>
@@ -820,6 +840,16 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;border-top:1px
   <div class="hero-ctas">
     <button class="btn-glow" onclick="startForFree()">Start for free →</button>
     <button class="btn-ghost" onclick="openHowItWorks()">See how it works</button>
+  </div>
+  <form class="hero-ask" id="heroAsk" autocomplete="off">
+    <input id="heroAskInput" placeholder="Ask NexStep AI anything &mdash; e.g. &quot;sliding window samajh nahi aa raha&quot;" maxlength="300">
+    <button type="submit">Ask &rarr;</button>
+  </form>
+  <div class="hero-ask-chips">
+    <button type="button" data-q="Explain two pointers">Explain two pointers</button>
+    <button type="button" data-q="What should I solve next?">What should I solve next?</button>
+    <button type="button" data-q="How does DP work?">How does DP work?</button>
+    <button type="button" data-q="I'm stuck">I'm stuck</button>
   </div>
   <div class="hero-cards">
     <div class="mini-card"><span class="mini-icon">🧩</span><div><div class="mini-val">220</div>DSA problems</div></div>
@@ -1510,15 +1540,7 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;border-top:1px
     <h2 class="section-title">Stuck at 2 AM? Don't wait for morning.</h2>
     <p class="section-sub">Explain your doubt, paste your code, or just say "I'm stuck" — the AI knows what you've already covered and answers accordingly.</p>
   </div>
-  <div class="ai-chat reveal">
-    <div class="ai-log" id="aiLog"></div>
-    <div class="ai-chips" id="aiChips"></div>
-    <div id="aiHistWrap" style="display:none"><div class="pf-h" style="margin:.2rem 0 .4rem">// your_recent_questions</div><div class="ai-chips" id="aiHist"></div></div>
-    <form class="ai-form" id="aiForm" autocomplete="off">
-      <input id="aiInput" placeholder="Ask a DSA doubt, e.g. &quot;sliding window samajh nahi aa raha&quot;" maxlength="300">
-      <button type="submit">Ask</button>
-    </form>
-  </div>
+  <div class="reveal" style="text-align:center"><button class="btn-glow" onclick="openAiDock()">Open the AI chat</button></div>
   <p class="upcoming-note">🚧 Demo assistant: replies are pre-written for common DSA doubts and use the problems you've ticked. The live AI model plugs into the same chat box.</p>
 </section>
 
@@ -2090,6 +2112,19 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;border-top:1px
   <p>Built for engineering students who are done being confused.</p>
 </footer>
 
+<button class="ai-fab" id="aiFab" onclick="toggleAiDock()" aria-label="Ask AI">&#10024; Ask AI</button>
+<div class="ai-dock" id="aiDock" role="dialog" aria-label="NexStep AI doubt solver">
+  <div class="ai-dock-head"><div><b>NexStep AI</b><span class="upcoming-badge">DEMO</span><div class="ai-dock-sub">Ask any DSA doubt</div></div><button class="ai-dock-x" onclick="closeAiDock()" aria-label="Close">&#10005;</button></div>
+  <div class="ai-chat">
+    <div class="ai-log" id="aiLog"></div>
+    <div class="ai-chips" id="aiChips"></div>
+    <div id="aiHistWrap" style="display:none"><div class="pf-h" style="margin:.2rem 0 .4rem">// your_recent_questions</div><div class="ai-chips" id="aiHist"></div></div>
+    <form class="ai-form" id="aiForm" autocomplete="off">
+      <input id="aiInput" placeholder="Ask a DSA doubt, e.g. &quot;sliding window samajh nahi aa raha&quot;" maxlength="300">
+      <button type="submit">Ask</button>
+    </form>
+  </div>
+</div>
 <script>window.nsCloudReady = new Promise(function(r){ window._nsRes = r; });</script>
 <script type="module">
 // ===================== FIREBASE (Google login + saved progress) =====================
@@ -2918,7 +2953,35 @@ function renderAiHistory(){
   chat.forEach(x => { const b = document.createElement('button'); b.type = 'button'; b.className = 'ai-chip'; b.textContent = x.q.length > 46 ? x.q.slice(0, 46) + '…' : x.q; b.title = x.q; b.onclick = () => aiAsk(x.q); box.appendChild(b); });
 }
 let aiBusy = false;
-function aiAsk(q){
+const aiThread = [];            // conversation sent to the live model
+let aiLive = false;
+function mdLite(t){
+  let h = esc(t);
+  h = h.replace(/```[a-zA-Z]*\n?([\s\S]*?)```/g, (m, c) => '<pre><code>' + c.replace(/\n$/, '') + '</code></pre>');
+  h = h.replace(/`([^`\n]+)`/g, '<code>$1</code>').replace(/\*\*([^*\n]+)\*\*/g, '<b>$1</b>');
+  return h.replace(/\n/g, '<br>').replace(/<pre><code>([\s\S]*?)<\/code><\/pre>/g, (m, c) => '<pre><code>' + c.replace(/<br>/g, '\n') + '</code></pre>');
+}
+async function aiLiveReply(q){
+  const p = aiProgress();
+  const ctrl = new AbortController(); const to = setTimeout(() => ctrl.abort(), 25000);
+  try{
+    const r = await fetch('/api/chat', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: ctrl.signal,
+      body: JSON.stringify({ messages: aiThread.concat([{ role: 'user', text: q }]), context: { solved: p.solved, weakest: p.weakest && p.weakest.name } })
+    });
+    if(!r.ok) throw new Error('http ' + r.status);
+    const d = await r.json();
+    if(!d || !d.reply) throw new Error('empty');
+    return d.reply;
+  } finally { clearTimeout(to); }
+}
+function aiSetLive(on){
+  aiLive = on;
+  document.querySelectorAll('.ai-dock-head .upcoming-badge,#ai-solver .upcoming-badge').forEach(b => { b.textContent = on ? 'LIVE AI' : 'DEMO'; });
+  const n = document.querySelector('#ai-solver .upcoming-note');
+  if(n) n.textContent = on ? 'Live AI: answers are generated by an AI model and can be wrong. Double-check important details.' : 'Demo assistant: replies are pre-written for common DSA doubts and use the problems you\'ve ticked.';
+}
+async function aiAsk(q){
   q = q.trim(); if(!q || aiBusy) return; aiBusy = true;
   aiAdd('user', esc(q));
   saveAiQuestion(q);
@@ -2926,7 +2989,16 @@ function aiAsk(q){
   const t = document.createElement('div'); t.className = 'ai-msg';
   t.innerHTML = '<div class="ai-avatar bot">🤖</div><div class="ai-typing"><span></span><span></span><span></span></div>';
   log.appendChild(t); log.scrollTop = log.scrollHeight;
-  setTimeout(() => { t.remove(); aiAdd('bot', aiReply(q)); aiBusy = false; }, 650);
+  try{
+    const reply = await aiLiveReply(q);
+    aiThread.push({ role: 'user', text: q }, { role: 'model', text: reply });
+    if(aiThread.length > 12) aiThread.splice(0, aiThread.length - 12);
+    t.remove(); aiAdd('bot', mdLite(reply)); aiSetLive(true);
+  }catch(e){
+    await new Promise(r => setTimeout(r, 500));
+    t.remove(); aiAdd('bot', aiReply(q)); aiSetLive(false);
+  }
+  aiBusy = false;
 }
 (function initAi(){
   aiAdd('bot', `Hi, I'm the NexStep doubt solver. Ask me about any DSA pattern, tell me you're stuck, or ask what to solve next. I use the problems you've ticked above.`);
@@ -2934,6 +3006,17 @@ function aiAsk(q){
   const c = document.getElementById('aiChips');
   chips.forEach(txt => { const b = document.createElement('button'); b.type = 'button'; b.className = 'ai-chip'; b.textContent = txt; b.onclick = () => aiAsk(txt); c.appendChild(b); });
   document.getElementById('aiForm').addEventListener('submit', e => { e.preventDefault(); const i = document.getElementById('aiInput'); const v = i.value; i.value = ''; aiAsk(v); });
+})();
+
+
+function openAiDock(){ document.getElementById('aiDock').classList.add('open'); document.getElementById('aiFab').style.display='none'; const l=document.getElementById('aiLog'); if(l) l.scrollTop=l.scrollHeight; setTimeout(()=>{const i=document.getElementById('aiInput'); if(i) i.focus();},50); }
+function closeAiDock(){ document.getElementById('aiDock').classList.remove('open'); document.getElementById('aiFab').style.display=''; }
+function toggleAiDock(){ document.getElementById('aiDock').classList.contains('open') ? closeAiDock() : openAiDock(); }
+(function initHeroAsk(){
+  const f=document.getElementById('heroAsk'); if(!f) return;
+  const go=q=>{ q=(q||'').trim(); if(!q) return; openAiDock(); aiAsk(q); };
+  f.addEventListener('submit',e=>{ e.preventDefault(); const i=document.getElementById('heroAskInput'); const v=i.value; i.value=''; go(v); });
+  document.querySelectorAll('.hero-ask-chips button').forEach(b=>b.addEventListener('click',()=>go(b.dataset.q)));
 })();
 
 async function checkSession(){
