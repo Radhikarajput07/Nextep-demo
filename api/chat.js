@@ -1,6 +1,19 @@
 // Vercel serverless function: NexStep AI doubt solver.
 // The Gemini API key lives ONLY in Vercel Environment Variables (GEMINI_API_KEY), never in the page.
-const MODELS = [process.env.GEMINI_MODEL, 'gemini-3.1-flash-lite', 'gemini-3-flash', 'gemini-2.5-flash-lite'].filter(Boolean);
+const MODELS = [process.env.GEMINI_MODEL, 'gemini-3.1-flash-lite', 'gemini-3.5-flash-lite', 'gemini-3.5-flash'].filter(Boolean);
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+// Call one model; retry once after a short wait if Google says it is busy (503) or rate limited (429).
+async function callModel(model, key, payload){
+  let r;
+  for (let i = 0; i < 2; i++) {
+    r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key }, body: JSON.stringify(payload)
+    });
+    if (r.status !== 503 && r.status !== 429) break;
+    await sleep(1200);
+  }
+  return r;
+}
 
 const SYSTEM = `You are NexStep AI, a friendly DSA and programming doubt solver inside NexStep, a prep platform for engineering students.
 - Answer only study-related questions: DSA, programming (C, C++, Java, Python, JavaScript), web dev, basic AI/ML, interview and placement prep, and how to plan prep. Politely decline anything else in one line.
@@ -25,10 +38,7 @@ module.exports = async (req, res) => {
     const out = { keyPresent: !!key, keyLength: key ? key.length : 0, tried: [] };
     if (key) for (const model of MODELS) {
       try {
-        const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
-          method: 'POST', headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key },
-          body: JSON.stringify({ contents: [{ role: 'user', parts: [{ text: 'Say hi' }] }] })
-        });
+        const r = await callModel(model, key, { contents: [{ role: 'user', parts: [{ text: 'Say hi' }] }] });
         const t = await r.text();
         out.tried.push({ model, status: r.status, body: t.replace(key, '***').slice(0, 300) });
         if (r.ok) break;
@@ -58,14 +68,10 @@ module.exports = async (req, res) => {
   let lastErr = 'unknown';
   for (const model of MODELS) {
     try {
-      const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key },
-        body: JSON.stringify({
-          systemInstruction: { parts: [{ text: system }] },
-          contents,
-          generationConfig: { maxOutputTokens: 700, temperature: 0.5 }
-        })
+      const r = await callModel(model, key, {
+        systemInstruction: { parts: [{ text: system }] },
+        contents,
+        generationConfig: { maxOutputTokens: 700, temperature: 0.5 }
       });
       if (!r.ok) { lastErr = model + ' ' + r.status; continue; }
       const data = await r.json();
