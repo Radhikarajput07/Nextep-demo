@@ -33,19 +33,6 @@ function limited(ip){
 module.exports = async (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
   const key = process.env.GEMINI_API_KEY;
-  if (req.method === 'GET' && req.query && req.query.debug === '1') {
-    // Diagnostic: shows which model/key problem is blocking the AI. Never prints the key.
-    const out = { keyPresent: !!key, keyLength: key ? key.length : 0, tried: [] };
-    if (key) for (const model of MODELS) {
-      try {
-        const r = await callModel(model, key, { contents: [{ role: 'user', parts: [{ text: 'Say hi' }] }] });
-        const t = await r.text();
-        out.tried.push({ model, status: r.status, body: t.replace(key, '***').slice(0, 300) });
-        if (r.ok) break;
-      } catch (e) { out.tried.push({ model, error: String(e && e.message).slice(0, 200) }); }
-    }
-    return res.status(200).json(out);
-  }
   if (req.method !== 'POST') return res.status(405).json({ error: 'POST only' });
   if (!key) return res.status(503).json({ error: 'AI not configured' });
   const ip = (req.headers['x-forwarded-for'] || '').split(',')[0].trim() || 'unknown';
